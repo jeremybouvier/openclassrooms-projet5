@@ -1,0 +1,16 @@
+{
+    "name": "jeremy/blog",
+    "authors": [
+        {
+            "name": "jeremy bouvier",
+            "email": "jeremybouvier2b@gmail.com"
+        }
+    ],
+    "require": {
+
+
+    },
+    "autoload": {
+        "psr-4" : { "app\\" : "src"}
+    }
+}
