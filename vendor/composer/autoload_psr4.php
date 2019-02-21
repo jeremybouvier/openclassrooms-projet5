@@ -7,7 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'view\\' => array($baseDir . '/view'),
+    'model\\' => array($baseDir . '/model'),
+    'controller\\' => array($baseDir . '/controller'),
     'app\\' => array($baseDir . '/src'),
+    'Zend\\Diactoros\\' => array($vendorDir . '/zendframework/zend-diactoros/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
-    'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
 );
