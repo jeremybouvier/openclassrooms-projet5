@@ -1,3 +1,7 @@
+
+<?php
+
+$response = '
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,10 +31,10 @@
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="rooter.php?p=home">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="../index/home">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="rooter.php?p=post">Post</a>
+                <a class="nav-link" href="../index/listpost"> Posts</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link disabled" href="#">Disabled</a>
@@ -55,12 +59,14 @@
 
     <div class="starter-template" style="padding-top: 100px;">
 
-        <?=$body;?>
+        '.$body.'
 
     </div>
 
 </main>
 
 </body>
-</html>
+</html>';
+
+return $response;
 

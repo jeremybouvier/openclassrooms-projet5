@@ -1,5 +1,10 @@
 <?php
+
 require 'vendor/autoload.php';
+use Zend\Diactoros\Response\HtmlResponse;
+use \Http\Response;
+use app\Router;
+
 /**
  * Created by PhpStorm.
  * User: jeremy
@@ -8,36 +13,19 @@ require 'vendor/autoload.php';
  */
 
 
+$request = \Zend\Diactoros\ServerRequestFactory::fromGlobals();
+$path = $request->getQueryParams();
 
 
-if (isset($_GET['p'])) {
-
-    $p = $_GET['p'];
-
-}
-else {
-
-    $p='home';
-
-}
+$root = new Router();
 
 
 
-ob_start();
-if ($p==='home') {
+$response = new HtmlResponse( $root->route($path));
+Response\send($response);
 
-    require 'view/Home.php';
 
-}
 
-elseif ($p==='post') {
-
-    require 'view/Post.php';
-
-}
-
-$body = ob_get_clean();
-require 'view/templates/default.php';
 
 
 ?>

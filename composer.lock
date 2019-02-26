@@ -4,9 +4,50 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a9f516ab7bea01fbe627cd0bc28ed335",
-    "content-hash": "03d98add81b905808fcd6888b8840fd6",
+    "hash": "2c30cf8390d6e8239b58a69adaf00ab8",
+    "content-hash": "42f4e477f93de129733037a3f5137a4c",
     "packages": [
+        {
+            "name": "http-interop/response-sender",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/http-interop/response-sender.git",
+                "reference": "fd63be06cd6c9216ef3c725af1a3f6b155eebc84"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/http-interop/response-sender/zipball/fd63be06cd6c9216ef3c725af1a3f6b155eebc84",
+                "reference": "fd63be06cd6c9216ef3c725af1a3f6b155eebc84",
+                "shasum": ""
+            },
+            "require": {
+                "psr/http-message": "^1.0"
+            },
+            "require-dev": {
+                "guzzlehttp/psr7": "^1.4",
+                "php-mock/php-mock-phpunit": "^1.1",
+                "phpunit/phpunit": "^5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Woody Gilk",
+                    "email": "woody.gilk@gmail.com"
+                }
+            ],
+            "description": "A function to convert PSR-7 Response to HTTP output",
+            "time": "2017-03-17 15:46:19"
+        },
         {
             "name": "psr/http-message",
             "version": "1.0.1",
