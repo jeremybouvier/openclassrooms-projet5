@@ -16,11 +16,10 @@
     },
     "autoload": {
         "psr-4" : {
-            "app\\" : "src",
-            "controller\\" : "controller",
-            "model\\" : "model",
-            "view\\" : "view"
-            
+            "PDO\\" : "/home/jeremy/PhpStorm-183.5429.47/plugins/php/lib/php.jar/stubs/PDO",
+            "Application\\" : "src/",
+            "Framework\\" : "app/"
+
         }
     }
 }

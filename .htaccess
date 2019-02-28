@@ -1,5 +1,9 @@
 Options +FollowSymlinks
 RewriteEngine on
 
-RewriteRule index/([a-z]+)-([0-9]+) index.php?page=$1&id=$2 [L]
-RewriteRule index/([a-z]+) index.php?page=$1 [L]
+RewriteCond %{REQEST_FILENAME} !-f
+RewriteRule index/(.*)$ index.php?url=$1 [QSA,L]
+
+
+
+

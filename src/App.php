@@ -1,6 +1,8 @@
 <?php
 
-namespace app;
+namespace Application;
+
+use \Application\Model\Database;
 
 class App{
 
