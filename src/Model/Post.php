@@ -6,10 +6,10 @@
  * Time: 21:15
  */
 
-namespace app;
+namespace Application\Model;
 
 
-class Post
+class Post extends Table
 {
 
     private $id;
@@ -23,21 +23,11 @@ class Post
     /**
      * @param mixed $data
      */
-    public function hydrate(array $data)
 
-    {
-        foreach ($data as $key => $value) {
-            $method = 'set' . ucfirst($key);
-
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
-    }
 
     /**
-    * @return mixed
-    */
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
@@ -121,7 +111,7 @@ class Post
     public function setContent($content)
     {
         $this->content = $content;
-        $this->previewText = substr($this->content,0,100);
+        $this->previewText = substr($this->content, 0, 100);
     }
 
     /**
@@ -140,8 +130,7 @@ class Post
         $this->lastModifactionDate = $lastModifactionDate;
     }
 
-
-
-
-
 }
+
+
+

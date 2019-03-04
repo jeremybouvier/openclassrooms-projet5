@@ -58,10 +58,10 @@ class Database
      * @param $statement
      * @return array
      */
-    public function query($statement){
+    public function query($statement, $className){
 
         $req = $this->getPDO()->query($statement);
-        $data = $req->fetchall(PDO::FETCH_OBJ);
+        $data = $req->fetchall(PDO::FETCH_CLASS,$className);
         return $data;
     }
 

@@ -19,10 +19,12 @@ $url = $request->getQueryParams();
 
 $router = new Router($url['url']);
 
-$router->get('home', function (){ require 'public/home.php';});
-$router->get('listpost', function (){ require 'public/listpost.php';});
-$router->get('post/:id', function ($id){ require 'public/post.php';});
-$router->post('addpost/:id', function ($id){ echo 'addpost'.$id.' page';});
+$router->get('/', "Welcome#index");
+$router->get('home', "Home#index");
+$router->get('listpost', "Post#getListPost");
+$router->get('post/:id', "#");
+
+
 
 $router->run();
 

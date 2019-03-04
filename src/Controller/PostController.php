@@ -8,34 +8,30 @@
 
 namespace Application\Controller;
 
-use \controller\PostManager;
+
+use \Application\Model\PostManager;
 
 class PostController
 {
 
 
-    public function getHome()
-    {
-        $response = new Response();
-        $response::setResponse( require 'public/home.php');
-        return $response;
-
-    }
-
     public function getListPost()
     {
-        $listpost = new PostManager();
-        $response = $listpost->getPosts();
-        return $response;
+        ob_start();
+        foreach (\Application\Model\Post::getAll() as $post) {
+
+
+            require 'public/listpost.php';
+        }
+        $body = ob_get_clean();
+        require 'public/templates/default.php';
+
     }
 
     public function getViewPost()
     {
-        $listpost = new PostManager();
-        $post = $listpost->getPost();
-        $response = require '/view/post.php';
 
-
-        return $response;
     }
+
+
 }
