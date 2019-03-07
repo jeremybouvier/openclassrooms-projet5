@@ -9,14 +9,15 @@
     "require": {
         "psr/http-message": "^1.0",
         "zendframework/zend-diactoros": "^1.8",
-        "http-interop/response-sender": "^1.0"
+        "http-interop/response-sender": "^1.0",
+        "zendframework/zend-httphandlerrunner": "^1.1"
 
 
 
     },
     "autoload": {
         "psr-4" : {
-            "PDO\\" : "/home/jeremy/PhpStorm-183.5429.47/plugins/php/lib/php.jar/stubs/PDO",
+
             "Application\\" : "src/",
             "Framework\\" : "app/"
 

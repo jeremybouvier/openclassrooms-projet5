@@ -16,7 +16,7 @@ class Table
     protected static $table;
 
 
-    public function getAll()
+    public static function getAll()
     {
 
          return App::getDB()->query("SELECT * FROM " . self::getTable(),__CLASS__);

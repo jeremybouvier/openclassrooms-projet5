@@ -9,26 +9,29 @@
 namespace Application\Controller;
 
 
-use \Application\Model\PostManager;
+use Zend\Diactoros\Response\HtmlResponse;
 
 class PostController
 {
 
 
-    public function getListPost()
+    public function getAllPost()
     {
         ob_start();
         foreach (\Application\Model\Post::getAll() as $post) {
-
-
             require 'public/listpost.php';
         }
         $body = ob_get_clean();
-        require 'public/templates/default.php';
 
+        ob_start();
+        require 'public/templates/default.php';
+        $htmlContent = ob_get_clean();
+
+        $response = new HtmlResponse($htmlContent);
+        return $response;
     }
 
-    public function getViewPost()
+    public function getSinglePost()
     {
 
     }

@@ -9,11 +9,18 @@
 namespace Application\Controller;
 
 
+use Zend\Diactoros\Response\RedirectResponse;
+
+/**
+ * Permet de rediriger le visiteur sur le home page
+ * @package Application\Controller
+ */
+
 class WelcomeController
 {
-
     public function index()
     {
-        echo "Welcome on my personnal Blog <br />click on this link to access at the home page <a href='../index/home'>>>Home page </a>";
+        $response = new RedirectResponse('/home',301);
+        return $response;
     }
 }

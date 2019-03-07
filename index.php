@@ -1,7 +1,7 @@
 <?php
 
 require 'vendor/autoload.php';
-use Zend\Diactoros\Response\HtmlResponse;
+
 use \Http\Response;
 use \Application\Router\Router;
 
@@ -15,23 +15,23 @@ use \Application\Router\Router;
 
 
 $request = \Zend\Diactoros\ServerRequestFactory::fromGlobals();
-$url = $request->getQueryParams();
+$url = $request->getUri()->getPath();
 
-$router = new Router($url['url']);
+$router = new Router($url);
 
 $router->get('/', "Welcome#index");
 $router->get('home', "Home#index");
-$router->get('listpost', "Post#getListPost");
+$router->get('listpost', "Post#getAllPost");
 $router->get('post/:id', "#");
 
 
 
-$router->run();
+$response = $router->run();
+
+$emitter = new \Zend\HttpHandlerRunner\Emitter\SapiEmitter();
+$emitter->emit($response);
 
 
-
-//$response = new HtmlResponse( );
-//Response\send($response);
 
 
 

@@ -8,7 +8,7 @@
 
 namespace Application\Model;
 
-use \PDO;
+
 
 class Database
 {
