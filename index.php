@@ -2,8 +2,10 @@
 
 require 'vendor/autoload.php';
 
-use \Http\Response;
+
 use \Application\Router\Router;
+use Zend\Diactoros\ServerRequestFactory;
+use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 
 /**
@@ -14,7 +16,7 @@ use \Application\Router\Router;
  */
 
 
-$request = \Zend\Diactoros\ServerRequestFactory::fromGlobals();
+$request = ServerRequestFactory::fromGlobals();
 $url = $request->getUri()->getPath();
 
 $router = new Router($url);
@@ -28,7 +30,7 @@ $router->get('post/:id', "#");
 
 $response = $router->run();
 
-$emitter = new \Zend\HttpHandlerRunner\Emitter\SapiEmitter();
+$emitter = new SapiEmitter();
 $emitter->emit($response);
 
 
