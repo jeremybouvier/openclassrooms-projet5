@@ -8,7 +8,7 @@
 
 namespace Framework\Router;
 
-
+use Zend\Diactoros\ServerRequestFactory;
 
 
 class Router
@@ -18,9 +18,11 @@ class Router
     private $routes = [];
 
 
-    public function __construct($url)
+    public function __construct()
     {
-        $this->url = $url;
+        $request = ServerRequestFactory::fromGlobals();
+        $this->url = $request->getUri()->getPath();
+
     }
 
 

@@ -18,21 +18,27 @@ class Table
 
     public static function getAll()
     {
+        $className = get_called_class();
+         return App::getDB()->query("SELECT * FROM " . static::getTable(), $className);
 
-         return App::getDB()->query("SELECT * FROM " . self::getTable(),__CLASS__);
+    }
 
+    public static function getSingle($id)
+    {
+        $className = get_called_class();
+        return App::getDB()->prepare("SELECT * FROM " . static::getTable(), [':id' => $id], $className);
     }
 
     private static function getTable()
     {
-        if (self::$table === null){
+        if (static::$table === null){
 
             $className = explode('\\',get_called_class());
 
-            self::$table = strtolower(end($className));
+            static::$table = strtolower(end($className));
 
         }
-        return self::$table;
+        return static::$table;
     }
 
 

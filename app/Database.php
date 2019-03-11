@@ -71,11 +71,12 @@ class Database
      * @param $param
      * @return mixed
      */
-    public function prepare($statement,$param){
+    public function prepare($statement,$param,$className){
 
         $req = $this->getPDO()->prepare($statement);
         $req->execute($param);
-        $data = $req->fetch(\PDO::FETCH_OBJ);
+        $req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$className);
+        $data = $req->fetch();
         return $data;
     }
 

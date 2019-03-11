@@ -9,6 +9,7 @@
 namespace Application\Controller;
 
 
+use Application\Model\Post;
 use Zend\Diactoros\Response\HtmlResponse;
 
 class PostController
@@ -18,7 +19,7 @@ class PostController
     public function getAllPost()
     {
         ob_start();
-        foreach (\Application\Model\Post::getAll() as $post) {
+        foreach (Post::getAll() as $post) {
             require 'src/public/listpost.php';
         }
         $body = ob_get_clean();
@@ -33,6 +34,12 @@ class PostController
 
     public function getSinglePost($id)
     {
+
+         $post = Post::getSingle($id);
+         $id = $post->getCategoryId();
+        echo "<pre>";
+        print_r($id);
+        print_r($post);
 
     }
 

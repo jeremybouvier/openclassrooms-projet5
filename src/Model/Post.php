@@ -17,12 +17,22 @@ class Post extends Table
     private $title;
     private $content;
     private $userId;
-    private $lastModifactionDate;
+    private $lastModificationDate;
     private $previewText;
 
+
     /**
-     * @param mixed $data
+     * hydratation de la class par la méthode magique SET
+     * @param $key
+     * @param $value
      */
+    public function __set($key, $value)
+    {
+        $word = explode('_',$key);
+        $key = $word[0] . ucfirst($word[1]);
+        $method = 'set' .ucfirst($key);
+        $this->$method($value);
+    }
 
 
     /**
@@ -68,9 +78,9 @@ class Post extends Table
     /**
      * @return mixed
      */
-    public function getLastModifactionDate()
+    public function getUpdateDate()
     {
-        return $this->lastModifactionDate;
+        return $this->lastModificationDate;
     }
 
     /**
@@ -111,7 +121,7 @@ class Post extends Table
     public function setContent($content)
     {
         $this->content = $content;
-        $this->previewText = substr($this->content, 0, 100);
+
     }
 
     /**
@@ -125,9 +135,17 @@ class Post extends Table
     /**
      * @param mixed $lastModifactionDate
      */
-    public function setLastModifactionDate($lastModifactionDate)
+    public function setUpdateDate($lastModificationDate)
     {
-        $this->lastModifactionDate = $lastModifactionDate;
+        $this->lastModificationDate = $lastModificationDate;
+    }
+
+    /**
+     * @param mixed $previewText
+     */
+    public function setPreviewText($previewText)
+    {
+        $this->previewText = $previewText;
     }
 
 }
