@@ -24,14 +24,16 @@ class HomeController
     public  function index()
     {
         ob_start();
-        require 'public/home.php';
+        require 'src/public/home.php';
         $body = ob_get_clean();
 
         ob_start();
-        require 'public/templates/default.php';
+        require 'src/public/templates/default.php';
         $htmlContent = ob_get_clean();
 
         $response = new HtmlResponse($htmlContent);
         return $response;
     }
+
+
 }

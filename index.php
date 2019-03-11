@@ -3,7 +3,7 @@
 require 'vendor/autoload.php';
 
 
-use \Application\Router\Router;
+use \Framework\Router\Router;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
@@ -24,7 +24,7 @@ $router = new Router($url);
 $router->get('/', "Welcome#index");
 $router->get('home', "Home#index");
 $router->get('listpost', "Post#getAllPost");
-$router->get('post/:id', "#");
+$router->get('post/:id', "Post#getSingle");
 
 
 

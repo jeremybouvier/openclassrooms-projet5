@@ -6,7 +6,7 @@
  * Time: 14:19
  */
 
-namespace Application\Model;
+namespace Framework;
 
 
 
@@ -36,13 +36,13 @@ class Database
 
     /**
      * connexion a la base de donnés
-     * @return PDO
+     * @return \PDO
      */
     private function getPDO(){
 
         if ($this->pdo === null) {
 
-            $pdo = new PDO('mysql:dbname='.$this->dbName.';host='.$this->dbHost, $this->dbUser, $this->dbPwd, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $pdo = new \PDO('mysql:dbname='.$this->dbName.';host='.$this->dbHost, $this->dbUser, $this->dbPwd, array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION));
             $this->pdo = $pdo;
             return $pdo;
 
@@ -61,7 +61,7 @@ class Database
     public function query($statement, $className){
 
         $req = $this->getPDO()->query($statement);
-        $data = $req->fetchall(PDO::FETCH_CLASS,$className);
+        $data = $req->fetchall(\PDO::FETCH_CLASS,$className);
         return $data;
     }
 
@@ -75,7 +75,7 @@ class Database
 
         $req = $this->getPDO()->prepare($statement);
         $req->execute($param);
-        $data = $req->fetch(PDO::FETCH_OBJ);
+        $data = $req->fetch(\PDO::FETCH_OBJ);
         return $data;
     }
 

@@ -19,19 +19,19 @@ class PostController
     {
         ob_start();
         foreach (\Application\Model\Post::getAll() as $post) {
-            require 'public/listpost.php';
+            require 'src/public/listpost.php';
         }
         $body = ob_get_clean();
 
         ob_start();
-        require 'public/templates/default.php';
+        require 'src/public/templates/default.php';
         $htmlContent = ob_get_clean();
 
         $response = new HtmlResponse($htmlContent);
         return $response;
     }
 
-    public function getSinglePost()
+    public function getSinglePost($id)
     {
 
     }

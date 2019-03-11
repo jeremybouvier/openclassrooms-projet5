@@ -6,7 +6,7 @@
  * Time: 22:09
  */
 
-namespace Application\Router;
+namespace Framework\Router;
 
 
 

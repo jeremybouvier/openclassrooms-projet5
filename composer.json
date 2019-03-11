@@ -14,12 +14,14 @@
 
 
 
+
     },
     "autoload": {
         "psr-4" : {
 
             "Application\\" : "src/",
             "Framework\\" : "app/"
+
 
         }
     }

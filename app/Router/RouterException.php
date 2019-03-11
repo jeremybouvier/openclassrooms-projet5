@@ -6,7 +6,7 @@
  * Time: 22:43
  */
 
-namespace Application\Router;
+namespace Framework\Router;
 
 
 class RouterException extends \Exception

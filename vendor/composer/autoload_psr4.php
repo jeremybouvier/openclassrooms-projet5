@@ -10,7 +10,6 @@ return array(
     'Zend\\Diactoros\\' => array($vendorDir . '/zendframework/zend-diactoros/src'),
     'Psr\\Http\\Server\\' => array($vendorDir . '/psr/http-server-handler/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
-    'PDO\\' => array($baseDir . '/../../../../PhpStorm-183.5429.47/plugins/php/lib/php.jar/stubs/PDO'),
     'Framework\\' => array($baseDir . '/app'),
     'Application\\' => array($baseDir . '/src'),
 );

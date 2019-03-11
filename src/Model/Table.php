@@ -8,7 +8,7 @@
 
 namespace Application\Model;
 
-use Application\App;
+use Framework\App;
 
 
 class Table
