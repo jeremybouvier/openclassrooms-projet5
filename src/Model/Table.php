@@ -26,7 +26,7 @@ class Table
     public static function getSingle($id)
     {
         $className = get_called_class();
-        return App::getDB()->prepare("SELECT * FROM " . static::getTable(), [':id' => $id], $className);
+        return App::getDB()->prepare("SELECT * FROM " . static::getTable(). " WHERE id=:id", [':id'=>$id], $className);
     }
 
     private static function getTable()
@@ -42,10 +42,5 @@ class Table
     }
 
 
-    public function __get($key)
-    {
-        $method = 'get'. ucfirst($key);
-        $this->$key = $this->$method();
-        return $this->$key;
-    }
+
 }

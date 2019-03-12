@@ -34,12 +34,20 @@ class PostController
 
     public function getSinglePost($id)
     {
-
+        ob_start();
          $post = Post::getSingle($id);
-         $id = $post->getCategoryId();
-        echo "<pre>";
-        print_r($id);
-        print_r($post);
+         require 'src/public/post.php';
+         $body = ob_get_clean();
+
+         ob_start();
+        require 'src/public/templates/default.php';
+         $htmlContent = ob_get_clean();
+         $response = new HtmlResponse($htmlContent);
+
+
+        return $response;
+
+
 
     }
 

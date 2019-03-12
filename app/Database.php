@@ -25,7 +25,8 @@ class Database
      * @param string $dbPwd
      * @param string $dbHost
      */
-    public function __construct($dbName, $dbUser = 'admin', $dbPwd ='admin', $dbHost='127.0.0.1'){
+    public function __construct($dbName, $dbUser = 'admin', $dbPwd ='admin', $dbHost='127.0.0.1')
+    {
 
         $this->dbName = $dbName;
         $this->dbUser = $dbUser;
@@ -38,7 +39,8 @@ class Database
      * connexion a la base de donnés
      * @return \PDO
      */
-    private function getPDO(){
+    private function getPDO()
+    {
 
         if ($this->pdo === null) {
 
@@ -58,7 +60,8 @@ class Database
      * @param $statement
      * @return array
      */
-    public function query($statement, $className){
+    public function query($statement, $className)
+    {
 
         $req = $this->getPDO()->query($statement);
         $data = $req->fetchall(\PDO::FETCH_CLASS,$className);
@@ -71,13 +74,15 @@ class Database
      * @param $param
      * @return mixed
      */
-    public function prepare($statement,$param,$className){
-
+    public function prepare($statement,$param,$className)
+    {
         $req = $this->getPDO()->prepare($statement);
         $req->execute($param);
-        $req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$className);
+        $req->setFetchMode(\PDO::FETCH_CLASS,$className);
         $data = $req->fetch();
+
         return $data;
+
     }
 
 }
