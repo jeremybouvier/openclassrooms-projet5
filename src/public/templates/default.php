@@ -48,7 +48,10 @@
 
 
 
-        <?= $body ?>
+        {% block content %}{%endblock%}
+
+
+
 
     </div>
 

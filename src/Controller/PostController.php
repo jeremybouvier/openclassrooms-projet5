@@ -12,42 +12,36 @@ namespace Application\Controller;
 use Application\Model\Post;
 use Zend\Diactoros\Response\HtmlResponse;
 
-class PostController
+
+class PostController extends Controller
 {
 
 
+    /**
+     * @return HtmlResponse
+     */
     public function getAllPost()
     {
-        ob_start();
-        foreach (Post::getAll() as $post) {
-            require 'src/public/listpost.php';
-        }
-        $body = ob_get_clean();
-
-        ob_start();
-        require 'src/public/templates/default.php';
-        $htmlContent = ob_get_clean();
+        $htmlContent =  $this->templates('listpost.php', Post::getAll(),'Post');
 
         $response = new HtmlResponse($htmlContent);
         return $response;
+
+
+
     }
 
+
+    /**
+     * @param $id
+     * @return HtmlResponse
+     */
     public function getSinglePost($id)
     {
-        ob_start();
-         $post = Post::getSingle($id);
-         require 'src/public/post.php';
-         $body = ob_get_clean();
+        $htmlContent = $this->templates('post.php',  Post::getSingle($id),'Post');
 
-         ob_start();
-        require 'src/public/templates/default.php';
-         $htmlContent = ob_get_clean();
-         $response = new HtmlResponse($htmlContent);
-
-
+        $response = new HtmlResponse($htmlContent);
         return $response;
-
-
 
     }
 

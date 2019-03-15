@@ -1,11 +1,21 @@
 
+{% extends '/templates/default.php' %}
+
+{% block content %}
+    {% for posts in Post%}
+        <div class="col-4">
+            <div class="card" style="background-color: darkgray;">
+                <div class="card-content">
+                    <h2>{{posts.title}}</h2>
+                    <p>{{posts.previewText}}</p>
+                </div>
+                <div class="card-footer">
+                    <p style="text-right"><a href="../post/{{posts.id}}" >Voir article</a></p>
+                </div>
 
 
-
-
-            <div class="col-3 m-2 pb-5" style="background-color: grey;">
-                <h2><?= $post->getTitle(); ?></h2>
-                <p><?= $post->getContent(); ?></p>
-                <p style="position: absolute; bottom:0; right: 5px;"><a href="../post/<?= $post->getId();?>" >Voir article</a></p>
             </div>
+        </div>
+    {% endfor %}
 
+{% endblock %}

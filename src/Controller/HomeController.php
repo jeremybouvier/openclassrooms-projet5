@@ -9,6 +9,8 @@
 namespace Application\Controller;
 
 
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 use Zend\Diactoros\Response\HtmlResponse;
 
 
@@ -18,20 +20,23 @@ use Zend\Diactoros\Response\HtmlResponse;
  */
 class HomeController
 {
-    /**renvoi l'affichage de la home page
+    /**
      * @return HtmlResponse
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public  function index()
     {
-        ob_start();
-        require 'src/public/home.php';
-        $body = ob_get_clean();
 
-        ob_start();
-        require 'src/public/templates/default.php';
-        $htmlContent = ob_get_clean();
+        $loader = new FilesystemLoader("src/public");
+        $twig = new Environment($loader, [
+            'cache'=>false
 
-        $response = new HtmlResponse($htmlContent);
+        ]);
+
+        $response = new HtmlResponse( $twig->render('home.php'));
+
         return $response;
     }
 
