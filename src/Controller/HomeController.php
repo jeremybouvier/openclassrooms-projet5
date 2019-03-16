@@ -35,7 +35,7 @@ class HomeController
 
         ]);
 
-        $response = new HtmlResponse( $twig->render('home.php'));
+        $response = new HtmlResponse( $twig->render('home.twig'));
 
         return $response;
     }

@@ -6,10 +6,11 @@
  * Time: 21:48
  */
 
-namespace app;
+namespace Application\Model;
 
 
-class Comment
+
+class Comment extends Table
 {
 
     private $id;
@@ -19,16 +20,17 @@ class Comment
     /**
      * @param mixed $data
      */
-    public function hydrate(array $data)
-
+    /**
+     * hydratation de la class par la méthode magique SET
+     * @param $key
+     * @param $value
+     */
+    public function __set($key, $value)
     {
-        foreach ($data as $key => $value) {
-            $method = 'set' . ucfirst($key);
-
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
+        $word = explode('_',$key);
+        $key = $word[0] . ucfirst($word[1]);
+        $method = 'set' .ucfirst($key);
+        $this->$method($value);
     }
 
     /**

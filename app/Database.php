@@ -18,6 +18,7 @@ class Database
     private $dbHost;
     private $pdo;
 
+
     /**
      * Database constructor.
      * @param $dbName
@@ -35,8 +36,8 @@ class Database
 
     }
 
-    /**
-     * connexion a la base de donnés
+
+    /**Connexion a la base de donnés
      * @return \PDO
      */
     private function getPDO()
@@ -55,9 +56,10 @@ class Database
         }
     }
 
-    /**
-     * envoi d'une requete simple a la base
+
+    /**Envoi d'une requète simple vers la base de donnée
      * @param $statement
+     * @param $className
      * @return array
      */
     public function query($statement, $className)
@@ -68,18 +70,27 @@ class Database
         return $data;
     }
 
-    /**
-     * envoi d'une requète preparée a la base
+
+    /**Envoi d'une requète préparée vers la base de donnée
      * @param $statement
      * @param $param
-     * @return mixed
+     * @param $className
+     * @param $fetch
+     * @return array|mixed
      */
-    public function prepare($statement,$param,$className)
+
+    public function prepare($statement, $param, $className, $fetch)
     {
         $req = $this->getPDO()->prepare($statement);
         $req->execute($param);
         $req->setFetchMode(\PDO::FETCH_CLASS,$className);
-        $data = $req->fetch();
+
+        if ($fetch == 'fetchAll'){
+            $data = $req->fetchAll();
+        }
+        else{
+            $data = $req->fetch();
+        }
 
         return $data;
 

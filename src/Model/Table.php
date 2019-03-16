@@ -16,28 +16,41 @@ class Table
     protected static $table;
 
 
+    /**Permet de réupérer tous les éléments d'une table
+     * @return array
+     */
     public static function getAll()
     {
         $className = get_called_class();
-         return App::getDB()->query("SELECT * FROM " . static::getTable(), $className);
+
+        return App::getDB()->query("SELECT * FROM " . static ::getTable(), $className);
 
     }
 
-    public static function getSingle($id)
+
+    /**Permet récupérer un ou plusieurs éléments d'une table selon les paramètres
+     * @param $param
+     * @param $fetch
+     * @return array|mixed
+     */
+    public static function getSingle($param,$fetch)
     {
+        $key = key($param);
         $className = get_called_class();
-        return App::getDB()->prepare("SELECT * FROM " . static::getTable(). " WHERE id=:id", [':id'=>$id], $className);
+        return App::getDB()->prepare(
+            "SELECT * FROM " . static::getTable().
+            " WHERE ". $key . "=:" . $key, [':'.$key=>$param[$key]], $className,$fetch);
     }
 
+
+    /**Permet de déduire le nom de la table d'après la class appelée
+     * @return mixed
+     */
     private static function getTable()
     {
-        if (static::$table === null){
+        $className = explode('\\',get_called_class());
+        static::$table = strtolower(end($className));
 
-            $className = explode('\\',get_called_class());
-
-            static::$table = strtolower(end($className));
-
-        }
         return static::$table;
     }
 

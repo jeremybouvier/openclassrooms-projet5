@@ -21,7 +21,7 @@ $router = new Router();
 
 $router->get('/', "Welcome#index");
 $router->get('home', "Home#index");
-$router->get('listpost', "Post#getAllPost");
+$router->get('listPost', "Post#getAllPost");
 $router->get('post/:id', "Post#getSinglePost");
 
 $response = $router->run();

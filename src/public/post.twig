@@ -1,0 +1,22 @@
+{% extends 'templates/default.twig'%}
+    {% block content %}
+
+        <div class="card " style="background-color:darkgray " >
+            <div class="card-content p-2">
+                <h1>{{Post.title}}</h1>
+                <p>{{Post.content}}</p>
+            </div>
+            <div class="card-footer">
+                <p class=" text-right"><a  href="../listPost" >Retour a la list des posts</a></p>
+            </div>
+            <div class="col-12">
+                    {% for comments in Comment %}
+                        <p>{{ comments.commenttext }}</p>
+                    {%  endfor %}
+            </div>
+
+        </div>
+
+    {% endblock content %}
+
+

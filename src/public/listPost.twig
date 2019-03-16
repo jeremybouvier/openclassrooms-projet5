@@ -1,16 +1,16 @@
 
-{% extends '/templates/default.php' %}
+{% extends '/templates/default.twig' %}
 
 {% block content %}
-    {% for posts in Post%}
+    {% for posts in Post %}
         <div class="col-4">
-            <div class="card" style="background-color: darkgray;">
-                <div class="card-content">
+            <div class="card " style="background-color: darkgray;">
+                <div class="card-content p-2">
                     <h2>{{posts.title}}</h2>
                     <p>{{posts.previewText}}</p>
                 </div>
                 <div class="card-footer">
-                    <p style="text-right"><a href="../post/{{posts.id}}" >Voir article</a></p>
+                    <p class="text-right"><a href="../post/{{posts.id}}" >Voir article</a></p>
                 </div>
 
 
