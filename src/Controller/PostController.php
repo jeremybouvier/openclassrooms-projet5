@@ -9,8 +9,8 @@
 namespace Application\Controller;
 
 use Application\Model\Post;
-use Application\Model\Comment;
-use Zend\Diactoros\Response\HtmlResponse;
+
+
 
 
 class PostController extends Controller
@@ -18,34 +18,36 @@ class PostController extends Controller
 
 
     /**Permet de récupérer les Posts et les affiches
-     * @return HtmlResponse
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function getAllPost()
     {
-        $htmlContent =  $this->templates('listPost.twig', ['Post'=>Post::getAll('')]);
+        $data = ['Post'=>Post::getAll('')];
 
-        $response = new HtmlResponse($htmlContent);
-
+        $response = $this->templates('listPost.twig', $data);
         return $response;
-
     }
 
 
     /**Permet de récupérer un post et les commentaires associés
      * @param $id
-     * @return HtmlResponse
+     * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function getSinglePost($id)
     {
+        $commentData = new CommentController();
+
         $data =  [
-            'Post'=>Post::getSingle(['id'=>$id],'fetch'),
-            'Comment'=> Comment::getSingle(['post_id'=>$id],'fetchAll')
+            'Post'=>Post::getSingle(['id'=>$id],'','fetch'),
+            'Comment'=> $commentData->getAllComment($id)
         ];
 
-        $htmlContent = $this->templates('post.twig', $data);
-
-        $response = new HtmlResponse($htmlContent);
-
+        $response = $this->templates('post.twig', $data);
         return $response;
 
     }

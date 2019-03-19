@@ -23,6 +23,7 @@ $router->get('/', "Welcome#index");
 $router->get('home', "Home#index");
 $router->get('listPost', "Post#getAllPost");
 $router->get('post/:id', "Post#getSinglePost");
+$router->post('post/:id', "Comment#addComment");
 
 $response = $router->run();
 

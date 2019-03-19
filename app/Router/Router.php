@@ -18,8 +18,10 @@ class Router
     private $routes = [];
 
 
+
     public function __construct()
     {
+
         $request = ServerRequestFactory::fromGlobals();
         $this->url = $request->getUri()->getPath();
 

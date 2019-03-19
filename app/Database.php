@@ -96,4 +96,13 @@ class Database
 
     }
 
+    public function insert($statement, $param)
+    {
+        $req = $this->getPDO()->prepare($statement);
+        $req->execute($param);
+
+        return null;
+
+    }
+
 }

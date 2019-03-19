@@ -10,6 +10,7 @@ namespace Application\Controller;
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use Zend\Diactoros\Response\HtmlResponse;
 
 
 class Controller
@@ -31,8 +32,14 @@ class Controller
            'cache' => false
            ]);
 
-        $htmlContent =$twig->render($page, $data);
-        return $htmlContent;
+        $htmlContent = $twig->render($page, $data);
+
+        $response = new HtmlResponse($htmlContent);
+
+        return $response;
+
+
+
     }
 
 }
