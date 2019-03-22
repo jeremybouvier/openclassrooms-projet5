@@ -9,8 +9,8 @@
 namespace Application\Controller;
 
 
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
+
+use Framework\Controller;
 use Zend\Diactoros\Response\HtmlResponse;
 
 
@@ -18,7 +18,7 @@ use Zend\Diactoros\Response\HtmlResponse;
  * Class HomeController
  * @package Application\Controller
  */
-class HomeController
+class HomeController extends Controller
 {
     /**
      * @return HtmlResponse
@@ -29,13 +29,7 @@ class HomeController
     public  function index()
     {
 
-        $loader = new FilesystemLoader("src/public");
-        $twig = new Environment($loader, [
-            'cache'=>false
-
-        ]);
-
-        $response = new HtmlResponse( $twig->render('home.twig'));
+        $response = $this->render('home.twig',[]);
 
         return $response;
     }

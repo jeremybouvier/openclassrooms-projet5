@@ -9,6 +9,7 @@
 namespace Application\Controller;
 
 use Application\Model\Comment;
+use Framework\Controller;
 
 
 class CommentController extends Controller
@@ -19,25 +20,21 @@ class CommentController extends Controller
      */
     public function getAllComment($id)
     {
-        $data = Comment::getSingle(['post_id'=>$id],'id','fetchAll');
+        $data = Comment::getSingle(['post_id'=>$id],'id','fetchAll', $this->database);
         return $data;
     }
 
     /**Permet d'ajouter un nouveau commentaire
      * @param $id
-     * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @return mixed
      */
-    public function AddComment($id)
+    public function addComment($id)
     {
-        $pdoParam = $_POST;
+        $pdoParam = $this->request->getPost();
         $pdoParam['post_id'] = (int)$id;
-        Comment::AddSingle($pdoParam);
+        Comment::addSingle($pdoParam, $this->database);
 
-        $post = new PostController();
-        $response = $post->getSinglePost($id);
+        $response = $this->route->redirect($this->route->getUrl(),302);
         return $response;
     }
 }

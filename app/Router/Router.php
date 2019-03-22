@@ -8,7 +8,9 @@
 
 namespace Framework\Router;
 
-use Zend\Diactoros\ServerRequestFactory;
+
+use Framework\Request;
+
 
 
 class Router
@@ -16,21 +18,19 @@ class Router
 
     private $url;
     private $routes = [];
-
+    private $request;
 
 
     public function __construct()
     {
-
-        $request = ServerRequestFactory::fromGlobals();
-        $this->url = $request->getUri()->getPath();
-
+        $request = new Request();
+        $this->request = $request;
+        $this->url = $request->getRequest()->getUri()->getPath();
     }
 
 
     public function  get($path, $callable)
     {
-
         $route = new Route($path,$callable);
         $this->routes['GET'][] = $route;
     }
@@ -38,7 +38,6 @@ class Router
 
     public function  post($path, $callable)
     {
-
         $route = new Route($path,$callable);
         $this->routes['POST'][] = $route;
     }
@@ -47,18 +46,20 @@ class Router
     public function run()
     {
 
-
         if (!isset($this->routes[$_SERVER['REQUEST_METHOD']])){
             throw new RouterException('Request_Method doesn\'t exist');
         }
 
         foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $route ){
-            if ($route->match($this->url)){
-                return $route->call();
+            if ($route->match($this->url, $this->url)){
+                return $route->call($this->request, $route);
             }
+
         }
 
         throw new RouterException('no routes matches');
     }
+
+
 
 }

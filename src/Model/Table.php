@@ -8,8 +8,6 @@
 
 namespace Application\Model;
 
-use Framework\App;
-
 
 class Table
 {
@@ -17,13 +15,14 @@ class Table
 
 
     /**Permet de réupérer tous les éléments d'une table
-     * @return array
+     * @param $database
+     * @return mixed
      */
-    public static function getAll()
+    public static function getAll($database)
     {
         $className = get_called_class();
 
-        return App::getDB()->query("SELECT * FROM " . static ::getTable(), $className);
+        return $database->query("SELECT * FROM " . static ::getTable(), $className);
 
     }
 
@@ -33,7 +32,7 @@ class Table
      * @param $fetch
      * @return array|mixed
      */
-    public static function getSingle($param, $order, $fetch)
+    public static function getSingle($param, $order, $fetch, $database)
     {
         $key = key($param);
         $className = get_called_class();
@@ -42,34 +41,36 @@ class Table
             $order = ' ORDER BY '. $order .' DESC';
         }
 
-        return App::getDB()->prepare(
+        return $database->prepare(
             "SELECT * FROM " . static::getTable().
             " WHERE ". $key . "=:" . $key . $order, [':'.$key=>$param[$key]], $className,$fetch);
     }
 
     /**Permet d'inserer un éléments dans la base de donnée
      * @param $param
+     * @param $database
      * @return null
      */
-    public static function AddSingle($param)
+    public static function AddSingle($param, $database)
     {
-       $keys = '';
+       $entry = '';
        $bindParam = '';
 
         foreach ($param as $key=>$value){
 
            $bindParam = ':'.$key. ','. $bindParam;
            $pdoParam[':'.$key] = $value;
-           $keys = $key . ', ' . $keys  ;
+           $entry = $key . ', ' . $entry  ;
 
        }
-        $keys = '('. substr($keys,0,-2) . ')';
+        $entry = '('. substr($entry,0,-2) . ')';
         $bindParam = substr($bindParam,0,-1);
 
-       App::getDB()->insert(    "INSERT INTO " . static::getTable() ." ".  $keys
+       $database->insert(    "INSERT INTO " . static::getTable() ." ".  $entry
                                         ." VALUES (" . $bindParam .")", $pdoParam);
        return null;
     }
+
 
     /**Permet de déduire le nom de la table d'après la class appelée
      * @return mixed
