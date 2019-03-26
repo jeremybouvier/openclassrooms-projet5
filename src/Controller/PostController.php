@@ -25,7 +25,8 @@ class PostController extends Controller
      */
     public function getAllPost()
     {
-        $data = ['Post'=>Post::getAll($this->database)];
+        $post = new Post();
+        $data = ['Post'=>$post->getAll($this->database)];
 
         $response = $this->render('listPost.twig', $data);
         return $response;
@@ -41,10 +42,11 @@ class PostController extends Controller
      */
     public function getSinglePost($id)
     {
+        $post = new Post();
         $commentData = new CommentController($this->request, $this->route);
 
         $data =  [
-            'Post'=>Post::getSingle(['id'=>$id],'','fetch', $this->database),
+            'Post'=>$post->getSingle(['id'=>$id],'','fetch', $this->database),
             'Comment'=> $commentData->getAllComment($id)
         ];
 

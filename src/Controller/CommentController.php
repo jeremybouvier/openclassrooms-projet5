@@ -20,7 +20,8 @@ class CommentController extends Controller
      */
     public function getAllComment($id)
     {
-        $data = Comment::getSingle(['post_id'=>$id],'id','fetchAll', $this->database);
+        $comment = new Comment();
+        $data = $comment->getSingle(['post_id'=>$id],'id','fetchAll', $this->database);
         return $data;
     }
 
@@ -30,9 +31,11 @@ class CommentController extends Controller
      */
     public function addComment($id)
     {
-        $pdoParam = $this->request->getPost();
-        $pdoParam['post_id'] = (int)$id;
-        Comment::addSingle($pdoParam, $this->database);
+        $result = $this->request->getPost();
+        $comment = new Comment();
+        $comment->hydrate($result);
+        $comment->setPostId($id);
+        $comment->addSingle( '','',$this->database);
 
         $response = $this->route->redirect($this->route->getUrl(),302);
         return $response;

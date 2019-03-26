@@ -17,11 +17,48 @@ class Comment extends Table
     private $postId;
     private $commentText;
 
+
     /**
-     * @param mixed $data
+     * Comment constructor.
+     * @param null $id
      */
-    /**
-     * hydratation de la class par la méthode magique SET
+    public function __construct()
+    {
+
+        $this->indexColumn =
+            [
+            'post_id'=>[
+                    'variable' => 'postId',
+                    'type'     => 'integer'],
+
+            'comment_text'=>[
+                    'variable' =>'commentText',
+                    'type'     => 'string']
+            ];
+    }
+
+
+    /**Hydration de la class
+     * @param array $data
+     */
+    public function hydrate(array $data)
+
+    {
+        foreach ($data as $key => $value) {
+            $method = 'set' . ucfirst($key);
+
+            if (method_exists($this, $method)) {
+                $this->$method($value);
+            }
+        }
+
+
+    }
+
+
+    /** Hydratation de la class par la méthode magique SET
+     * @param mixed $data
+     *
      * @param $key
      * @param $value
      */
@@ -57,12 +94,14 @@ class Comment extends Table
         return $this->commentText;
     }
 
+
     /**
      * @param mixed $id
      */
     public function setId($id)
     {
         $this->id = $id;
+        $this->indexColumn['id'] = $id;
     }
 
     /**
@@ -80,5 +119,6 @@ class Comment extends Table
     {
         $this->commentText = $commentText;
     }
+
 
 }

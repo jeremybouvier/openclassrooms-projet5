@@ -62,7 +62,7 @@ class Database
      * @param $className
      * @return array
      */
-    public function query($statement, $className)
+    public function query($statement, $className = '')
     {
 
         $req = $this->getPDO()->query($statement);
@@ -79,30 +79,30 @@ class Database
      * @return array|mixed
      */
 
-    public function prepare($statement, $param, $className, $fetch)
+    public function prepare($statement, $param, $fetch, $className = '')
     {
+
         $req = $this->getPDO()->prepare($statement);
         $req->execute($param);
         $req->setFetchMode(\PDO::FETCH_CLASS,$className);
 
-        if ($fetch == 'fetchAll'){
-            $data = $req->fetchAll();
-        }
-        else{
-            $data = $req->fetch();
+        switch ($fetch){
+            case 'fetchAll':
+                $data = $req->fetchAll();
+                return $data;
+            break;
+            case 'fetch':
+                $data = $req->fetch();
+                return $data;
+            break;
+            case '':
+                return null;
+            break;
+
         }
 
-        return $data;
 
     }
 
-    public function insert($statement, $param)
-    {
-        $req = $this->getPDO()->prepare($statement);
-        $req->execute($param);
-
-        return null;
-
-    }
 
 }
