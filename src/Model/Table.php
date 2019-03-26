@@ -39,7 +39,7 @@ class Table
     public function getSingle($param, $orderKey, $fetch, $database)
     {
         $key = key($param);
-              
+
 
         return $database->prepare(
             "SELECT * FROM " . $this->getTable().
