@@ -12,12 +12,12 @@ namespace Framework;
 
 class Database
 {
+
     private $dbName;
     private $dbUser;
     private $dbPwd;
     private $dbHost;
     private $pdo;
-
 
     /**
      * Database constructor.
@@ -36,11 +36,10 @@ class Database
 
     }
 
-
     /**Connexion a la base de donnés
      * @return \PDO
      */
-    private function getPDO()
+    public function getPDO()
     {
 
         if ($this->pdo === null) {
@@ -55,54 +54,5 @@ class Database
             return $this->pdo;
         }
     }
-
-
-    /**Envoi d'une requète simple vers la base de donnée
-     * @param $statement
-     * @param $className
-     * @return array
-     */
-    public function query($statement, $className = '')
-    {
-
-        $req = $this->getPDO()->query($statement);
-        $data = $req->fetchall(\PDO::FETCH_CLASS,$className);
-        return $data;
-    }
-
-
-    /**Envoi d'une requète préparée vers la base de donnée
-     * @param $statement
-     * @param $param
-     * @param $className
-     * @param $fetch
-     * @return array|mixed
-     */
-
-    public function prepare($statement, $param, $fetch, $className = '')
-    {
-
-        $req = $this->getPDO()->prepare($statement);
-        $req->execute($param);
-        $req->setFetchMode(\PDO::FETCH_CLASS,$className);
-
-        switch ($fetch){
-            case 'fetchAll':
-                $data = $req->fetchAll();
-                return $data;
-            break;
-            case 'fetch':
-                $data = $req->fetch();
-                return $data;
-            break;
-            case '':
-                return null;
-            break;
-
-        }
-
-
-    }
-
 
 }

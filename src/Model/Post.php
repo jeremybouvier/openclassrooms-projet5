@@ -9,7 +9,7 @@
 namespace Application\Model;
 
 
-class Post extends Table
+class Post extends Manager
 {
 
     private $id;
@@ -17,9 +17,67 @@ class Post extends Table
     private $title;
     private $content;
     private $userId;
-    private $lastModificationDate;
+    private $updateDate;
     private $previewText;
 
+    /**Fournit les index de la table
+     * @return array
+     */
+    public static function getColumn()
+    {
+
+        return [
+
+            'primaryKey'=> [
+                'index' => 'id',
+                'type'     => 'integer'],
+
+            'column'=> [
+
+                'category_id'=>[
+                    'index' => 'categoryId',
+                    'type'     => 'integer'],
+
+                'title' =>[
+                    'index' =>'title',
+                    'type'     => 'string'],
+
+                'content' =>[
+                    'index' =>'content',
+                    'type'     => 'string'],
+
+                'user_id' =>[
+                    'index' =>'userId',
+                    'type'     => 'integer'],
+
+                'update_date' =>[
+                    'index' =>'updateDate',
+                    'type'     => 'date'],
+
+                'preview_text' =>[
+                    'index' =>'previewText',
+                    'type'     => 'string'],
+
+
+            ]];
+    }
+
+    /**Hydration de la class
+     * @param array $data
+     */
+    public function hydrate(array $data)
+
+    {
+        foreach ($data as $key => $value) {
+            $method = 'set' . ucfirst($key);
+
+            if (method_exists($this, $method)) {
+                $this->$method($value);
+            }
+        }
+
+
+    }
 
     /**
      * hydratation de la class par la méthode magique SET
@@ -33,7 +91,6 @@ class Post extends Table
         $method = 'set' .ucfirst($key);
         $this->$method($value);
     }
-
 
     /**
      * @return mixed
@@ -80,7 +137,7 @@ class Post extends Table
      */
     public function getUpdateDate()
     {
-        return $this->lastModificationDate;
+        return $this->updateDate;
     }
 
     /**
@@ -133,11 +190,11 @@ class Post extends Table
     }
 
     /**
-     * @param mixed $lastModifactionDate
+     * @param $updateDate
      */
-    public function setUpdateDate($lastModificationDate)
+    public function setUpdateDate($updateDate)
     {
-        $this->lastModificationDate = $lastModificationDate;
+        $this->updateDate = $updateDate;
     }
 
     /**

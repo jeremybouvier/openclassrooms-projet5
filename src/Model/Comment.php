@@ -10,33 +10,35 @@ namespace Application\Model;
 
 
 
-class Comment extends Table
+class Comment extends Manager
 {
 
     private $id;
     private $postId;
     private $commentText;
 
-
-    /**
-     * Comment constructor.
-     * @param null $id
+    /**Fournit les index de la table
+     * @return array
      */
-    public function __construct()
+    public static function getColumn()
     {
 
-        $this->indexColumn =
-            [
-            'post_id'=>[
-                    'variable' => 'postId',
+        return [
+            'primaryKey'=> [
+                'index' => 'id',
+                'type'     => 'integer'],
+
+            'column'=> [
+
+                'post_id'=>[
+                    'index' => 'postId',
                     'type'     => 'integer'],
 
-            'comment_text'=>[
-                    'variable' =>'commentText',
+                'comment_text' =>[
+                    'index' =>'commentText',
                     'type'     => 'string']
-            ];
+            ]];
     }
-
 
     /**Hydration de la class
      * @param array $data
@@ -54,7 +56,6 @@ class Comment extends Table
 
 
     }
-
 
     /** Hydratation de la class par la méthode magique SET
      * @param mixed $data
@@ -93,7 +94,6 @@ class Comment extends Table
     {
         return $this->commentText;
     }
-
 
     /**
      * @param mixed $id

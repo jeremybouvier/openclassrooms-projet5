@@ -46,7 +46,7 @@ class PostController extends Controller
         $commentData = new CommentController($this->request, $this->route);
 
         $data =  [
-            'Post'=>$post->getSingle(['id'=>$id],'','fetch', $this->database),
+            'Post'=>$post->getOneByKeys(['id'=>$id], $this->database),
             'Comment'=> $commentData->getAllComment($id)
         ];
 
