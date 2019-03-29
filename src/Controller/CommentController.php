@@ -21,7 +21,7 @@ class CommentController extends Controller
     public function getAllComment($id)
     {
         $comment = new Comment();
-        $data = $comment->getAllByKeys(['post_id'=>$id], $this->database);
+        $data = $comment->getAllByKeys(['post_id'=>$id], 'id', $this->database);
         return $data;
     }
 
@@ -35,9 +35,20 @@ class CommentController extends Controller
         $comment = new Comment();
         $comment->hydrate($result);
         $comment->setPostId($id);
-        $comment->update( ['id'=> 4], ['commentText' =>'yes'], $this->database);
+        $comment->insertInto($this->database);
 
         $response = $this->route->redirect($this->route->getUrl(),302);
         return $response;
     }
+
+    public function deleteComment($id,$idComment)
+    {
+        $comment = new Comment();
+        $comment->delete(['id'=>$idComment], $this->database);
+
+        $response = $this->route->redirect('/post/'.$id,302);
+        return $response;
+    }
+
+
 }

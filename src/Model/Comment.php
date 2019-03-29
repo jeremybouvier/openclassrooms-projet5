@@ -17,6 +17,11 @@ class Comment extends Manager
     private $postId;
     private $commentText;
 
+    public function __construct()
+    {
+        $this->getModelColumn();
+    }
+
     /**Fournit les index de la table
      * @return array
      */

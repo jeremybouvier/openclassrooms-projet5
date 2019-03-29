@@ -20,6 +20,12 @@ class Post extends Manager
     private $updateDate;
     private $previewText;
 
+
+    public function __construct()
+    {
+        $this->getModelColumn();
+    }
+
     /**Fournit les index de la table
      * @return array
      */

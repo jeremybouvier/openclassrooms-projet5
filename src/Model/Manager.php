@@ -9,13 +9,13 @@
 namespace Application\Model;
 
 
-class Manager
+abstract class Manager
 {
     private $table;
     private $indexColumn;
     private $columnsData;
 
-    public function __construct()
+    public function getModelColumn()
     {
         $this->indexColumn = get_called_class()::getColumn();
     }
@@ -59,17 +59,18 @@ class Manager
 
     /**Permet de récupérer tous les lots de donnée d'une table correspondant aux critères
      * @param $filters
+     * @param $order
      * @param $database
      * @return mixed
      */
-    public function getAllByKeys($filters, $database)
+    public function getAllByKeys($filters, $order,$database)
     {
         $param =$this->where($filters);
 
         $req = $database->getPDO()->prepare(
             'SELECT * FROM ' .
             $this->getTable() .
-            $param['statement']);
+            $param['statement'] . $this->order($order));
 
         $req->execute($param['pdoParam']);
         $req->setFetchMode(\PDO::FETCH_CLASS, get_called_class());
@@ -89,9 +90,9 @@ class Manager
             $this->getTable() .
             $this->getInsertEntry() );
 
-        $data = $req->execute($this->getColumnsData());
+        $req->execute($this->getColumnsData());
 
-        return $data;
+        return null;
     }
 
     /**Permet de mettre à jour un lot de donnée dans une table
@@ -100,16 +101,35 @@ class Manager
      * @param $database
      * @return mixed
      */
-    public function update($filters, $entry, $database)
+    public function update($filters, $database)
     {
-        $setParam = $this->getSet($entry);
+        $setParam = $this->getSet($this->getColumnsData());
         $whereParam = $this->where($filters);
         $req = $database->getPDO()->prepare(
             'UPDATE ' .
             $this->getTable() .
-            $setParam['statement']);
+            $setParam['statement'].
+            $whereParam['statement']);
 
-        $data = $req->execute($whereParam['pdoParam']);
+        foreach ($whereParam['pdoParam'] as $key => $value){
+            $setParam['pdoParam'][$key] = $value;
+        }
+
+
+        $req->execute($setParam['pdoParam']);
+
+        return null;
+    }
+
+    public function delete($filters,$database)
+    {
+        $param = $this->where($filters);
+        $req = $database->getPDO()->prepare(
+            'DELETE FROM ' .
+            $this->getTable() .
+            $param['statement']
+        );
+        $data = $req->execute($param['pdoParam']);
 
         return $data;
     }
@@ -140,15 +160,16 @@ class Manager
      * @param $entry
      * @return array
      */
-    private function getSet($entry)
+    private function getSet($columnData)
     {
         $statement = '';
         $param = [];
 
-        foreach ($entry as $key =>$value) {
-            $index = $this->getColumnIndex($key);
-            $statement =  $index . '=:' . $index . ', ' . $statement;
-            $param [':' . $index]= $value;
+        foreach ($columnData as $key =>$value) {
+
+            $statement =  $key . '=:' . $key . ', ' . $statement;
+            $param[':' . $key] = $value;
+
         }
 
         return ['statement' => ' SET ' . substr($statement,0,-2) ,'pdoParam' => $param ];
@@ -160,6 +181,7 @@ class Manager
      */
     private function order($key)
     {
+
         if (isset($key)){
             return ' ORDER BY ' . $key . ' DESC ';
         }
@@ -225,14 +247,14 @@ class Manager
         return $this->table ;
     }
 
-    private function getColumnIndex($param)
-    {
 
-        foreach ($this->indexColumn['column'] as $key => $value){
-            if ($value['index'] == $param){
+    public function getColumnIndex($variable)
+    {
+        foreach ($this->indexColumn['column'] as $key => $value)
+        {
+            if ($value['index'] == $variable ){
                 return $key;
             }
         }
-
     }
 }
