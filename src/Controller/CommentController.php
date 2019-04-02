@@ -28,7 +28,6 @@ class CommentController extends Controller
      */
     public function getAllComment($id)
     {
-
         $commentManager = $this->database->getManager( new Comment(), $this->database)->fetchAll(
             ['post_id'=>$id],
             ['update_date'],
@@ -49,17 +48,19 @@ class CommentController extends Controller
         $comment->setPostId($id);
         $comment->setUpdateDate(date("Y-m-d H:i:s"));
         $this->database->getManager($comment, $this->database)->insert();
-
         $response = $this->route->redirect($this->route->getUrl(),302);
         return $response;
     }
 
+    /**Permet de supprimer un commentaire
+     * @param $id
+     * @param $idComment
+     * @return mixed
+     */
     public function deleteComment($id,$idComment)
     {
         $this->database->getManager(new Comment(), $this->database)->delete(['id'=>$idComment], $this->database);
         $response = $this->route->redirect('/post/'.$id,302);
         return $response;
     }
-
-
 }

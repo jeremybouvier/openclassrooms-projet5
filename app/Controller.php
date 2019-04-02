@@ -20,21 +20,21 @@ class Controller
     protected $twig;
     protected $route;
 
+    /**stockage de la requete de la connection a la base de donnée et de la route dans le controller
+     * Controller constructor.
+     * @param $request
+     * @param $route
+     */
     public function __construct($request, $route)
     {
         $this->request = $request;
         $this->route = $route;
-
         if (!isset($this->database)){
             $database = new App();
             $this->database = $database->getDB();
         }
-
             $loader = new FilesystemLoader('Templates');
-            $this->twig = new Environment($loader, [
-                'cache' => false
-            ]);
-
+            $this->twig = new Environment($loader, ['cache' => false]);
     }
 
     /**Initialisation de l'environement de Twig
@@ -47,7 +47,6 @@ class Controller
      */
     public function render($page, $data)
     {
-
         $htmlContent = $this->twig->render($page, $data);
         $response = new HtmlResponse($htmlContent);
         return $response;

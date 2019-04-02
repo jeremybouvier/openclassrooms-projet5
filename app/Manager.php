@@ -6,7 +6,7 @@
  * Time: 17:40
  */
 
-namespace Application\Manager;
+namespace Framework;
 
 
 /**
@@ -105,9 +105,6 @@ abstract class Manager
 
     /**Permet de mettre à jour un lot de donnée dans une table
      * @param $filters
-     * @param $entry
-     * @param $database
-     * @return mixed
      */
     public function update($filters)
     {

@@ -19,9 +19,12 @@ use Zend\Diactoros\Response\RedirectResponse;
 
 class WelcomeController
 {
+    /**
+     * @return RedirectResponse
+     */
     public function index()
     {
-        $response = new Route('','');
-        return $response->redirect('/home', 301);
+        $response = $this->route->redirect('/home',301);
+        return $response;
     }
 }

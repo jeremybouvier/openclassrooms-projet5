@@ -225,7 +225,6 @@ class Post extends Model//\Application\Manager\Manager
     {
         $this->previewText = substr($this->content, 0, 300 - strlen($this->content));
     }
-
 }
 
 

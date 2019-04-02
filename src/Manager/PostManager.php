@@ -10,6 +10,7 @@ namespace Application\Manager;
 
 
 use Application\Model\Post;
+use Framework\Manager;
 
 /**
  * Class PostManager

@@ -11,7 +11,6 @@ namespace Application\Model;
 
 use Application\Manager\CommentManager;
 
-
 /**
  * Class Comment
  * @package Application\Model

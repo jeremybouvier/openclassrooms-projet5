@@ -8,7 +8,7 @@
 
 namespace Application\Manager;
 
-
+use Framework\Manager;
 /**
  * Class CommentManager
  * @package Application\Manager
