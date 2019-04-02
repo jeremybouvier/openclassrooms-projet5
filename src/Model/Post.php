@@ -9,21 +9,58 @@
 namespace Application\Model;
 
 
-class Post extends Manager
-{
+use Application\Manager\PostManager;
 
+/**
+ * Class Post
+ * @package Application\Model
+ */
+class Post extends Model//\Application\Manager\Manager
+{
+    /**
+     * @var
+     */
     private $id;
+
+    /**
+     * @var
+     */
     private $categoryId;
+
+    /**
+     * @var
+     */
     private $title;
+
+    /**
+     * @var
+     */
     private $content;
+
+    /**
+     * @var
+     */
     private $userId;
+
+    /**
+     * @var
+     */
     private $updateDate;
+
+    /**
+     * @var
+     */
     private $previewText;
 
 
-    public function __construct()
+    /** Hydratation de la class par la méthode magique SET
+     * @param $key
+     * @param $value
+     */
+    public function __set($key, $value)
     {
-        $this->getModelColumn();
+        $data[$this::getColumn()['column'][$key]['index']] = $value;
+        $this->hydrate($data);
     }
 
     /**Fournit les index de la table
@@ -31,7 +68,6 @@ class Post extends Manager
      */
     public static function getColumn()
     {
-
         return [
 
             'primaryKey'=> [
@@ -58,44 +94,22 @@ class Post extends Manager
 
                 'update_date' =>[
                     'index' =>'updateDate',
-                    'type'     => 'date'],
+                    'type'     => 'datetime'],
 
                 'preview_text' =>[
                     'index' =>'previewText',
                     'type'     => 'string'],
-
-
             ]];
     }
 
-    /**Hydration de la class
-     * @param array $data
-     */
-    public function hydrate(array $data)
-
-    {
-        foreach ($data as $key => $value) {
-            $method = 'set' . ucfirst($key);
-
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
-
-
-    }
-
     /**
-     * hydratation de la class par la méthode magique SET
-     * @param $key
-     * @param $value
+     * @param $model
+     * @param $database
+     * @return PostManager|mixed
      */
-    public function __set($key, $value)
+    public static function getManager($model, $database)
     {
-        $word = explode('_',$key);
-        $key = $word[0] . ucfirst($word[1]);
-        $method = 'set' .ucfirst($key);
-        $this->$method($value);
+        return new PostManager($model, $database);
     }
 
     /**
@@ -184,6 +198,7 @@ class Post extends Manager
     public function setContent($content)
     {
         $this->content = $content;
+        $this->setPreviewText();
 
     }
 
@@ -204,11 +219,11 @@ class Post extends Manager
     }
 
     /**
-     * @param mixed $previewText
+     *
      */
-    public function setPreviewText($previewText)
+    public function setPreviewText()
     {
-        $this->previewText = $previewText;
+        $this->previewText = substr($this->content, 0, 300 - strlen($this->content));
     }
 
 }

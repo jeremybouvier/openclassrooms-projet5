@@ -9,25 +9,41 @@
 namespace Application\Model;
 
 
+use Application\Manager\CommentManager;
 
-class Comment extends Manager
+
+/**
+ * Class Comment
+ * @package Application\Model
+ */
+class Comment extends Model//\Application\Manager\Manager
 {
 
+    /**
+     * @var
+     */
     private $id;
+
+    /**
+     * @var
+     */
     private $postId;
+
+    /**
+     * @var
+     */
     private $commentText;
 
-    public function __construct()
-    {
-        $this->getModelColumn();
-    }
+    /**
+     * @var
+     */
+    private $updateDate;
 
     /**Fournit les index de la table
      * @return array
      */
     public static function getColumn()
     {
-
         return [
             'primaryKey'=> [
                 'index' => 'id',
@@ -41,39 +57,33 @@ class Comment extends Manager
 
                 'comment_text' =>[
                     'index' =>'commentText',
-                    'type'     => 'string']
+                    'type'     => 'string'],
+
+                'update_date' =>[
+                    'index' =>'updateDate',
+                    'type'     => 'datetime']
             ]];
     }
 
-    /**Hydration de la class
-     * @param array $data
+    /**
+     * @param $model
+     * @param $database
+     * @return CommentManager|mixed
      */
-    public function hydrate(array $data)
-
+    public static function getManager($model, $database)
     {
-        foreach ($data as $key => $value) {
-            $method = 'set' . ucfirst($key);
-
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
-
-
+        return new CommentManager($model, $database);
     }
 
+
     /** Hydratation de la class par la méthode magique SET
-     * @param mixed $data
-     *
      * @param $key
      * @param $value
      */
     public function __set($key, $value)
     {
-        $word = explode('_',$key);
-        $key = $word[0] . ucfirst($word[1]);
-        $method = 'set' .ucfirst($key);
-        $this->$method($value);
+        $data[$this::getColumn()['column'][$key]['index']] = $value;
+        $this->hydrate($data);
     }
 
     /**
@@ -101,6 +111,14 @@ class Comment extends Manager
     }
 
     /**
+     * @return mixed
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
      * @param mixed $id
      */
     public function setId($id)
@@ -124,6 +142,15 @@ class Comment extends Manager
     {
         $this->commentText = $commentText;
     }
+
+    /**
+     * @param mixed $updateDate
+     */
+    public function setUpdateDate($updateDate): void
+    {
+        $this->updateDate = $updateDate;
+    }
+
 
 
 }

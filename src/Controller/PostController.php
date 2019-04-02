@@ -9,6 +9,7 @@
 namespace Application\Controller;
 
 use Application\Model\Post;
+use Application\Model\Comment;
 use Framework\Controller;
 
 
@@ -25,11 +26,10 @@ class PostController extends Controller
      */
     public function getAllPost()
     {
-        $post = new Post();
-        $data = ['Post'=>$post->getAll($this->database)];
 
-        $response = $this->render('listPost.twig', $data);
-        return $response;
+        $post = $this->database->getManager( new Post(), $this->database)->getAll();
+
+        return $this->render('listPost.twig', ['Post'=> $post]);
     }
 
 
@@ -42,12 +42,15 @@ class PostController extends Controller
      */
     public function getSinglePost($id)
     {
-        $post = new Post();
-        $commentData = new CommentController($this->request, $this->route);
+        $post = $this->database->getManager( new Post(), $this->database)->fetch(['id'=>$id]);
+        $comment = $this->database->getManager( new Comment(), $this->database)->fetchAll(
+            ['post_id'=>$id],
+            ['update_date'],
+            10, 0);
 
         $data =  [
-            'Post'=>$post->getOneByKeys(['id'=>$id], $this->database),
-            'Comment'=> $commentData->getAllComment($id)
+            'Post'=>$post,
+            'Comment'=> $comment
         ];
 
         $response = $this->render('post.twig', $data);

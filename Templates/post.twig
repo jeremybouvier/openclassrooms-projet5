@@ -18,6 +18,7 @@
                 <h3>Commentaire</h3>
                     {% for comments in Comment %}
                         <p>{{ comments.commenttext }} <a href="../deleteComment/{{ Post.id }}/{{ comments.id }}">Supprimer {{ comments.id }}</a></p>
+                        <p>{{ comments.updatedate }}</p>
 
                     {%  endfor %}
 

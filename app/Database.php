@@ -18,6 +18,7 @@ class Database
     private $dbPwd;
     private $dbHost;
     private $pdo;
+    private $manager = [];
 
     /**
      * Database constructor.
@@ -53,6 +54,14 @@ class Database
 
             return $this->pdo;
         }
+    }
+
+    public function getManager($model, $database)
+    {
+        $class = new $model();
+        return $class->getManager($model, $database);
+
+
     }
 
 }

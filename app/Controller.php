@@ -47,6 +47,7 @@ class Controller
      */
     public function render($page, $data)
     {
+
         $htmlContent = $this->twig->render($page, $data);
         $response = new HtmlResponse($htmlContent);
         return $response;
