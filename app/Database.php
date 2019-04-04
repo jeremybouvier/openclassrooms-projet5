@@ -7,6 +7,7 @@
  */
 
 namespace Framework;
+use Application\Model;
 
 
 
@@ -18,7 +19,7 @@ class Database
     private $dbPwd;
     private $dbHost;
     private $pdo;
-    private $manager = [];
+
 
     /**
      * Database constructor.
@@ -56,12 +57,9 @@ class Database
         }
     }
 
-    public function getManager($model, $database)
+    public function getManager($model)
     {
-        $class = new $model();
-        return $class->getManager($model, $database);
-
-
+        return $model::getManager();
     }
 
 }

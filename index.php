@@ -19,15 +19,14 @@ use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 $router = new Router();
 
-$router->get('/', "Welcome#index");
-$router->get('home', "Home#index");
-$router->get('listPost', "Post#getAllPost");
-$router->get('post/:id', "Post#getSinglePost");
-$router->post('addPost/:id', "Post#addPost");
-$router->post('post/:id', "Comment#addComment");
-$router->get('deleteComment/:id/:idComment', "Comment#deleteComment");
-$router->get('test', "Test#test");
-$response = $router->run();
+$router->setRoute('welcome','/', "Welcome#index");
+$router->setRoute('home','home', "Home#index");
+$router->setRoute('postsPage','listPost', "Post#getAllPost");
+$router->setRoute('onePostPage', 'post/:id', "Post#getSinglePost");
+
+$router->setRoute('deleteComment','deleteComment/:id/:idComment', "Comment#deleteComment");
+$router->setRoute('test','test', "Test#test");
+$response = $router->run($router);
 
 $emitter = new SapiEmitter();
 $emitter->emit($response);

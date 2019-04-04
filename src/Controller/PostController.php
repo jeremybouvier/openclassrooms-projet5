@@ -26,7 +26,8 @@ class PostController extends Controller
      */
     public function getAllPost()
     {
-        $post = $this->database->getManager( new Post(), $this->database)->getAll();
+
+        $post = $this->getManager( Post::class)->getAll();
         return $this->render('listPost.twig', ['Post'=> $post]);
     }
 
@@ -39,8 +40,18 @@ class PostController extends Controller
      */
     public function getSinglePost($id)
     {
-        $post = $this->database->getManager( new Post(), $this->database)->fetch(['id'=>$id]);
-        $comment = $this->database->getManager( new Comment(), $this->database)
+
+        if  ($this->request->getRequest()->getMethod() == "POST"){
+            $comment = new Comment();
+            $comment->hydrate($this->request->getPost());
+            $comment->setPostId($id);
+            $comment->setUpdateDate(date("Y-m-d H:i:s"));
+            $this->getManager(Comment::class, $this->database)->insert($comment);
+            return $this->redirect('onePostPage',301, [$id]);
+        }
+
+        $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
+        $comment = $this->getManager( Comment::class)
             ->fetchAll(['post_id'=>$id], ['update_date'], 10, 0);
         $data =  ['Post'=>$post, 'Comment'=> $comment];
         $response = $this->render('post.twig', $data);
@@ -49,7 +60,6 @@ class PostController extends Controller
     }
 
     /**Permet d'ajouter un nouveau post
-     * @param $id
      * @return mixed
      */
     public function addPost()
@@ -59,15 +69,15 @@ class PostController extends Controller
         $post->hydrate($result);
         $post->setUserId('1');
         $post->setUpdateDate(date("Y-m-d H:i:s"));
-        $this->database->getManager($post, $this->database)->insert();
-        $response = $this->route->redirect($this->route->getUrl(),302);
+        $this->getManager(Post::class)->insert();
+        $response = $this->route->redirect('createPost',302);
         return $response;
     }
 
     public function deletePost($id)
     {
-        $this->database->getManager(new Post(), $this->database)->delete(['id'=>$id], $this->database);
-        $response = $this->route->redirect('/listpost',302);
+        $this->database->getManager(Post::class)->delete(['id'=>$id], $this->database);
+        $response = $this->route->redirect('postsPage',302);
         return $response;
     }
 }

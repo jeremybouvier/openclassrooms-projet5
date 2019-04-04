@@ -69,6 +69,9 @@ class Post extends Model//\Application\Manager\Manager
     public static function getColumn()
     {
         return [
+            'table' => 'post',
+
+            'manager'=>PostManager::class,
 
             'primaryKey'=> [
                 'index' => 'id',
@@ -103,13 +106,11 @@ class Post extends Model//\Application\Manager\Manager
     }
 
     /**
-     * @param $model
-     * @param $database
      * @return PostManager|mixed
      */
-    public static function getManager($model, $database)
+    public static function getManager()
     {
-        return new PostManager($model, $database);
+        return self::getColumn()['manager'];
     }
 
     /**

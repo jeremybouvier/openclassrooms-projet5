@@ -26,9 +26,10 @@ abstract class Model
     public abstract static function getColumn();
 
     /**
+     * @param $model
      * @return mixed
      */
-    public abstract static function getManager($model, $database);
+    public abstract static function getManager();
 
     /**Hydration de la class
      * @param array $data

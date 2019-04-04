@@ -8,9 +8,6 @@
 
 namespace Framework\Router;
 
-use Zend\Diactoros\Response\RedirectResponse;
-
-
 
 class Route
 {
@@ -39,19 +36,14 @@ class Route
     {
         $this->url = $url;
         $route = trim($route,'/');
-
         $path = preg_replace('#:([\w]+)#','([^/]+)',$this->path);
-
         $regex = "#^$path$#i";
-
         if (!preg_match($regex, $route,$matches)){
             return false;
         }
-
         array_shift($matches);
         $this->matches = $matches;
         return true;
-
     }
 
     /**Permet d'appeler le contrôleur spécifier dans la route
@@ -59,35 +51,18 @@ class Route
      * @param $route
      * @return mixed
      */
-    public function call($request, $route)
+    public function call($request, $router)
     {
-
         if(is_string($this->callable)){
-
             $params = explode('#',$this->callable);
             $controller = "Application\\Controller\\".$params[0]."Controller";
-            $controller = new $controller($request, $route);
-
+            $controller = new $controller($request, $router);
             return call_user_func_array([$controller, $params[1]], $this->matches);
-
         }
         else{
             return call_user_func_array($this->callable, $this->matches);
         }
-
     }
-
-    /**Permet la redirection vers une autre route
-     * @param $url
-     * @param $status
-     * @return RedirectResponse
-     */
-    public function redirect($url, $status)
-    {
-        $response = new RedirectResponse($url,$status);
-        return $response;
-    }
-
 
     /**
      * @return mixed

@@ -20,7 +20,7 @@ class CommentManager extends Manager
      */
     public function getAll()
     {
-        $statement = 'SELECT * FROM ' . $this->getTable() . ' ORDER BY update_date DESC';
+        $statement = 'SELECT * FROM ' . $this->table . ' ORDER BY update_date DESC';
         $req = $this->database->getPDO()->prepare($statement);
         $req->execute();
         $data = $req->fetchall(\PDO::FETCH_CLASS, get_class($this->model));

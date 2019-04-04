@@ -50,7 +50,7 @@ abstract class Manager
         $this->database = $database;
         $this->indexColumn = $model::getColumn();
         $this->model = $model;
-        $this->table = $this->getTable();
+        $this->table = $this->model::getColumn()['table'];
     }
 
     /**Permet de récupérer un lot de donnée d'une table correspondant aux critères
@@ -59,7 +59,7 @@ abstract class Manager
      */
     public function fetch($filters)
     {
-        $statement = 'SELECT * FROM ' . $this->getTable() . $this->where($filters) . ' LIMIT 0,1';
+        $statement = 'SELECT * FROM ' . $this->table . $this->where($filters) . ' LIMIT 0,1';
         $req = $this->database->getPDO()->prepare($statement);
         $req->execute($filters);
         $req->setFetchMode(\PDO::FETCH_CLASS, get_class($this->model));
@@ -76,7 +76,7 @@ abstract class Manager
      */
     public function fetchAll($filters, $orderKeys, $length = null, $start = null)
     {
-        $statement = 'SELECT * FROM ' . $this->getTable() . $this->where($filters) . $this->order($orderKeys) .
+        $statement = 'SELECT * FROM ' . $this->table . $this->where($filters) . $this->order($orderKeys) .
             $this->limit($length, $start);
         $req = $this->database->getPDO()->prepare($statement);
         $req->execute($filters);
@@ -88,17 +88,17 @@ abstract class Manager
     /**Permet d'inserer un lot de donnée dans une table
      * @return null
      */
-    public function insert()
+    public function insert($model)
     {
         $pdoParam = [];
         $set = '';
-        foreach ($this->indexColumn['column'] as $column => $value)
+        foreach ($model::getColumn()['column'] as $column => $value)
         {
-            $sqlValue = $this->model->getColumnsData($column);
+            $sqlValue = $model->getColumnsData($column);
             $set = $column . '=:'. $column . ', ' . $set;
             $pdoParam[$column] = $sqlValue;
         }
-        $statement = 'INSERT INTO ' . $this->getTable() . ' SET ' . substr($set, 0,-2);
+        $statement = 'INSERT INTO ' . $this->table . ' SET ' . substr($set, 0,-2);
         $req = $this->database->getPDO()->prepare($statement);
         $req->execute($pdoParam);
     }
@@ -106,20 +106,20 @@ abstract class Manager
     /**Permet de mettre à jour un lot de donnée dans une table
      * @param $filters
      */
-    public function update($filters)
+    public function update($model, $filters)
     {
         $pdoParam = [];
         $set = '';
-        foreach ($this->indexColumn['column'] as $column => $value)
+        foreach ($model::getColumn()['column'] as $column => $value)
         {
-            $sqlValue = $this->model->getColumnsData($column);
+            $sqlValue = $model->getColumnsData($column);
             $set = $column . '=:'. $column . ', ' . $set;
             $pdoParam[$column] = $sqlValue;
         }
         foreach ($filters as $key =>$value){
             $pdoParam[$key] = $value;
         }
-        $statement = 'UPDATE ' . $this->getTable() . ' SET ' . substr($set, 0,-2) . $this->where($filters);
+        $statement = 'UPDATE ' . $this->table . ' SET ' . substr($set, 0,-2) . $this->where($filters);
         $req = $this->database->getPDO()->prepare($statement);
         $req->execute($pdoParam);
     }
@@ -129,7 +129,7 @@ abstract class Manager
      */
     public function delete($filters)
     {
-        $statement = 'DELETE FROM ' . $this->getTable() . $this->where($filters);
+        $statement = 'DELETE FROM ' . $this->table . $this->where($filters);
         $req = $this->database->getPDO()->prepare($statement);
         $req->execute($filters);
     }
@@ -183,14 +183,5 @@ abstract class Manager
         return '';
     }
 
-    /**Permet de déduire le nom de la table d'après la class appelée
-     * @return mixed
-     */
-    protected function getTable()
-    {
-        $className = explode('\\',get_class($this->model));
-        $table = strtolower(end($className));
-        return $table ;
-    }
 
 }

@@ -44,6 +44,10 @@ class Comment extends Model//\Application\Manager\Manager
     public static function getColumn()
     {
         return [
+            'table' => 'comment',
+
+            'manager'=>CommentManager::class,
+
             'primaryKey'=> [
                 'index' => 'id',
                 'type'     => 'integer'],
@@ -69,9 +73,10 @@ class Comment extends Model//\Application\Manager\Manager
      * @param $database
      * @return CommentManager|mixed
      */
-    public static function getManager($model, $database)
+    public static function getManager()
     {
-        return new CommentManager($model, $database);
+        return self::getColumn()['manager'];
+
     }
 
 
