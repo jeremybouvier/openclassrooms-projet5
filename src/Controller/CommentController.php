@@ -18,7 +18,6 @@ use Framework\Controller;
  */
 class CommentController extends Controller
 {
-
     /**récupère tous les commentaires d'un post
      * @param $id
      * @return string
@@ -36,7 +35,6 @@ class CommentController extends Controller
         return $response;
     }
 
-
     /**Permet de supprimer un commentaire
      * @param $id
      * @param $idComment
@@ -44,7 +42,6 @@ class CommentController extends Controller
      */
     public function deleteComment($id,$idComment)
     {
-
         $this->getManager(Comment::class, $this->database)->delete(['id'=>$idComment], $this->database);
         $response = $this->redirect('onePostPage', 301, [$id]);
         return $response;

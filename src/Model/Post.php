@@ -15,7 +15,7 @@ use Application\Manager\PostManager;
  * Class Post
  * @package Application\Model
  */
-class Post extends Model//\Application\Manager\Manager
+class Post extends Model
 {
     /**
      * @var
@@ -81,27 +81,33 @@ class Post extends Model//\Application\Manager\Manager
 
                 'category_id'=>[
                     'index' => 'categoryId',
-                    'type'     => 'integer'],
+                    'type'     => 'integer',
+                    'condition' => ''],
 
                 'title' =>[
                     'index' =>'title',
-                    'type'     => 'string'],
+                    'type'     => 'string',
+                    'condition' => ''],
 
                 'content' =>[
                     'index' =>'content',
-                    'type'     => 'string'],
+                    'type'     => 'string',
+                    'condition' => ''],
 
                 'user_id' =>[
                     'index' =>'userId',
-                    'type'     => 'integer'],
+                    'type'     => 'integer',
+                    'condition' => ''],
 
                 'update_date' =>[
                     'index' =>'updateDate',
-                    'type'     => 'datetime'],
+                    'type'     => 'datetime',
+                    'condition' => ''],
 
                 'preview_text' =>[
                     'index' =>'previewText',
-                    'type'     => 'string'],
+                    'type'     => 'string',
+                    'condition' => ''],
             ]];
     }
 

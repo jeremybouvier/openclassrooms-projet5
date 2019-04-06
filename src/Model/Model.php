@@ -9,16 +9,15 @@
 namespace Application\Model;
 
 
+use Application\Controller\ControllerException;
+
+
 /**
  * Class Model
  * @package Application\Model
  */
 abstract class Model
 {
-    /**
-     * @var
-     */
-    public $originalData;
 
     /**
      * @return array
@@ -26,33 +25,65 @@ abstract class Model
     public abstract static function getColumn();
 
     /**
-     * @param $model
      * @return mixed
      */
     public abstract static function getManager();
 
-    /**Hydration de la class
+    /**
      * @param array $data
+     * @throws ControllerException
      */
     public function hydrate(array $data)
     {
-        $this->originalData = $data;
 
+            foreach ($data as $key => $value) {
 
-        foreach ($data as $key => $value) {
+                $indexTable = $this->getColumnIndex($key);
+                if ($indexTable == 'id'){
+                    $this->setPrimaryKey($value);
+                }
+                else{
+                    if($this->validation($value, $key)){
+                        $type = $this::getColumn()['column'][$indexTable]['type'];
+                        $method = 'set' . ucfirst($this::getColumn()['column'][$indexTable]['index']);
+                        if (method_exists($this, $method)) {
+                            $this->$method($this->formatData($value, $type));
+                        }
+                    }
 
-            $indexTable = $this->getColumnIndex($key);
-            if ($indexTable == 'id'){
-                $this->setPrimaryKey($value);
-            }
-            else{
-                $type = $this::getColumn()['column'][$indexTable]['type'];
-                $method = 'set' . ucfirst($this::getColumn()['column'][$indexTable]['index']);
-                if (method_exists($this, $method)) {
-                    $this->$method($this->formatData($value, $type));
                 }
             }
+    }
+
+    /**Permet de déterminer si la valeur remplie la conditions du champs de la table
+     * @param $value
+     * @param $key
+     * @return bool
+     * @throws ControllerException
+     */
+    public function validation($value, $key)
+    {
+
+        $indexTable = $this->getColumnIndex($key);
+        switch ($this::getColumn()['column'][$indexTable]['condition']){
+            case 'not null':
+                if ($value != null){
+                    return true;
+                }
+                throw new ControllerException($key, 0);
+
+            case 'max char 20':
+                if (strlen($value) < 20){
+                    return true;
+                }
+                throw new ControllerException($key, 1);
+
+                break;
+            case '':
+                return true;
+                break;
         }
+
     }
 
     /**Formate les données dans le type correspondant à la colonne

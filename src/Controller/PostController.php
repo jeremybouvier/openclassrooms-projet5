@@ -8,9 +8,11 @@
 
 namespace Application\Controller;
 
+
 use Application\Model\Post;
 use Application\Model\Comment;
 use Framework\Controller;
+use Application\Controller\ControllerException;
 
 /**
  * Class PostController
@@ -26,7 +28,6 @@ class PostController extends Controller
      */
     public function getAllPost()
     {
-
         $post = $this->getManager( Post::class)->getAll();
         return $this->render('listPost.twig', ['Post'=> $post]);
     }
@@ -40,24 +41,40 @@ class PostController extends Controller
      */
     public function getSinglePost($id)
     {
+        try
+        {
+            if ($this->request->getRequest()->getMethod() == "POST") {
+                $comment = new Comment();
+                $comment->hydrate($this->request->getPost());
+                $comment->setPostId($id);
+                $comment->setUpdateDate(date("Y-m-d H:i:s"));
+                $this->getManager(Comment::class, $this->database)->insert($comment);
+                return $this->redirect('onePostPage', 301, [$id]);
+            }
+            $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
+            $comment = $this->getManager( Comment::class)
+                ->fetchAll(['post_id'=>$id], ['update_date'], 10, 0);
+            $data =  ['Post'=>$post, 'Comment'=> $comment];
 
-        if  ($this->request->getRequest()->getMethod() == "POST"){
-            $comment = new Comment();
-            $comment->hydrate($this->request->getPost());
-            $comment->setPostId($id);
-            $comment->setUpdateDate(date("Y-m-d H:i:s"));
-            $this->getManager(Comment::class, $this->database)->insert($comment);
-            return $this->redirect('onePostPage',301, [$id]);
+            $response = $this->render('post.twig', $data);
+            return $response;
+        }
+        catch (ControllerException $e) {
+            $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
+            $comment = $this->getManager( Comment::class)
+                ->fetchAll(['post_id'=>$id], ['update_date'], 10, 0);
+            $data =  ['Post'=>$post, 'Comment'=> $comment, 'messageException'=> [$e->getMessage() => $e->getUserMessage()] ];
+
+            $response = $this->render('post.twig', $data);
+            return $response;
+
         }
 
-        $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
-        $comment = $this->getManager( Comment::class)
-            ->fetchAll(['post_id'=>$id], ['update_date'], 10, 0);
-        $data =  ['Post'=>$post, 'Comment'=> $comment];
-        $response = $this->render('post.twig', $data);
-        return $response;
+
 
     }
+
+
 
     /**Permet d'ajouter un nouveau post
      * @return mixed
@@ -74,6 +91,10 @@ class PostController extends Controller
         return $response;
     }
 
+    /**Permet de supprimer un post
+     * @param $id
+     * @return mixed
+     */
     public function deletePost($id)
     {
         $this->database->getManager(Post::class)->delete(['id'=>$id], $this->database);

@@ -24,7 +24,7 @@ class Controller
     /**stockage de la requete de la connection a la base de donnée et de la route dans le controller
      * Controller constructor.
      * @param $request
-     * @param $route
+     * @param $router
      */
     public function __construct($request, $router)
     {
@@ -68,9 +68,7 @@ class Controller
     public function redirect($name, $status, $param = [])
     {
         $url = $this->router->generateUrl($name, $param);
-
         $response = new RedirectResponse($url, $status);
-
         return $response;
     }
 

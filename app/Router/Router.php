@@ -45,8 +45,6 @@ class Router
         $request = new Request();
         $this->request = $request;
         $this->url = $request->getRequest()->getUri()->getPath();
-
-
     }
 
     /**Permet d'enregistrer les routes
@@ -89,12 +87,9 @@ class Router
                 $this->urlParam = '/' . $param . $this->urlParam;
             }
         }
-        foreach ($this->routes as $key => $route){
-            if($name == $key){
-                $path = explode(':', $route->getPath());
-
-                return '/' . trim( $path[0], '/') . $this->urlParam;
-            }
+        if(isset($name)){
+            $path = explode(':', $this->routes[$name]->getPath());
+            return '/' . trim( $path[0], '/') . $this->urlParam;
         }
         if ($name !==''){
             return '/' . $name . $this->urlParam;

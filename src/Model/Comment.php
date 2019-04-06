@@ -11,11 +11,12 @@ namespace Application\Model;
 
 use Application\Manager\CommentManager;
 
+
 /**
  * Class Comment
  * @package Application\Model
  */
-class Comment extends Model//\Application\Manager\Manager
+class Comment extends Model
 {
 
     /**
@@ -38,6 +39,8 @@ class Comment extends Model//\Application\Manager\Manager
      */
     private $updateDate;
 
+
+
     /**Fournit les index de la table
      * @return array
      */
@@ -56,33 +59,35 @@ class Comment extends Model//\Application\Manager\Manager
 
                 'post_id'=>[
                     'index' => 'postId',
-                    'type'     => 'integer'],
+                    'type'     => 'integer',
+                    'condition' => ''],
 
                 'comment_text' =>[
                     'index' =>'commentText',
-                    'type'     => 'string'],
+                    'type'     => 'string',
+                    'condition' => 'not null'],
 
                 'update_date' =>[
                     'index' =>'updateDate',
-                    'type'     => 'datetime']
+                    'type'     => 'datetime',
+                    'condition' => '']
             ]];
     }
 
     /**
-     * @param $model
-     * @param $database
-     * @return CommentManager|mixed
+     * @return mixed
      */
     public static function getManager()
     {
-        return self::getColumn()['manager'];
+        return self::getColumn()['manager'] ;
 
     }
 
 
-    /** Hydratation de la class par la méthode magique SET
+    /**Hydratation de la class par la méthode magique SET
      * @param $key
      * @param $value
+     * @throws \Application\Controller\ControllerException
      */
     public function __set($key, $value)
     {

@@ -9,6 +9,10 @@
 namespace Framework\Router;
 
 
+/**
+ * Class Route
+ * @package Framework\Router
+ */
 class Route
 {
     private $path;
@@ -95,5 +99,4 @@ class Route
     {
         return $this->callable;
     }
-
 }
