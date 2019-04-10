@@ -10,6 +10,7 @@ namespace Application\Model;
 
 
 use Application\Manager\CommentManager;
+use Framework\Model;
 
 
 /**
@@ -18,7 +19,6 @@ use Application\Manager\CommentManager;
  */
 class Comment extends Model
 {
-
     /**
      * @var
      */
@@ -60,17 +60,17 @@ class Comment extends Model
                 'post_id'=>[
                     'index' => 'postId',
                     'type'     => 'integer',
-                    'condition' => ''],
+                    'condition' => ['not null']],
 
                 'comment_text' =>[
                     'index' =>'commentText',
                     'type'     => 'string',
-                    'condition' => 'not null'],
+                    'condition' => ['not null', 'max char 20']],
 
                 'update_date' =>[
                     'index' =>'updateDate',
                     'type'     => 'datetime',
-                    'condition' => '']
+                    'condition' => []]
             ]];
     }
 

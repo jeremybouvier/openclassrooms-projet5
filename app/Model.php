@@ -6,11 +6,10 @@
  * Time: 21:27
  */
 
-namespace Application\Model;
+namespace Framework;
 
 
 use Application\Controller\ControllerException;
-
 
 /**
  * Class Model
@@ -31,59 +30,51 @@ abstract class Model
 
     /**
      * @param array $data
-     * @throws ControllerException
+     * @return mixed
      */
     public function hydrate(array $data)
     {
-
-            foreach ($data as $key => $value) {
-
-                $indexTable = $this->getColumnIndex($key);
-                if ($indexTable == 'id'){
-                    $this->setPrimaryKey($value);
-                }
-                else{
-                    if($this->validation($value, $key)){
-                        $type = $this::getColumn()['column'][$indexTable]['type'];
-                        $method = 'set' . ucfirst($this::getColumn()['column'][$indexTable]['index']);
-                        if (method_exists($this, $method)) {
-                            $this->$method($this->formatData($value, $type));
-                        }
-                    }
-
-                }
+        foreach ($data as $key => $value) {
+            $indexTable = $this->getColumnIndex($key);
+            if ($indexTable == 'id'){
+                $this->setPrimaryKey($value);
             }
+            else{
+                $error = $this->validation($value, $key);
+                $type = $this::getColumn()['column'][$indexTable]['type'];
+                $method = 'set' . ucfirst($this::getColumn()['column'][$indexTable]['index']);
+                if (method_exists($this, $method)) {
+                    $this->$method($this->formatData($value, $type));
+                }
+
+            }
+        }
+        return $error;
     }
 
     /**Permet de déterminer si la valeur remplie la conditions du champs de la table
      * @param $value
      * @param $key
-     * @return bool
-     * @throws ControllerException
+     * @return mixed
      */
     public function validation($value, $key)
     {
 
         $indexTable = $this->getColumnIndex($key);
-        switch ($this::getColumn()['column'][$indexTable]['condition']){
-            case 'not null':
-                if ($value != null){
-                    return true;
-                }
-                throw new ControllerException($key, 0);
-
-            case 'max char 20':
-                if (strlen($value) < 20){
-                    return true;
-                }
-                throw new ControllerException($key, 1);
-
-                break;
-            case '':
-                return true;
-                break;
+        foreach ( $this::getColumn()['column'][$indexTable]['condition'] as $condition) {
+            switch ($condition){
+                case 'not null':
+                    if ($value == null){
+                        return [$key => 'Merci de remplir ce champ'];
+                    }
+                    break;
+                case 'max char 20':
+                    if (strlen($value) > 20){
+                        return [$key => 'Max 20 charactères '];
+                    }
+                    break;
+            }
         }
-
     }
 
     /**Formate les données dans le type correspondant à la colonne
@@ -93,7 +84,6 @@ abstract class Model
      */
     protected function formatData($columnData, $type)
     {
-
         switch ($type){
             case 'integer':
                 return (int)$columnData;
@@ -104,10 +94,13 @@ abstract class Model
             case 'datetime' :
                 return $columnData;
                 break;
-
         }
     }
 
+    /**Permet de récupérer l'index de la colonne associé à la variable
+     * @param $variable
+     * @return int|string
+     */
     public function getColumnIndex($variable)
     {
         foreach ($this::getColumn()['column'] as $key => $value)
@@ -128,6 +121,9 @@ abstract class Model
         return $this->$method();
     }
 
+    /**
+     * @return mixed
+     */
     public function getPrimaryKey()
     {
         $primaryKey = $this::getColumn()['primaryKey']['index'];
@@ -135,6 +131,9 @@ abstract class Model
         return $method();
     }
 
+    /**
+     * @param $value
+     */
     public function setPrimaryKey($value)
     {
         $primaryKey = $this::getColumn()['primaryKey']['index'];

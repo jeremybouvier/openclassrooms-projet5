@@ -9,18 +9,24 @@
 namespace Application\Controller;
 
 
+/**
+ * Class ControllerException
+ * @package Application\Controller
+ */
 class ControllerException extends \Exception
 {
-
+    /**renvoi le message correspondant au code de l'erreur
+     * @return string
+     */
     public function getUserMessage()
     {
         switch ($this->getCode())
         {
             case '0':
-                return 'Merci de remplir ce champ';
+                return ;
                 break;
             case '1':
-                return 'Maximum 20 charactère ';
+                return ;
                 break;
         }
     }

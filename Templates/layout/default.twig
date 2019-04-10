@@ -1,63 +1,140 @@
-
 <!doctype html>
 <html lang="en">
 <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
-
-    <title>Mon blog</title>
-
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <!-- Custom styles for this template -->
-    <link href="starter-template.css" rel="stylesheet">
+    <link rel="icon" href="../Templates/img/favicon.png" type="image/png">
+    <title>BOUVIER Jérémy Blog</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../Templates/css/bootstrap.css">
+    <link rel="stylesheet" href="../Templates/vendors/linericon/style.css">
+    <link rel="stylesheet" href="../Templates/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../Templates/vendors/owl-carousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="../Templates/vendors/lightbox/simpleLightbox.css">
+    <link rel="stylesheet" href="../Templates/vendors/nice-select/css/nice-select.css">
+    <link rel="stylesheet" href="../Templates/vendors/animate-css/animate.css">
+    <link rel="stylesheet" href="../Templates/vendors/popup/magnific-popup.css">
+    <link rel="stylesheet" href="../Templates/vendors/flaticon/flaticon.css">
+    <!-- main css -->
+    <link rel="stylesheet" href="../Templates/css/style.css">
+    <link rel="stylesheet" href="../Templates/css/responsive.css">
 </head>
-
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#"></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<!--================Header Menu Area =================-->
+<header class="header_area">
+    <div class="main_menu">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container box_1620">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <a class="navbar-brand logo_h" href="/home"><img src="../Templates/img/logo.png" alt=""></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav menu_nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="/home">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/listpost">BLOG</a></li>
 
-    <div class="collapse navbar-collapse " id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="../home">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../listPost"> Posts</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="../contact">Contact</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="../admin">Contact</a>
-            </li>
 
-        </ul>
-
+                        <li class="nav-item submenu dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Blog Details</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </div>
-</nav>
+</header>
+<!--================Header Menu Area =================-->
 
-<main role="main" class="container">
-
-    <div class="row" style="padding-top: 100px;">
-
-
-
-        {% block content %}{%endblock%}
+{% block content %}{% endblock %}
 
 
 
+
+
+<!--================Footer Area =================-->
+<footer class="footer_area p_120">
+    <div class="container">
+        <div class="row footer_inner">
+            <div class="col-lg-5 col-sm-6">
+                <aside class="f_widget ab_widget">
+                    <div class="f_title">
+                        <h3>About Me</h3>
+                    </div>
+                    <p>Do you want to be even more successful? Learn to love learning and growth. The more effort you put into improving your skills,</p>
+                    <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                </aside>
+            </div>
+            <div class="col-lg-5 col-sm-6">
+                <aside class="f_widget news_widget">
+                    <div class="f_title">
+                        <h3>Newsletter</h3>
+                    </div>
+                    <p>Stay updated with our latest trends</p>
+                    <div id="mc_embed_signup">
+                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscribe_form relative">
+                            <div class="input-group d-flex flex-row">
+                                <input name="EMAIL" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
+                                <button class="btn sub-btn"><span class="lnr lnr-arrow-right"></span></button>
+                            </div>
+                            <div class="mt-10 info"></div>
+                        </form>
+                    </div>
+                </aside>
+            </div>
+            <div class="col-lg-2">
+                <aside class="f_widget social_widget">
+                    <div class="f_title">
+                        <h3>Follow Me</h3>
+                    </div>
+                    <p>Let us be social</p>
+                    <ul class="list">
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                        <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                    </ul>
+                </aside>
+            </div>
+        </div>
     </div>
+</footer>
+<!--================End Footer Area =================-->
 
-</main>
 
+
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="../Templates/js/jquery-3.3.1.min.js"></script>
+<script src="../Templates/js/popper.js"></script>
+<script src="../Templates/js/bootstrap.min.js"></script>
+<script src="../Templates/js/stellar.js"></script>
+<script src="../Templates/vendors/lightbox/simpleLightbox.min.js"></script>
+<script src="../Templates/vendors/nice-select/js/jquery.nice-select.min.js"></script>
+<script src="../Templates/vendors/isotope/imagesloaded.pkgd.min.js"></script>
+<script src="../Templates/vendors/isotope/isotope.pkgd.min.js"></script>
+<script src="../Templates/vendors/owl-carousel/owl.carousel.min.js"></script>
+<script src="../Templates/vendors/popup/jquery.magnific-popup.min.js"></script>
+<script src="../Templates/js/jquery.ajaxchimp.min.js"></script>
+<script src="../Templates/vendors/counter-up/jquery.waypoints.min.js"></script>
+<script src="../Templates/vendors/counter-up/jquery.counterup.min.js"></script>
+<script src="../Templates/js/mail-script.js"></script>
+<script src="../Templates/js/theme.js"></script>
 </body>
 </html>

@@ -10,6 +10,7 @@ namespace Application\Model;
 
 
 use Application\Manager\PostManager;
+use Framework\Model;
 
 /**
  * Class Post
@@ -52,10 +53,10 @@ class Post extends Model
      */
     private $previewText;
 
-
     /** Hydratation de la class par la méthode magique SET
      * @param $key
      * @param $value
+     * @throws \Application\Controller\ControllerException
      */
     public function __set($key, $value)
     {
@@ -82,32 +83,32 @@ class Post extends Model
                 'category_id'=>[
                     'index' => 'categoryId',
                     'type'     => 'integer',
-                    'condition' => ''],
+                    'condition' => ['not null']],
 
                 'title' =>[
                     'index' =>'title',
                     'type'     => 'string',
-                    'condition' => ''],
+                    'condition' => ['not null', 'max char 20']],
 
                 'content' =>[
                     'index' =>'content',
                     'type'     => 'string',
-                    'condition' => ''],
+                    'condition' => ['not null']],
 
                 'user_id' =>[
                     'index' =>'userId',
                     'type'     => 'integer',
-                    'condition' => ''],
+                    'condition' => ['not null']],
 
                 'update_date' =>[
                     'index' =>'updateDate',
                     'type'     => 'datetime',
-                    'condition' => ''],
+                    'condition' => []],
 
                 'preview_text' =>[
                     'index' =>'previewText',
                     'type'     => 'string',
-                    'condition' => ''],
+                    'condition' => ['not null']]
             ]];
     }
 

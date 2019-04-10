@@ -9,10 +9,12 @@
 namespace Application\Controller;
 
 
+use Application\Model\Category;
 use Application\Model\Post;
 use Application\Model\Comment;
+use Application\Model\User;
 use Framework\Controller;
-use Application\Controller\ControllerException;
+
 
 /**
  * Class PostController
@@ -20,7 +22,7 @@ use Application\Controller\ControllerException;
  */
 class PostController extends Controller
 {
-
+    private $displayError;
     /**Permet de récupérer les Posts et les affiches
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
@@ -41,54 +43,63 @@ class PostController extends Controller
      */
     public function getSinglePost($id)
     {
-        try
-        {
             if ($this->request->getRequest()->getMethod() == "POST") {
                 $comment = new Comment();
-                $comment->hydrate($this->request->getPost());
+                $this->displayError = $comment->hydrate($this->request->getPost());
                 $comment->setPostId($id);
                 $comment->setUpdateDate(date("Y-m-d H:i:s"));
-                $this->getManager(Comment::class, $this->database)->insert($comment);
-                return $this->redirect('onePostPage', 301, [$id]);
+                if ($this->displayError == null){
+                    $this->getManager(Comment::class, $this->database)->insert($comment);
+                }
+
             }
+
             $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
             $comment = $this->getManager( Comment::class)
                 ->fetchAll(['post_id'=>$id], ['update_date'], 10, 0);
-            $data =  ['Post'=>$post, 'Comment'=> $comment];
+            $category = $this->getManager(Category::class)->fetch(['id' => $post->getCategoryId()]);
+            $user = $this->getManager(User::class)->fetch(['id' => $post->getUserId()]);
+            $categoryList = $this->getManager(Category::class)->getAll();
+            $data =  [  'Post'=>$post,
+                        'Comment'=> $comment,
+                        'User' => $user,
+                        'Category' => $category,
+                        'CategoryList' => $categoryList,
+                        'displayError' => $this->displayError];
 
-            $response = $this->render('post.twig', $data);
-            return $response;
-        }
-        catch (ControllerException $e) {
-            $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
-            $comment = $this->getManager( Comment::class)
-                ->fetchAll(['post_id'=>$id], ['update_date'], 10, 0);
-            $data =  ['Post'=>$post, 'Comment'=> $comment, 'messageException'=> [$e->getMessage() => $e->getUserMessage()] ];
-
-            $response = $this->render('post.twig', $data);
-            return $response;
-
-        }
-
-
-
+            return $this->render('post.twig', $data);
     }
 
-
-
     /**Permet d'ajouter un nouveau post
-     * @return mixed
+     * @param $id
+     * @return string|\Zend\Diactoros\Response\RedirectResponse
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
-    public function addPost()
+    public function updatePost($id)
     {
-        $result = $this->request->getPost();
-        $post = new Post();
-        $post->hydrate($result);
-        $post->setUserId('1');
-        $post->setUpdateDate(date("Y-m-d H:i:s"));
-        $this->getManager(Post::class)->insert();
-        $response = $this->route->redirect('createPost',302);
-        return $response;
+        if ($this->request->getRequest()->getMethod() == "POST"){
+            $post = new Post();
+            $post->hydrate($this->request->getPost());
+            $post->setUpdateDate(date("Y-m-d H:i:s"));
+            $this->getManager(Post::class)->update($post, ['id' => $id]);
+            return $this->redirect('postsPage',302);
+        }
+        else{
+            $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
+            $category = $this->getManager( Category::class)->fetch(['id'=>$post->getCategoryId()]);
+            $user = $this->getManager( User::class)->fetch(['id'=>$post->getUserId()]);
+            $categoryList = $this->getManager(Category::class)->getAll();
+            $userList = $this->getManager(User::class)->getAll();
+            $data =  [  'Post'=> $post,
+                'Category' => $category,
+                'CategoryList' => $categoryList,
+                'User' => $user,
+                'UserList' => $userList];
+            $response = $this->render('updatePost.twig', $data);
+            return $response;
+        }
     }
 
     /**Permet de supprimer un post

@@ -86,7 +86,7 @@ abstract class Manager
     }
 
     /**Permet d'inserer un lot de donnée dans une table
-     * @return null
+     * @param $model
      */
     public function insert($model)
     {
@@ -104,6 +104,7 @@ abstract class Manager
     }
 
     /**Permet de mettre à jour un lot de donnée dans une table
+     * @param $model
      * @param $filters
      */
     public function update($model, $filters)
@@ -138,7 +139,7 @@ abstract class Manager
      * @param array $filters
      * @return string
      */
-    private function where($filters = [])
+    protected function where($filters = [])
     {
         if (!empty($filters)){
             $string = '';
@@ -155,7 +156,7 @@ abstract class Manager
      * @param array $orderkeys
      * @return string
      */
-    private function order($orderkeys = [])
+    protected function order($orderkeys = [])
     {
         if (isset($orderkeys)){
             $string = '';
@@ -172,7 +173,7 @@ abstract class Manager
      * @param $start
      * @return string
      */
-    private function limit($length, $start)
+    protected function limit($length, $start)
     {
         if ($length !== null){
             if ($start !== null){

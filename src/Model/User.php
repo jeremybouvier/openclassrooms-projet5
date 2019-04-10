@@ -6,10 +6,13 @@
  * Time: 21:34
  */
 
-namespace app;
+namespace Application\Model;
 
 
-class User
+use Application\Manager\UserManager;
+use Framework\Model;
+
+class User extends Model
 {
     private $id;
     private $roleId;
@@ -20,19 +23,63 @@ class User
     private $password;
 
 
-    /**
-     * @param mixed $data
-     */
-    public function hydrate(array $data)
-
+    public static function getColumn()
     {
-        foreach ($data as $key => $value) {
-            $method = 'set' . ucfirst($key);
+        return [
+            'table' => 'user',
 
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
+            'manager'=>UserManager::class,
+
+            'primaryKey'=> [
+                'index' => 'id',
+                'type'     => 'integer'],
+
+            'column'=> [
+
+                'role_id'=>[
+                    'index' => 'roleId',
+                    'type'     => 'integer',
+                    'condition' => ['not null']],
+                'surname'=>[
+                    'index' => 'surname',
+                    'type'     => 'string',
+                    'condition' => ['not null']],
+                'first_name'=>[
+                    'index' => 'firstname',
+                    'type'     => 'string',
+                    'condition' => ['not null']],
+                'email'=>[
+                    'index' => 'email',
+                    'type'     => 'string',
+                    'condition' => ['not null']],
+                'login_name'=>[
+                    'index' => 'loginName',
+                    'type'     => 'string',
+                    'condition' => ['not null', 'max char 20']],
+                'password'=>[
+                    'index' => 'password',
+                    'type'     => 'string',
+                    'condition' => ['not null']]
+            ]];
+    }
+
+    /** Hydratation de la class par la méthode magique SET
+     * @param $key
+     * @param $value
+     * @throws \Application\Controller\ControllerException
+     */
+    public function __set($key, $value)
+    {
+        $data[$this::getColumn()['column'][$key]['index']] = $value;
+        $this->hydrate($data);
+    }
+
+    /**
+     * @return PostManager|mixed
+     */
+    public static function getManager()
+    {
+        return self::getColumn()['manager'];
     }
 
     /**
