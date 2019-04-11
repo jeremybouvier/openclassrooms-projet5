@@ -1,0 +1,50 @@
+{% block postForm %}
+
+    <form method="post" >
+
+        <div class="form-group">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text bg-light" for="userId">
+                        Auteur :
+                    </label>
+                </div>
+                <select class="custom-select" id="userId" name="userId">
+                    <option selected value="{{ User.id }}">{{ User.firstname }} {{ User.surname }} </option>
+                    {% for users in UserList %}
+                        <option value="{{ users.id }}">{{ users.firstname }} {{ users.surname }}</option>
+                    {%  endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text bg-light" for="categoryId">Categorie : </label>
+                </div>
+                <select class="custom-select" id="categoryId" name="categoryId">
+                    <option selected value="{{ Category.id }}">{{ Category.name }}</option>
+                    {% for categories in CategoryList %}
+                        <option value="{{ categories.id }}">{{ categories.name }}</option>
+                    {%  endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="title">Titre : <span class="text-danger">{{ displayError.title }}</span></label>
+            <input type="text" class="form-control" id="title" name="title" value="{{Post.title}}">
+        </div>
+
+        <div class="form-group">
+            <label for="content">Contenu du post : <span class="text-danger">{{ displayError.content }}</span></label>
+            <textarea class="form-control" id="content" name="content" rows="20">{{Post.content}}</textarea>
+        </div>
+        <div class="d-flex justify-content-end">
+            <input type="submit" class="primary-btn submit_btn" value="Publier l'article" >
+        </div>
+
+    </form>
+
+{% endblock %}

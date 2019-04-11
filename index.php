@@ -24,6 +24,7 @@ $router->setRoute('home','home', "Home#index");
 $router->setRoute('postsPage','listPost', "Post#getAllPost");
 $router->setRoute('onePostPage', 'post/:id', "Post#getSinglePost");
 $router->setRoute('updatePostPage', 'updatePost/:id', "Post#updatePost");
+$router->setRoute('administrationPage','admin', "Admin#index");
 
 $router->setRoute('deleteComment','deleteComment/:id/:idComment', "Comment#deleteComment");
 $router->setRoute('test','test', "Test#test");

@@ -22,7 +22,7 @@ use Framework\Controller;
  */
 class PostController extends Controller
 {
-    private $displayError;
+    private $displayError ;
     /**Permet de récupérer les Posts et les affiches
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
@@ -48,7 +48,8 @@ class PostController extends Controller
                 $this->displayError = $comment->hydrate($this->request->getPost());
                 $comment->setPostId($id);
                 $comment->setUpdateDate(date("Y-m-d H:i:s"));
-                if ($this->displayError == null){
+
+                if ($this->checkError() == false){
                     $this->getManager(Comment::class, $this->database)->insert($comment);
                 }
 
@@ -79,27 +80,32 @@ class PostController extends Controller
      */
     public function updatePost($id)
     {
+        $post = null;
         if ($this->request->getRequest()->getMethod() == "POST"){
             $post = new Post();
-            $post->hydrate($this->request->getPost());
+            $this->displayError = $post->hydrate($this->request->getPost());
             $post->setUpdateDate(date("Y-m-d H:i:s"));
-            $this->getManager(Post::class)->update($post, ['id' => $id]);
-            return $this->redirect('postsPage',302);
+            if ($this->checkError() == false){
+                $this->getManager(Post::class)->update($post, ['id' => $id]);
+            }
+
         }
-        else{
+        if ($post == null){
             $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
-            $category = $this->getManager( Category::class)->fetch(['id'=>$post->getCategoryId()]);
-            $user = $this->getManager( User::class)->fetch(['id'=>$post->getUserId()]);
-            $categoryList = $this->getManager(Category::class)->getAll();
-            $userList = $this->getManager(User::class)->getAll();
-            $data =  [  'Post'=> $post,
-                'Category' => $category,
-                'CategoryList' => $categoryList,
-                'User' => $user,
-                'UserList' => $userList];
-            $response = $this->render('updatePost.twig', $data);
-            return $response;
         }
+
+        $category = $this->getManager( Category::class)->fetch(['id'=>$post->getCategoryId()]);
+        $user = $this->getManager( User::class)->fetch(['id'=>$post->getUserId()]);
+        $categoryList = $this->getManager(Category::class)->getAll();
+        $userList = $this->getManager(User::class)->getAll();
+        $data =  [  'Post'=> $post,
+            'Category' => $category,
+            'CategoryList' => $categoryList,
+            'User' => $user,
+            'UserList' => $userList,
+            'displayError' => $this->displayError];
+        $response = $this->render('updatePost.twig', $data);
+        return $response;
     }
 
     /**Permet de supprimer un post
@@ -112,4 +118,19 @@ class PostController extends Controller
         $response = $this->route->redirect('postsPage',302);
         return $response;
     }
+
+    /**verifie la presence d'erreurs
+     * @param $displayError
+     * @return bool
+     */
+    private function checkError()
+    {
+        foreach ($this->displayError as $key => $value) {
+            if ($value !== null ){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

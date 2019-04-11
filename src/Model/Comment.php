@@ -39,6 +39,11 @@ class Comment extends Model
      */
     private $updateDate;
 
+    /**
+     * @var
+     */
+    private $author;
+
 
 
     /**Fournit les index de la table
@@ -65,12 +70,16 @@ class Comment extends Model
                 'comment_text' =>[
                     'index' =>'commentText',
                     'type'     => 'string',
-                    'condition' => ['not null', 'max char 20']],
+                    'condition' => ['not null']],
 
                 'update_date' =>[
                     'index' =>'updateDate',
                     'type'     => 'datetime',
-                    'condition' => []]
+                    'condition' => []],
+                'author' =>[
+                    'index' =>'author',
+                    'type'     => 'string',
+                    'condition' => ['not null', 'max char 20']]
             ]];
     }
 
@@ -128,6 +137,14 @@ class Comment extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    /**
      * @param mixed $id
      */
     public function setId($id)
@@ -158,6 +175,14 @@ class Comment extends Model
     public function setUpdateDate($updateDate): void
     {
         $this->updateDate = $updateDate;
+    }
+
+    /**
+     * @param mixed $author
+     */
+    public function setAuthor($author): void
+    {
+        $this->author = $author;
     }
 
 

@@ -40,15 +40,15 @@ abstract class Model
                 $this->setPrimaryKey($value);
             }
             else{
-                $error = $this->validation($value, $key);
+                $error[$key] = $this->validation($value, $key);
                 $type = $this::getColumn()['column'][$indexTable]['type'];
                 $method = 'set' . ucfirst($this::getColumn()['column'][$indexTable]['index']);
                 if (method_exists($this, $method)) {
                     $this->$method($this->formatData($value, $type));
                 }
-
             }
         }
+
         return $error;
     }
 
@@ -65,12 +65,12 @@ abstract class Model
             switch ($condition){
                 case 'not null':
                     if ($value == null){
-                        return [$key => 'Merci de remplir ce champ'];
+                        return 'Merci de remplir ce champ';
                     }
                     break;
                 case 'max char 20':
                     if (strlen($value) > 20){
-                        return [$key => 'Max 20 charactères '];
+                        return 'Max 20 charactères ';
                     }
                     break;
             }
