@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: jeremy
- * Date: 18/03/19
- * Time: 13:54
+ * Date: 13/04/19
+ * Time: 14:28
  */
 
 namespace Application\Controller;
@@ -18,23 +18,6 @@ use Framework\Controller;
  */
 class CommentController extends Controller
 {
-    /**récupère tous les commentaires d'un post
-     * @param $id
-     * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
-    public function getAllComment($id)
-    {
-        $commentManager = $this->getManager( Comment::class, $this->database)->fetchAll(
-            ['post_id'=>$id],
-            ['update_date'],
-            10, 0);
-        $response = $this->render('post.twig', ['Comment'=> $commentManager]);
-        return $response;
-    }
-
     /**Permet de supprimer un commentaire
      * @param $id
      * @param $idComment
@@ -43,7 +26,8 @@ class CommentController extends Controller
     public function deleteComment($id,$idComment)
     {
         $this->getManager(Comment::class, $this->database)->delete(['id'=>$idComment], $this->database);
-        $response = $this->redirect('onePostPage', 301, [$id]);
+        $response = $this->redirect('onePostPage', 302, [$id]);
         return $response;
     }
 }
+

@@ -73,6 +73,11 @@ abstract class Model
                         return 'Max 20 charactères ';
                     }
                     break;
+                case 'max char 250':
+                    if (strlen($value) > 250){
+                        return 'Max 250 charactères ';
+                    }
+                    break;
             }
         }
     }
@@ -93,6 +98,13 @@ abstract class Model
                 break;
             case 'datetime' :
                 return $columnData;
+                break;
+            case 'boolean':
+                if ($columnData == 0 or $columnData == 1){
+                    return $columnData;
+                }
+
+                return  $columnData = 0;
                 break;
         }
     }
@@ -128,7 +140,7 @@ abstract class Model
     {
         $primaryKey = $this::getColumn()['primaryKey']['index'];
         $method = 'get' . ucfirst($primaryKey);
-        return $method();
+        return $this->$method();
     }
 
     /**

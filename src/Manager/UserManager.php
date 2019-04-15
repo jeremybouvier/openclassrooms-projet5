@@ -26,4 +26,18 @@ class UserManager extends Manager
         return $data;
     }
 
+    /**Permet de récupérer un lot de donnée d'une table correspondant aux critères
+     * @param $filters
+     * @return mixed
+     */
+    public function getOneBy($filters)
+    {
+        $statement = 'SELECT * FROM ' . $this->table . $this->where($filters) . ' LIMIT 0,1';
+        $req = $this->database->getPDO()->prepare($statement);
+        $req->execute($filters);
+        $req->setFetchMode(\PDO::FETCH_CLASS, get_class($this->model));
+        $data = $req->fetch();
+        return $data;
+    }
+
 }

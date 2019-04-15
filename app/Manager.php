@@ -85,6 +85,15 @@ abstract class Manager
         return $data;
     }
 
+    public function edit($model, $filter){
+        if($model->getPrimaryKey()) {
+            $this->update($model, $filter);
+        }else{
+            $this->insert($model);
+        }
+
+    }
+
     /**Permet d'inserer un lot de donnée dans une table
      * @param $model
      */

@@ -44,6 +44,11 @@ class Comment extends Model
      */
     private $author;
 
+    /**
+     * @var
+     */
+    private $validation = 0;
+
 
 
     /**Fournit les index de la table
@@ -70,7 +75,7 @@ class Comment extends Model
                 'comment_text' =>[
                     'index' =>'commentText',
                     'type'     => 'string',
-                    'condition' => ['not null']],
+                    'condition' => ['not null', 'max char 250']],
 
                 'update_date' =>[
                     'index' =>'updateDate',
@@ -79,7 +84,11 @@ class Comment extends Model
                 'author' =>[
                     'index' =>'author',
                     'type'     => 'string',
-                    'condition' => ['not null', 'max char 20']]
+                    'condition' => ['not null', 'max char 20']],
+                'validation' =>[
+                    'index' =>'validation',
+                    'type'     => 'boolean',
+                    'condition' => ['not null']]
             ]];
     }
 
@@ -145,6 +154,14 @@ class Comment extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function getValidation()
+    {
+        return $this->validation;
+    }
+
+    /**
      * @param mixed $id
      */
     public function setId($id)
@@ -172,7 +189,7 @@ class Comment extends Model
     /**
      * @param mixed $updateDate
      */
-    public function setUpdateDate($updateDate): void
+    public function setUpdateDate($updateDate)
     {
         $this->updateDate = $updateDate;
     }
@@ -180,9 +197,17 @@ class Comment extends Model
     /**
      * @param mixed $author
      */
-    public function setAuthor($author): void
+    public function setAuthor($author)
     {
         $this->author = $author;
+    }
+
+    /**
+     * @param mixed $validation
+     */
+    public function setValidation($validation)
+    {
+        $this->validation = $validation;
     }
 
 

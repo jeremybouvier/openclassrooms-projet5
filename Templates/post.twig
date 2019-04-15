@@ -41,7 +41,6 @@
                                         <li><a href="#">{{ User.firstname }} {{ User.surname }}<i class="lnr lnr-user"></i></a></li>
                                         <li><a href="#">{{ Post.updateDate }}<i class="lnr lnr-calendar-full"></i></a></li>
                                         <li><a href="#">Comments<i class="lnr lnr-bubble"></i></a></li>
-                                        <li><a href="/updatePost/{{ Post.id }}">modifier  <i class="lnr lnr-pencil"></i></a></li>
                                     </ul>
                                     <ul class="social-links">
                                         <li><a href="http://facebook.com/jeremy.bouvier.522"><i class="fa fa-facebook"></i></a></li>
@@ -73,9 +72,6 @@
                                             <p class="date">Le : {{ comments.updatedate }}</p>
                                             <p class="comment">
                                                 {{ comments.commenttext }}
-                                                <a href="../deleteComment/{{ Post.id }}/{{ comments.id }}">
-                                                    Supprimer {{ comments.id }}
-                                                </a>
                                             </p>
                                         </div>
                                     </div>

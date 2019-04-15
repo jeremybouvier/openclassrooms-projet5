@@ -51,13 +51,15 @@ class PostController extends Controller
 
                 if ($this->checkError() == false){
                     $this->getManager(Comment::class, $this->database)->insert($comment);
+                    return $this->redirect('onePostPage', 302, ['id' => $id]);
                 }
+
 
             }
 
             $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
             $comment = $this->getManager( Comment::class)
-                ->fetchAll(['post_id'=>$id], ['update_date'], 10, 0);
+                ->fetchAll(['post_id'=>$id, 'validation'=> 1], ['update_date'], 10, 0);
             $category = $this->getManager(Category::class)->fetch(['id' => $post->getCategoryId()]);
             $user = $this->getManager(User::class)->fetch(['id' => $post->getUserId()]);
             $categoryList = $this->getManager(Category::class)->getAll();
@@ -71,31 +73,37 @@ class PostController extends Controller
             return $this->render('post.twig', $data);
     }
 
-    /**Permet d'ajouter un nouveau post
+    /**Permet d'editer un nouveau post
      * @param $id
      * @return string|\Zend\Diactoros\Response\RedirectResponse
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function updatePost($id)
+    public function editPost($id = null)
     {
         $post = null;
+        $category = null;
+        $user = null;
         if ($this->request->getRequest()->getMethod() == "POST"){
             $post = new Post();
             $this->displayError = $post->hydrate($this->request->getPost());
             $post->setUpdateDate(date("Y-m-d H:i:s"));
             if ($this->checkError() == false){
-                $this->getManager(Post::class)->update($post, ['id' => $id]);
+                $this->getManager(Post::class)->edit($post, ['id' => $id]);
+                return $this->redirect('administrationPage', 302);
             }
 
         }
-        if ($post == null){
-            $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
+
+        if ($id !== null){
+            if ($post == null){
+                $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
+            }
+            $category = $this->getManager( Category::class)->fetch(['id'=>$post->getCategoryId()]);
+            $user = $this->getManager( User::class)->fetch(['id'=>$post->getUserId()]);
         }
 
-        $category = $this->getManager( Category::class)->fetch(['id'=>$post->getCategoryId()]);
-        $user = $this->getManager( User::class)->fetch(['id'=>$post->getUserId()]);
         $categoryList = $this->getManager(Category::class)->getAll();
         $userList = $this->getManager(User::class)->getAll();
         $data =  [  'Post'=> $post,
@@ -104,7 +112,7 @@ class PostController extends Controller
             'User' => $user,
             'UserList' => $userList,
             'displayError' => $this->displayError];
-        $response = $this->render('updatePost.twig', $data);
+        $response = $this->render('editPost.twig', $data);
         return $response;
     }
 
@@ -114,7 +122,7 @@ class PostController extends Controller
      */
     public function deletePost($id)
     {
-        $this->database->getManager(Post::class)->delete(['id'=>$id], $this->database);
+        $this->database->getManager(Post::class)->delete(['id'=>$id]);
         $response = $this->route->redirect('postsPage',302);
         return $response;
     }

@@ -96,7 +96,4 @@ class Router
         }
         throw new RouterException('no route name specify');
     }
-
-
-
 }

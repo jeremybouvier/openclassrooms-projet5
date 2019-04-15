@@ -23,11 +23,12 @@ $router->setRoute('welcome','/', "Welcome#index");
 $router->setRoute('home','home', "Home#index");
 $router->setRoute('postsPage','listPost', "Post#getAllPost");
 $router->setRoute('onePostPage', 'post/:id', "Post#getSinglePost");
-$router->setRoute('updatePostPage', 'updatePost/:id', "Post#updatePost");
-$router->setRoute('administrationPage','admin', "Admin#index");
-
+$router->setRoute('editPostPage', 'editPost/:id', "Post#editPost");
+$router->setRoute('loginPage','login', "Login#checkPassword");
+$router->setRoute('administrationPage','admin', "Admin#dashboard");
 $router->setRoute('deleteComment','deleteComment/:id/:idComment', "Comment#deleteComment");
-$router->setRoute('test','test', "Test#test");
+
+
 $response = $router->run($router);
 
 $emitter = new SapiEmitter();
