@@ -1,5 +1,7 @@
+
 {% extends '/layout/default.twig'%}
     {% block content %}
+
         <!--================Home Banner Area =================-->
         <section class="banner_area">
             <div class="box_1620">
@@ -30,9 +32,9 @@
                             <form method="post">
                                 <div class="form-group">
                                     <label for="user">
-                                        Nom d'utilisateur : <span class="text-danger">{{ displayError.login }}</span>
+                                        Nom d'utilisateur : <span class="text-danger">{{ displayError.loginName }}</span>
                                     </label>
-                                    <input type="text" class="form-control" id="user" name="user">
+                                    <input type="text" class="form-control" id="user" name="loginName">
                                 </div>
 
                                 <div class="form-group">

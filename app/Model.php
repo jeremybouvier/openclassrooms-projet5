@@ -9,8 +9,6 @@
 namespace Framework;
 
 
-use Application\Controller\ControllerException;
-
 /**
  * Class Model
  * @package Application\Model
@@ -66,6 +64,11 @@ abstract class Model
                 case 'not null':
                     if ($value == null){
                         return 'Merci de remplir ce champ';
+                    }
+                    break;
+                case 'max char 8':
+                    if (strlen($value) > 8){
+                        return 'Max 8 charactères ';
                     }
                     break;
                 case 'max char 20':

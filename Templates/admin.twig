@@ -24,8 +24,56 @@
         <section class="home_banner_area">
 
             <div class="container box_1620" >
-                <section class="row d-flex justify-content-center">
+                <section class="row d-flex justify-content-center mt-5 mb-5">
+                    <div class="col-12" >
+                        <h1 class="mb-30 title_color text-center">UTILISATEURS</h1>
+                        <div class="progress-table-wrap">
+                            <div class="progress-table">
+                                <div class="table-head">
+                                    <div class="country">Nom</div>
+                                    <div class="percentage">email</div>
+                                    <div class="country">login</div>
+                                    <div class="serial"></div>
+                                    <div class="serial"></div>
+                                </div>
+                                {% for users in User %}
+                                    <div class="table-row">
+                                        <div class="country">{{ users.surname }} {{ users.firstname }}</div>
+                                        <div class="percentage">{{ users.email }}</div>
+                                        <div class="country">{{ users.loginName }}</div>
+                                        <div class="serial mr-3" >
+                                            <form method="post" >
+                                                <input type="hidden" name="updateUser" value="{{ users.id }}">
+                                                <button type="submit" class="admin_btn p-0 bg-white text-primary" >
+                                                    <span class="lnr lnr-pencil"></span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <div class="serial">
+                                            <form method="post" >
+                                                <input type="hidden" name="deleteUser" value="{{ users.id }}">
+                                                <button type="submit" class="admin_btn p-0 bg-white text-primary">
+                                                    <span class="lnr lnr-trash"></span>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div class="table-row d-flex justify-content-end">
+                                    <form method="post">
+                                        <input type="hidden" name="createUser">
+                                        <button type="submit" class="btn-primary submit_btn">
+                                            Ajouter un utilistaeur
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="row d-flex justify-content-center mb-5">
                     <div class="section-top-border">
+                        {{ session.Auth }}
                         <h1 class="mb-30 title_color text-center">ARTICLES</h1>
                         <div class="progress-table-wrap">
                             <div class="progress-table">
@@ -61,7 +109,7 @@
                                 {% endfor %}
                                 <div class="table-row d-flex justify-content-end">
                                     <form method="post">
-                                        <input type="hidden" name="createPost" value="{{ posts.id }}">
+                                        <input type="hidden" name="createPost">
                                         <button type="submit" class="btn-primary submit_btn">
                                             Ajouter un article
                                         </button>
@@ -72,7 +120,7 @@
 
                     </div>
                 </section>
-                <section class="row d-flex justify-content-center">
+                <section class="row d-flex justify-content-center mt-5 mb-5">
                     <div class="col-12" >
                         <h1 class="mb-30 title_color text-center">COMMENTAIRE EN ATTENTE DE VALIDATION</h1>
                         <div class="progress-table-wrap">
@@ -113,6 +161,9 @@
                 </section>
             </div>
         </section>
+            </div>
+        </section>
+
         <!--================Blog Area =================-->
 
 

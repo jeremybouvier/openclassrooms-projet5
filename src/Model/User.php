@@ -43,11 +43,11 @@ class User extends Model
                 'surname'=>[
                     'index' => 'surname',
                     'type'     => 'string',
-                    'condition' => ['not null']],
+                    'condition' => ['not null', 'max char 20']],
                 'first_name'=>[
                     'index' => 'firstname',
                     'type'     => 'string',
-                    'condition' => ['not null']],
+                    'condition' => ['not null', 'max char 20']],
                 'email'=>[
                     'index' => 'email',
                     'type'     => 'string',
@@ -59,14 +59,13 @@ class User extends Model
                 'password'=>[
                     'index' => 'password',
                     'type'     => 'string',
-                    'condition' => ['not null']]
+                    'condition' => ['not null', 'max char 8']]
             ]];
     }
 
     /** Hydratation de la class par la méthode magique SET
      * @param $key
      * @param $value
-     * @throws \Application\Controller\ControllerException
      */
     public function __set($key, $value)
     {
@@ -75,7 +74,7 @@ class User extends Model
     }
 
     /**
-     * @return PostManager|mixed
+     * @return mixed
      */
     public static function getManager()
     {

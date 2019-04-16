@@ -72,4 +72,29 @@ class Controller
         return $response;
     }
 
+    /**verifie la presence d'erreurs
+     * @param $displayError
+     * @return bool
+     */
+    protected function checkError($displayError)
+    {
+        foreach ($displayError as $key => $value) {
+            if ($value !== null ){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**Verifie si un utilisateur est déjà identifié
+     * @return bool
+     */
+    protected function authCheck()
+    {
+        if (isset($_SESSION['Auth']['login']) && isset($_SESSION['Auth']['password'])){
+            return true;
+        }
+        return false;
+    }
+
 }

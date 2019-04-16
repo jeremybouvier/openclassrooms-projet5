@@ -9,10 +9,8 @@
 namespace Application\Controller;
 
 
-
 use Framework\Controller;
 use Zend\Diactoros\Response\HtmlResponse;
-
 
 /**
  * Class HomeController
@@ -20,7 +18,7 @@ use Zend\Diactoros\Response\HtmlResponse;
  */
 class HomeController extends Controller
 {
-    /**
+    /**Renvoie sur la home page
      * @return HtmlResponse
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
@@ -28,11 +26,6 @@ class HomeController extends Controller
      */
     public  function index()
     {
-
-        $response = $this->render('home.twig',[]);
-
-        return $response;
+        return $this->render('home.twig',[]);
     }
-
-
 }
