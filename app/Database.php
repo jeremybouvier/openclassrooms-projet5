@@ -18,26 +18,6 @@ class Database
     /**
      * @var
      */
-    private $dbName;
-
-    /**
-     * @var string
-     */
-    private $dbUser;
-
-    /**
-     * @var string
-     */
-    private $dbPwd;
-
-    /**
-     * @var string
-     */
-    private $dbHost;
-
-    /**
-     * @var
-     */
     private $pdo;
 
     /**
