@@ -14,7 +14,7 @@ $router->setRoute('postsPage','listPost', "Post#getAllPost");
 $router->setRoute('onePostPage', 'post/:id', "Post#getSinglePost");
 $router->setRoute('editPostPage', 'editPost/:id', "Post#editPost");
 $router->setRoute('editUserPage', 'editUser/:id', "User#editUser");
-$router->setRoute('loginPage','login', "Login#checkPassword");
+$router->setRoute('loginPage','login/:disconnect', "Login#checkPassword");
 $router->setRoute('administrationPage','admin', "Admin#dashboard");
 $router->setRoute('deleteComment','deleteComment/:id/:idComment', "Comment#deleteComment");
 $router->setRoute('test','test', "Test#test");

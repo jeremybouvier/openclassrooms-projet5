@@ -19,19 +19,28 @@ class LoginController extends Controller
      */
     private $displayError;
 
-    public function checkPassword()
+    /**Permet de contoler l'acces a la partie administration
+     * @param $disconnect
+     * @return string|\Zend\Diactoros\Response\RedirectResponse
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function checkPassword($disconnect)
     {
+        if ($disconnect==true){
+            $_SESSION['Auth']['login'] = null;
+        }
         if ($this->authCheck()){
             return $this->redirect('administrationPage', 302);
         }
         if ($this->request->getRequest()->getMethod() == "POST"){
             $userConnect = new User();
             $this->displayError = $userConnect->hydrate($this->request->getPost());
-            $userConnect->setPassword(sha1($userConnect->getPassword()));
             if ($this->checkError($this->displayError) == false){
                 $user = $this->getManager(User::class)->fetch(['login_name' => $userConnect->getLoginName()]);
                 if ($user!==false){
-                    if ($user->getPassword() == $userConnect->getPassword()){
+                    if (password_verify($userConnect->getPassword(), $user->getPassword()) == true){
                         $_SESSION['Auth'] = ['login' => $user->getLoginName(), 'password' => $user->getPassword()];
                         return $this->redirect('administrationPage', 302);
                     }
@@ -46,5 +55,4 @@ class LoginController extends Controller
         }
         return $this->render('login.twig', ['displayError' => $this->displayError]);
     }
-
 }

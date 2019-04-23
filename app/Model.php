@@ -15,7 +15,6 @@ namespace Framework;
  */
 abstract class Model
 {
-
     /**
      * @return array
      */
@@ -46,7 +45,6 @@ abstract class Model
                 }
             }
         }
-
         return $error;
     }
 
@@ -57,32 +55,33 @@ abstract class Model
      */
     public function validation($value, $key)
     {
-
         $indexTable = $this->getColumnIndex($key);
+        $message = '';
         foreach ( $this::getColumn()['column'][$indexTable]['condition'] as $condition) {
             switch ($condition){
                 case 'not null':
                     if ($value == null){
-                        return 'Merci de remplir ce champ';
+                        $message =  'Merci de remplir ce champ' . $message;
                     }
                     break;
                 case 'max char 8':
-                    if (strlen($value) > 8){
-                        return 'Max 8 charactères ';
+                    if (strlen($value) > 10){
+                        $message = $message . ' Maximum 10 charactères ';
                     }
                     break;
                 case 'max char 20':
                     if (strlen($value) > 20){
-                        return 'Max 20 charactères ';
+                        $message = $message . ' Maximum 20 charactères ';
                     }
                     break;
                 case 'max char 250':
                     if (strlen($value) > 250){
-                        return 'Max 250 charactères ';
+                        $message = $message . ' Maximum 250 charactères ';
                     }
                     break;
             }
         }
+        return $message;
     }
 
     /**Formate les données dans le type correspondant à la colonne

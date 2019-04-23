@@ -11,24 +11,47 @@ namespace Framework;
 
 use Zend\Diactoros\ServerRequestFactory;
 
+/**
+ * Class Request
+ * @package Framework
+ */
 class Request
 {
-
+    /**
+     * @var
+     */
     private $server;
+
+    /**
+     * @var
+     */
     private $get;
+
+    /**
+     * @var
+     */
     private $post;
+
+    /**
+     * @var
+     */
     private $cookie;
+
+    /**
+     * @var \Zend\Diactoros\ServerRequest
+     */
     private $request;
 
+    /**
+     * Request constructor.
+     */
     public function __construct()
     {
-
         $this->request = ServerRequestFactory::fromGlobals();
         $this->server = $_SERVER;
         $this->get = $_GET;
         $this->post = $_POST;
         $this->cookie = $_COOKIE;
-
     }
 
     /**
@@ -70,5 +93,4 @@ class Request
     {
         return $this->cookie;
     }
-
 }

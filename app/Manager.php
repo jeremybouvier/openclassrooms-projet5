@@ -91,7 +91,6 @@ abstract class Manager
         }else{
             $this->insert($model);
         }
-
     }
 
     /**Permet d'inserer un lot de donnée dans une table
@@ -152,7 +151,6 @@ abstract class Manager
     {
         if (!empty($filters)){
             $string = '';
-
             foreach ($filters as $key => $value){
                 $string = $key . '=:' . $key . ' AND ' . $string ;
             }
@@ -162,14 +160,14 @@ abstract class Manager
     }
 
     /**Renvoi l'écriture SQL pour l'organisation par ordre décroissant
-     * @param array $orderkeys
+     * @param array $orderKeys
      * @return string
      */
-    protected function order($orderkeys = [])
+    protected function order($orderKeys = [])
     {
-        if (isset($orderkeys)){
+        if (isset($orderKeys)){
             $string = '';
-            foreach ($orderkeys as $key){
+            foreach ($orderKeys as $key){
                 $string = $key . ', ' . $string ;
             }
             return ' ORDER BY ' . substr($string,0,-2) . ' DESC ';
@@ -192,6 +190,4 @@ abstract class Manager
         }
         return '';
     }
-
-
 }

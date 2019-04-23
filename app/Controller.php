@@ -79,7 +79,7 @@ class Controller
     protected function checkError($displayError)
     {
         foreach ($displayError as $key => $value) {
-            if ($value !== null ){
+            if ($value !== '' ){
                 return true;
             }
         }
@@ -96,5 +96,4 @@ class Controller
         }
         return false;
     }
-
 }

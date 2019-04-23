@@ -66,7 +66,6 @@ class AdminController extends Controller
             $user = $this->getManager( User::class)->getAll();
             $comment = $this->getManager( Comment::class)
                 ->fetchAll(['validation' => 0], ['update_date'], 100, 0);
-
             $data = [
                 'Post' => $post,
                 'Comment' => $comment,

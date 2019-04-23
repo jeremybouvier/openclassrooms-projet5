@@ -34,7 +34,7 @@ class UserController extends Controller
         if ($this->request->getRequest()->getMethod() == "POST"){
             $user = new User();
             $this->displayError = $user->hydrate($this->request->getPost());
-            $user->setPassword(sha1($user->getPassword()));
+            $user->setPassword(password_hash($user->getPassword(), PASSWORD_DEFAULT));
             $user->setPrimaryKey($id);
             if ($this->checkError($this->displayError) == false){
                 $this->getManager(User::class)->edit($user, ['id' => $id]);
@@ -58,13 +58,4 @@ class UserController extends Controller
         return $response;
     }
 
-    /**Permet de supprimer un post
-     * @param $id
-     * @return mixed
-     */
-    public function deletePost($id)
-    {
-        $this->database->getManager(User::class)->delete(['id'=>$id]);
-        return $this->route->redirect('postsPage',302);
-    }
 }

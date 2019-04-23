@@ -15,14 +15,17 @@ use Application\Model\Comment;
 use Application\Model\User;
 use Framework\Controller;
 
-
 /**
  * Class PostController
  * @package Application\Controller
  */
 class PostController extends Controller
 {
+    /**
+     * @var
+     */
     private $displayError ;
+
     /**Permet de récupérer les Posts et les affiches
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
@@ -30,8 +33,7 @@ class PostController extends Controller
      */
     public function getAllPost()
     {
-        $post = $this->getManager( Post::class)->getAll();
-        return $this->render('listPost.twig', ['Post'=> $post]);
+        return $this->render('listPost.twig', ['Post'=> $this->getManager( Post::class)->getAll()]);
     }
 
     /**Permet de récupérer un post et les commentaires associés
@@ -53,10 +55,7 @@ class PostController extends Controller
                     $this->getManager(Comment::class)->insert($comment);
                     return $this->redirect('onePostPage', 302, ['id' => $id]);
                 }
-
-
             }
-
             $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
             $comment = $this->getManager( Comment::class)
                 ->fetchAll(['post_id'=>$id, 'validation'=> 1], ['update_date'], 10, 0);
@@ -69,7 +68,6 @@ class PostController extends Controller
                         'Category' => $category,
                         'CategoryList' => $categoryList,
                         'displayError' => $this->displayError];
-
             return $this->render('post.twig', $data);
     }
 
@@ -82,21 +80,19 @@ class PostController extends Controller
      */
     public function editPost($id)
     {
-
         $post = null;
         $category = null;
         $user = null;
         if ($this->request->getRequest()->getMethod() == "POST"){
             $post = new Post();
             $this->displayError = $post->hydrate($this->request->getPost());
+            $post->setPrimaryKey($id);
             $post->setUpdateDate(date("Y-m-d H:i:s"));
             if ($this->checkError($this->displayError) == false){
                 $this->getManager(Post::class)->edit($post, ['id' => $id]);
                 return $this->redirect('administrationPage', 302);
             }
-
         }
-
         if ($id != 0){
             if ($post == null){
                 $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
@@ -104,7 +100,6 @@ class PostController extends Controller
             $category = $this->getManager( Category::class)->fetch(['id'=>$post->getCategoryId()]);
             $user = $this->getManager( User::class)->fetch(['id'=>$post->getUserId()]);
         }
-
         $categoryList = $this->getManager(Category::class)->getAll();
         $userList = $this->getManager(User::class)->getAll();
 

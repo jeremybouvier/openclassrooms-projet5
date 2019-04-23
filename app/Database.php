@@ -9,8 +9,6 @@
 namespace Framework;
 
 
-use Application\Model;
-
 /**
  * Class Database
  * @package Framework
