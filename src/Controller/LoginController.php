@@ -28,7 +28,7 @@ class LoginController extends Controller
      */
     public function checkPassword($disconnect)
     {
-        if ($disconnect==true){
+        if ($disconnect=='disconnect'){
             $_SESSION['Auth']['login'] = null;
         }
         if ($this->authCheck()){

@@ -33,7 +33,13 @@ class PostController extends Controller
      */
     public function getAllPost()
     {
-        return $this->render('listPost.twig', ['Post'=> $this->getManager( Post::class)->getAll()]);
+
+        return $this->render('listPost.twig', [
+            'Post' => $this->getManager( Post::class)->getAll(),
+            'categoryList' => $this->getManager( Category::class)->getAll(),
+            'userList' => $this->getManager( User::class)->getAll(),
+            'commentList' => $this->getManager( Comment::class)->getAll()
+        ]);
     }
 
     /**Permet de récupérer un post et les commentaires associés

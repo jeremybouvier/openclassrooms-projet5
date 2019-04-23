@@ -31,8 +31,7 @@ class Controller
         $this->request = $request;
         $this->router = $router;
         if (!isset($this->database)){
-            $database = new App();
-            $this->database = $database->getDB();
+            $this->database = Database::getInstance();
         }
             $loader = new FilesystemLoader('Templates');
             $this->twig = new Environment($loader, ['cache' => false]);

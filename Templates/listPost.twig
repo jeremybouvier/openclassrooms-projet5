@@ -15,16 +15,36 @@
             <div class="col-md-3">
                 <div class="blog_info text-right">
                     <div class="post_tag">
-                        <a href="#">Food,</a>
-                        <a class="active" href="#">Technology,</a>
-                        <a href="#">Politics,</a>
-                        <a href="#">Lifestyle</a>
+                        <a href="#">
+                            {% for category in categoryList %}
+                                {% if category.id == posts.categoryId %}
+                                    {{ category.name }}
+                                {% endif %}
+                            {% endfor %}
+                        </a>
                     </div>
                     <ul class="blog_meta list">
-                        <li><a href="#">Mark wiens<i class="lnr lnr-user"></i></a></li>
-                        <li><a href="#">12 Dec, 2017<i class="lnr lnr-calendar-full"></i></a></li>
-                        <li><a href="#">1.2M Views<i class="lnr lnr-eye"></i></a></li>
-                        <li><a href="#">06 Comments<i class="lnr lnr-bubble"></i></a></li>
+                        <li><a href="/post/{{posts.id}}">
+                            {% for user in userList %}
+                                {% if user.id == posts.userId %}
+                                    {{ user.surname }}{{ user.firstname }}
+                                {% endif %}
+                            {% endfor %}
+                            <i class="lnr lnr-user"></i>
+                            </a>
+                        </li>
+                        <li><a href="/post/{{posts.id}}">{{ posts.updateDate }}<i class="lnr lnr-calendar-full"></i></a></li>
+                        <li><a href="/post/{{posts.id}}">
+                                {% set  i = 0 %}
+                                {% for comment in commentList %}
+                                    {% if comment.postId == posts.id %}
+                                            {% set i = i + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {{ i }}
+                                <i class="lnr lnr-bubble"></i>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -32,10 +52,10 @@
                 <div class="blog_post">
                     <img src="../Templates/img/blog/main-blog/m-blog-1.jpg" alt="">
                     <div class="blog_details">
-                        <a href="../post/{{posts.id}}"><h2>{{ posts.title }}</h2></a>
+                        <a href="/post/{{posts.id}}"><h2>{{ posts.title }}</h2></a>
                         <span class="text-mute">{{ posts.updatedate }}</span>
                         <p>{{posts.previewText}}</p>
-                        <a href="../post/{{posts.id}}" class="white_bg_btn">Voir l'article</a>
+                        <a href="/post/{{posts.id}}" class="white_bg_btn">Voir l'article</a>
                     </div>
                 </div>
             </div>
