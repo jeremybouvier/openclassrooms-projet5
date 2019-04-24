@@ -1,69 +1,95 @@
 
 {% extends '/layout/default.twig' %}
-
 {% block content %}
-    <section class="home_banner_area">
 
-        <div class="container box_1620">
-            <h1>Mes derniers Posts</h1>
-            <div class=" row banner_inner d-flex align-items-center">
+    <!--================Home Banner Area =================-->
+    <section class="banner_area">
+        <div class="box_1620">
+            <div class="banner_inner d-flex align-items-center" style="
+                background-image:url('/Templates/img/blog/baniere/baniere.jpg');
+                background-position : center; background-size: 100%; border-radius: 15px;">
+                <div class="container">
+                    <div class="banner_content text-center" >
+                        <h2>Derniers Articles</h2>
+                        <div class="page_link">
+                            <a href="/home">Accueil</a>
+                            <a href="/listpost/0">Articles</a>
 
-    {% for posts in Post %}
-
-
-        <article class="row blog_item">
-            <div class="col-md-3">
-                <div class="blog_info text-right">
-                    <div class="post_tag">
-                        <a href="#">
-                            {% for category in categoryList %}
-                                {% if category.id == posts.categoryId %}
-                                    {{ category.name }}
-                                {% endif %}
-                            {% endfor %}
-                        </a>
-                    </div>
-                    <ul class="blog_meta list">
-                        <li><a href="/post/{{posts.id}}">
-                            {% for user in userList %}
-                                {% if user.id == posts.userId %}
-                                    {{ user.surname }}{{ user.firstname }}
-                                {% endif %}
-                            {% endfor %}
-                            <i class="lnr lnr-user"></i>
-                            </a>
-                        </li>
-                        <li><a href="/post/{{posts.id}}">{{ posts.updateDate }}<i class="lnr lnr-calendar-full"></i></a></li>
-                        <li><a href="/post/{{posts.id}}">
-                                {% set  i = 0 %}
-                                {% for comment in commentList %}
-                                    {% if comment.postId == posts.id %}
-                                            {% set i = i + 1 %}
-                                    {% endif %}
-                                {% endfor %}
-                                {{ i }}
-                                <i class="lnr lnr-bubble"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-9">
-                <div class="blog_post">
-                    <img src="../Templates/theme_bootstrap/img/blog/main-blog/m-blog-1.jpg" alt="">
-                    <div class="blog_details">
-                        <a href="/post/{{posts.id}}"><h2>{{ posts.title }}</h2></a>
-                        <span class="text-mute">{{ posts.updatedate }}</span>
-                        <p>{{posts.previewText}}</p>
-                        <a href="/post/{{posts.id}}" class="white_bg_btn">Voir l'article</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </article>
-
-    {% endfor %}
             </div>
         </div>
     </section>
+    <!--================End Home Banner Area =================-->
+
+    <!--================List Post Area =================-->
+    <section class="home_banner_area" >
+        <div class="container box_1620" style="bottom: -100px;padding-top: 50px;">
+            <div class=" row banner_inner d-flex align-items-start">
+                <div class="col-lg-9">
+                    {% for posts in Post %}
+                        <article class="row blog_item">
+                            <div class="col-md-3">
+                                <div class="blog_info text-right">
+                                    <div class="post_tag">
+                                        <a href="#">
+                                            {% for category in CategoryList %}
+                                                {% if category.id == posts.categoryId %}
+                                                    {{ category.name }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </a>
+                                    </div>
+                                    <ul class="blog_meta list">
+                                        <li><a href="/post/{{posts.id}}">
+                                                {% for user in userList %}
+                                                    {% if user.id == posts.userId %}
+                                                        {{ user.surname }}{{ user.firstname }}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <i class="lnr lnr-user"></i>
+                                            </a>
+                                        </li>
+                                        <li><a href="/post/{{posts.id}}">{{ posts.updateDate }}<i class="lnr lnr-calendar-full"></i></a></li>
+                                        <li><a href="/post/{{posts.id}}">
+                                                {% set  i = 0 %}
+                                                {% for comment in commentList %}
+                                                    {% if comment.postId == posts.id %}
+                                                        {% set i = i + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {{ i }}
+                                                <i class="lnr lnr-bubble"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="blog_post">
+                                    <img src="../Templates/theme_bootstrap/img/blog/main-blog/m-blog-1.jpg" alt="">
+                                    <div class="blog_details">
+                                        <a href="/post/{{posts.id}}"><h2>{{ posts.title }}</h2></a>
+                                        <span class="text-mute">{{ posts.updatedate }}</span>
+                                        <p>{{posts.previewText}}</p>
+                                        <a href="/post/{{posts.id}}" class="white_bg_btn">Voir l'article</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                    {% endfor %}
+                </div>
+                <div class="col-lg-3">
+                    <div class="blog_right_sidebar">
+                        {% include 'asideLeft.twig' %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!--================End List Post Area =================-->
 
 {% endblock %}

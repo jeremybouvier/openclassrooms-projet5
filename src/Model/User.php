@@ -43,11 +43,11 @@ class User extends Model
                 'surname'=>[
                     'index' => 'surname',
                     'type'     => 'string',
-                    'condition' => ['not null', 'max char 20']],
+                    'condition' => ['not null', 'max char 30']],
                 'first_name'=>[
                     'index' => 'firstname',
                     'type'     => 'string',
-                    'condition' => ['not null', 'max char 20']],
+                    'condition' => ['not null', 'max char 30']],
                 'email'=>[
                     'index' => 'email',
                     'type'     => 'string',
@@ -55,11 +55,11 @@ class User extends Model
                 'login_name'=>[
                     'index' => 'loginName',
                     'type'     => 'string',
-                    'condition' => ['not null', 'max char 20']],
+                    'condition' => ['not null', 'max char 30']],
                 'password'=>[
                     'index' => 'password',
                     'type'     => 'string',
-                    'condition' => ['not null', 'max char 8']]
+                    'condition' => ['not null', 'max char 10']]
             ]];
     }
 

@@ -80,11 +80,11 @@ class Comment extends Model
                 'update_date' =>[
                     'index' =>'updateDate',
                     'type'     => 'datetime',
-                    'condition' => []],
+                    'condition' => ['']],
                 'author' =>[
                     'index' =>'author',
                     'type'     => 'string',
-                    'condition' => ['not null', 'max char 20']],
+                    'condition' => ['not null', 'max char 30']],
                 'validation' =>[
                     'index' =>'validation',
                     'type'     => 'boolean',

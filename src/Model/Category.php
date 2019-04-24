@@ -43,7 +43,7 @@ class Category extends Model
                 'name'=>[
                     'index' => 'name',
                     'type'     => 'string',
-                    'condition' => ['max char 20']]
+                    'condition' => ['not null', 'max char 30']]
             ]];
     }
 

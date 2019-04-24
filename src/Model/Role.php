@@ -43,7 +43,7 @@ class Role extends Model
                 'name'=>[
                     'index' => 'name',
                     'type'     => 'string',
-                    'condition' => ['not null']]
+                    'condition' => ['not null', 'max char 30']]
             ]];
     }
 

@@ -64,14 +64,14 @@ abstract class Model
                         $message =  'Merci de remplir ce champ' . $message;
                     }
                     break;
-                case 'max char 8':
+                case 'max char 10':
                     if (strlen($value) > 10){
                         $message = $message . ' Maximum 10 charactères ';
                     }
                     break;
-                case 'max char 20':
-                    if (strlen($value) > 20){
-                        $message = $message . ' Maximum 20 charactères ';
+                case 'max char 30':
+                    if (strlen($value) > 30){
+                        $message = $message . ' Maximum 30 charactères ';
                     }
                     break;
                 case 'max char 250':

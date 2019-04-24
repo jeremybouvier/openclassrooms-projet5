@@ -10,9 +10,9 @@
                         <div class="banner_content text-center" >
                             <h2>Article</h2>
                             <div class="page_link">
-                                <a href="/home">Home</a>
-                                <a href="/listpost">Blog</a>
-                                <a href="#">Article</a>
+                                <a href="/home">Accueil</a>
+                                <a href="/listpost/0">Articles</a>
+                                <a href="#">{{Post.title}}</a>
                             </div>
                         </div>
                     </div>
@@ -25,7 +25,7 @@
         <section class="blog_area single-post-area p_120">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8 posts-list">
+                    <div class="col-lg-9 posts-list">
                         <div class="single-post row">
 
                             <div class="col-lg-4  col-md-4">
@@ -54,7 +54,7 @@
 
                         </div>
                         <div class="comments-area">
-                            <h4>Commentaires</h4>
+                            <h3 class="text-center">Commentaires</h3>
                             <div class="comment-list">
                                 {% for comments in Comment %}
                                 <div class="single-comment justify-content-between d-flex m-5">
@@ -76,11 +76,11 @@
 
                         </div>
                         <div class="comment-form">
-                            <h4>Laisser un Commentaire</h4>
+                            <h3>Laisser un Commentaire</h3>
                             {% include 'commentForm.twig' %}
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <div class="blog_right_sidebar">
                             {% include 'asideLeft.twig' %}
                         </div>
@@ -89,9 +89,6 @@
             </div>
         </section>
         <!--================Blog Area =================-->
-
-
-
 
     {% endblock content %}
 

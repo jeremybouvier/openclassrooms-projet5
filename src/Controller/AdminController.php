@@ -63,13 +63,15 @@ class AdminController extends Controller
                 }
             }
             $post = $this->getManager( Post::class)->getAll();
+            $connectedUser = $this->getManager(User::class)->fetch(['login_name' => $_SESSION['Auth']['login']]);
             $user = $this->getManager( User::class)->getAll();
             $comment = $this->getManager( Comment::class)
                 ->fetchAll(['validation' => 0], ['update_date'], 100, 0);
             $data = [
                 'Post' => $post,
                 'Comment' => $comment,
-                'User' => $user
+                'User' => $user,
+                'ConnectedUser' => $connectedUser
             ];
             return $this->render('admin.twig', $data);
         }

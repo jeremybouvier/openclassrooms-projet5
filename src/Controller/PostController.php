@@ -27,16 +27,23 @@ class PostController extends Controller
     private $displayError ;
 
     /**Permet de récupérer les Posts et les affiches
+     * @param $categoryId
+     * @return string
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function getAllPost()
+    public function getAllPost($categoryId)
     {
-
+        if (intval($categoryId) !== 0){
+            $post = $this->getManager( Post::class)->fetchAll(['category_id' => $categoryId], ['update_date']);
+        }
+        else{
+            $post = $this->getManager( Post::class)->getAll();
+        }
         return $this->render('listPost.twig', [
-            'Post' => $this->getManager( Post::class)->getAll(),
-            'categoryList' => $this->getManager( Category::class)->getAll(),
+            'Post' => $post,
+            'CategoryList' => $this->getManager( Category::class)->getAll(),
             'userList' => $this->getManager( User::class)->getAll(),
             'commentList' => $this->getManager( Comment::class)->getAll()
         ]);
@@ -64,7 +71,7 @@ class PostController extends Controller
             }
             $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
             $comment = $this->getManager( Comment::class)
-                ->fetchAll(['post_id'=>$id, 'validation'=> 1], ['update_date'], 10, 0);
+                ->fetchAll(['post_id'=>$id, 'validation'=> 1], ['update_date']);
             $category = $this->getManager(Category::class)->fetch(['id' => $post->getCategoryId()]);
             $user = $this->getManager(User::class)->fetch(['id' => $post->getUserId()]);
             $categoryList = $this->getManager(Category::class)->getAll();

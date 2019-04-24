@@ -88,7 +88,7 @@ class Post extends Model
                 'title' =>[
                     'index' =>'title',
                     'type'     => 'string',
-                    'condition' => ['not null', 'max char 20']],
+                    'condition' => ['not null', 'max char 30']],
 
                 'content' =>[
                     'index' =>'content',
