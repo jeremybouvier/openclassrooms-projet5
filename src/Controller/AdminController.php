@@ -14,6 +14,8 @@ use Framework\Controller;
  */
 class AdminController extends Controller
 {
+    private $response;
+
     /**Gestion de la partie administration
      * @return string|\Zend\Diactoros\Response\RedirectResponse
      * @throws \Twig\Error\LoaderError
@@ -22,7 +24,7 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
-        if ($this->authCheck()){
+        if ($this->authCheck($this->response)){
             if ($this->request->getRequest()->getMethod() == "POST"){
                 foreach ( $this->request->getPost() as $key =>$id){
                     switch ($key){
