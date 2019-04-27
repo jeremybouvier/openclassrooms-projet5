@@ -29,7 +29,7 @@ class LoginController extends Controller
     {
 
         $this->disconnect($disconnect);
-        $this->response = $this->authCheck($this->response);
+        $this->response = $this->authCheck($this->displayError, $this->redirect('administrationPage', 301));
         if ($this->request->getRequest()->getMethod() == "POST"){
             $userConnect = new User();
             $this->displayError = $userConnect->hydrate($this->request->getPost());
