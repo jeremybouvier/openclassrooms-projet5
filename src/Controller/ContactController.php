@@ -39,19 +39,19 @@ class ContactController extends Controller
                     $mail->getEmail() . "\r\n" .
                     'voici son message : ' . "\r\n" .
                     $mail->getMessage(), 70, "\r\n"));
-                if (mail(
-                    'jeremybouvier2b@gmail.com',
-                    $mail->getSubject(),
-                    $mail->getMessage()
-                )){
-                    $this->message = ['text' => 'Votre message a bien été envoyé'];
-                }
-                else{
-                    $this->message = ['text' => "Une erreur s'est produite merci de recommencer"];
-                }
-                return $this->render('contact.twig', ['message' => $this->message, 'displayError' => $this->displayError]);
+                $this->message = $this->sendMail($mail);
             }
         }
         return $this->render('contact.twig', ['message' => $this->message, 'displayError' => $this->displayError]);
+    }
+
+    public function sendMail($mail)
+    {
+        if (mail('jeremybouvier2b@gmail.com', $mail->getSubject(), $mail->getMessage())){
+            return ['text' => 'Votre message a bien été envoyé'];
+        }
+        else{
+            return ['text' => "Une erreur s'est produite merci de recommencer"];
+        }
     }
 }

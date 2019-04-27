@@ -78,13 +78,18 @@ class Controller
     }
 
     /**Verifie si un utilisateur est déjà identifié
-     * @return bool
+     * @param $displayError
+     * @param $response
+     * @return string|HtmlResponse
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
-    protected function authCheck($response)
+    protected function authCheck($displayError, $response)
     {
         if (isset($_SESSION['Auth']['login']) && isset($_SESSION['Auth']['password'])){
-            return $this->redirect('administrationPage', 302);;
+            return $response;
         }
-        return $response;
+        return $this->render('login.twig', ['displayError' => $displayError]);
     }
 }

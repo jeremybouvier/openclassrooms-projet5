@@ -26,16 +26,14 @@ abstract class Model
     public function hydrate(array $data)
     {
         foreach ($data as $key => $value) {
-            $indexTable = $this->getColumnIndex($key);
-            if ($indexTable == 'id'){
+            if ($this->getColumnIndex($key) == 'id'){
                 $this->setPrimaryKey($value);
             }
             else{
                 $error[$key] = $this->validation($value, $key);
-                $type = $this::getColumn()['column'][$indexTable]['type'];
-                $method = 'set' . ucfirst($this::getColumn()['column'][$indexTable]['index']);
+                $method = 'set' . ucfirst($this::getColumn()['column'][$this->getColumnIndex($key)]['index']);
                 if (method_exists($this, $method)) {
-                    $this->$method($this->formatData($value, $type));
+                    $this->$method($this->formatData($value, $this::getColumn()['column'][$this->getColumnIndex($key)]['type']));
                 }
             }
         }
@@ -85,23 +83,21 @@ abstract class Model
      */
     protected function formatData($columnData, $type)
     {
+
         switch ($type){
             case 'integer':
-                return (int)$columnData;
+                $columnData = (int)$columnData;
                 break;
             case 'string':
-                return (string)$columnData;
-                break;
-            case 'datetime' :
-                return $columnData;
+                $columnData =  (string)$columnData;
                 break;
             case 'boolean':
-                if ($columnData == 0 or $columnData == 1){
-                    return $columnData;
+                if ($columnData !== 0 or $columnData !== 1){
+                    $columnData = 0;
                 }
-                return  $columnData = 0;
                 break;
         }
+        return $columnData;
     }
 
     /**Permet de récupérer l'index de la colonne associé à la variable
