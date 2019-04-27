@@ -1,15 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jeremy
- * Date: 04/03/19
- * Time: 13:42
- */
 
 namespace Application\Controller;
 
 
-use Framework\Router\Route;
 use Zend\Diactoros\Response\RedirectResponse;
 
 /**
@@ -24,7 +17,6 @@ class WelcomeController
      */
     public function index()
     {
-        $response = $this->route->redirect('/home',301);
-        return $response;
+        return $this->route->redirect('/home',301);
     }
 }

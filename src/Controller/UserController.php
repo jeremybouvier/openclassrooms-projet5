@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jeremy
- * Date: 16/04/19
- * Time: 21:43
- */
 
 namespace Application\Controller;
 
@@ -47,15 +41,12 @@ class UserController extends Controller
             }
             $role = $this->getManager( Role::class)->fetch(['id'=>$user->getRoleId()]);
         }
-        $roleList = $this->getManager(Role::class)->getAll();
-        $data =  [
+        return $this->render('editUser.twig',
+            [
             'User'=> $user,
             'Role' => $role,
-            'roleList' => $roleList,
+            'roleList' => $this->getManager(Role::class)->getAll(),
             'displayError' => $this->displayError
-            ];
-        $response = $this->render('editUser.twig', $data);
-        return $response;
+            ]);
     }
-
 }

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jeremy
- * Date: 16/02/19
- * Time: 21:48
- */
 
 namespace Application\Model;
 
@@ -105,7 +99,6 @@ class Comment extends Model
     /**Hydratation de la class par la méthode magique SET
      * @param $key
      * @param $value
-     * @throws \Application\Controller\ControllerException
      */
     public function __set($key, $value)
     {

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jeremy
- * Date: 04/03/19
- * Time: 13:33
- */
 
 namespace Application\Controller;
 
@@ -26,6 +20,6 @@ class HomeController extends Controller
      */
     public  function index()
     {
-        return $this->render('home.twig',[]);
+        return $this->render('home.twig', []);
     }
 }

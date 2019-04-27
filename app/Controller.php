@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jeremy
- * Date: 15/03/19
- * Time: 13:23
- */
 
 namespace Framework;
 
@@ -45,11 +39,10 @@ class Controller
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function render($page, $data)
+    public function render($page, $data): HtmlResponse
     {
         $htmlContent = $this->twig->render($page, $data);
-        $response = new HtmlResponse($htmlContent);
-        return $response;
+        return new HtmlResponse($htmlContent);
     }
 
     public function getManager($model)
@@ -67,8 +60,7 @@ class Controller
     public function redirect($name, $status, $param = [])
     {
         $url = $this->router->generateUrl($name, $param);
-        $response = new RedirectResponse($url, $status);
-        return $response;
+        return new RedirectResponse($url, $status);
     }
 
     /**verifie la presence d'erreurs

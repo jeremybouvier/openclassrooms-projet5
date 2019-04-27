@@ -1,10 +1,4 @@
 <?php
-/**
-
- * User: jeremy
- * Date: 15/02/19
- * Time: 21:15
- */
 
 namespace Application\Model;
 
@@ -56,7 +50,6 @@ class Post extends Model
     /** Hydratation de la class par la méthode magique SET
      * @param $key
      * @param $value
-     * @throws \Application\Controller\ControllerException
      */
     public function __set($key, $value)
     {

@@ -1,0 +1,21 @@
+{% block cvModal %}
+    <div class="modal fade" id="cvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="min-width: 90%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1>Cv Jérémy Bouvier</h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <object type="application/pdf" data="/Templates/theme_bootstrap/pdf/CV-Jeremy-Bouvier.pdf"
+                            width="100%" height="1000">
+                       <img src="/Templates/theme_bootstrap/pdf/CV-Jeremy-Bouvier.jpeg" alt="Jérémy Bouvier photo">
+                    </object>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

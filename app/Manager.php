@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jeremy
- * Date: 11/02/16
- * Time: 17:40
- */
 
 namespace Framework;
 
@@ -63,8 +57,7 @@ abstract class Manager
         $req = $this->database->getPDO()->prepare($statement);
         $req->execute($filters);
         $req->setFetchMode(\PDO::FETCH_CLASS, get_class($this->model));
-        $data = $req->fetch();
-        return $data;
+        return $req->fetch();
     }
 
     /**Permet de récupérer tous les lots de donnée d'une table correspondant aux critères
@@ -81,8 +74,7 @@ abstract class Manager
         $req = $this->database->getPDO()->prepare($statement);
         $req->execute($filters);
         $req->setFetchMode(\PDO::FETCH_CLASS, get_class($this->model));
-        $data = $req->fetchAll();
-        return $data;
+        return $req->fetchAll();
     }
 
     public function edit($model, $filter){

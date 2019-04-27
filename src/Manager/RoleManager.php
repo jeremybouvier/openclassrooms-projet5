@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jeremy
- * Date: 16/04/19
- * Time: 21:38
- */
 
 namespace Application\Manager;
 
@@ -25,8 +19,6 @@ class RoleManager extends Manager
         $statement =  'SELECT * FROM ' . $this->table . ' ORDER BY id ASC';
         $req = $this->database->getPDO()->prepare($statement);
         $req->execute();
-        $data = $req->fetchAll(\PDO::FETCH_CLASS, get_class($this->model));
-        return $data;
+        return  $req->fetchAll(\PDO::FETCH_CLASS, get_class($this->model));
     }
-
 }

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jeremy
- * Date: 16/02/19
- * Time: 21:46
- */
 
 namespace Application\Model;
 
@@ -50,7 +44,6 @@ class Category extends Model
     /** Hydratation de la class par la méthode magique SET
      * @param $key
      * @param $value
-     * @throws \Application\Controller\ControllerException
      */
     public function __set($key, $value)
     {
@@ -59,7 +52,7 @@ class Category extends Model
     }
 
     /**
-     * @return PostManager|mixed
+     * @return mixed
      */
     public static function getManager()
     {

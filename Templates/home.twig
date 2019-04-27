@@ -19,8 +19,8 @@
                                 </p>
                                 <ul class="list basic_info">
                                     <li><a href="#"><i class="lnr lnr-calendar-full"></i> 12 Février 1982</a></li>
-                                    <li><a href="phone: 0671729884"><i class="lnr lnr-phone-handset"></i> +33 6.71.72.98.84</a></li>
-                                    <li><a href="emailto: jeremybouvier2b@gmail.com"><i class="lnr lnr-envelope"></i> jeremybouvier2b@gmail.com</a></li>
+                                    <li><a href="tel: 0671729884"><i class="lnr lnr-phone-handset"></i> +33 6.71.72.98.84</a></li>
+                                    <li><a href="mailto: jeremybouvier2b@gmail.com"><i class="lnr lnr-envelope"></i> jeremybouvier2b@gmail.com</a></li>
                                     <li><a href="#"><i class="lnr lnr-home"></i>106 Impasse des cedres 20290 BORGO</a></li>
                                 </ul>
                                 <ul class="list personal_social">
@@ -214,35 +214,49 @@
     <section class="feature_area p_120">
         <div class="container">
             <div class="main_title">
-                <h2>offerings to my clients</h2>
-                <p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $.17 each.</p>
+                <h2>Voici ce que je peux apporter à vos projets</h2>
             </div>
             <div class="feature_inner row">
                 <div class="col-lg-4 col-md-6">
                     <div class="feature_item">
-                        <a href="#"><i class="flaticon-city"></i></a>
-                        <h4>Expériences et compétences</h4>
-                        <p>N'hésitez pas consulter mon CV car j'ai eu un parcours atypique qui m'a permis d'aquérir
-                        de nombreuses compétences tant sur le plan technique que sur le plan humain.</p>
+                        <a href="#" title="Consulter mon CV" data-toggle="modal" data-target="#cvModal"><i class="flaticon-city"></i></a>
+                        <h4>Mes compétences et Expériences</h4>
+                        <p>
+                            N'hésitez pas consulter
+                            <a href="#" title="Consulter mon CV" data-toggle="modal" data-target="#cvModal">mon CV</a>
+                            car j'ai eu un parcours atypique qui m'a permis d'aquérir de nombreuses compétences tant
+                            sur le plan technique que sur le plan humain.
+                        </p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="feature_item">
-                        <a href="#"><i class="flaticon-skyline"></i></a>
-                        <h4>Interior Design</h4>
-                        <p>If you are looking at blank cassettes on the web, you may be very confused at the difference in price. You may see some for as low as $17 each.</p>
+                        <a href="#" ><i class="flaticon-skyline"></i></a>
+                        <h4>Ma personnalité</h4>
+                        <p>
+                            Jeune homme de nature dynamique, j'aime mettre mes connaissances et mon sens pratique pour
+                            résoudre les défis techniques qui me sont confiés. Ayant développé des qualités
+                            relationnelles importantes grâce à mes expériences professionnelles précédentes,
+                            je saurai intégrer facilement une équipe pour mener à bien des projets de grande
+                            ampleur.
+                        </p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="feature_item">
                         <i class="flaticon-sketch"></i>
                         <h4>Mes Réalisations</h4>
-                        <p>Venez découvrir les différents projets que j'ai réalisé, vous pourrez, ainsi, être seul juge des mes compétences</p>
+                        <p>
+                            Venez découvrir les différents projets que j'ai réalisé, vous pourrez, ainsi, être seul
+                            juge de mes compétences.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    {% include 'cvModal.twig' %}
+
     <!--================End Feature Area =================-->
 
 {% endblock %}
