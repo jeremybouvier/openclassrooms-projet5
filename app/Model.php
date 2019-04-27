@@ -83,7 +83,7 @@ abstract class Model
      * @param $type
      * @return \DateTime|false|int|string
      */
-    protected function formatData($columnData, $type) 
+    protected function formatData($columnData, $type)
     {
         switch ($type){
             case 'integer':
