@@ -80,11 +80,11 @@ class Controller
     /**Verifie si un utilisateur est déjà identifié
      * @return bool
      */
-    protected function authCheck()
+    protected function authCheck($response)
     {
         if (isset($_SESSION['Auth']['login']) && isset($_SESSION['Auth']['password'])){
-            return true;
+            return $this->redirect('administrationPage', 302);;
         }
-        return false;
+        return $response;
     }
 }

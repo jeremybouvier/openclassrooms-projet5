@@ -13,6 +13,11 @@ class LoginController extends Controller
      */
     private $displayError;
 
+    /**
+     * @var
+     */
+     private $response;
+
     /**Permet de contoler l'acces a la partie administration
      * @param $disconnect
      * @return string|\Zend\Diactoros\Response\RedirectResponse
@@ -22,31 +27,50 @@ class LoginController extends Controller
      */
     public function checkPassword($disconnect)
     {
-        if ($disconnect=='disconnect'){
-            $_SESSION['Auth']['login'] = null;
-        }
-        if ($this->authCheck()){
-            return $this->redirect('administrationPage', 302);
-        }
+
+        $this->disconnect($disconnect);
+        $this->response = $this->authCheck($this->response);
         if ($this->request->getRequest()->getMethod() == "POST"){
             $userConnect = new User();
             $this->displayError = $userConnect->hydrate($this->request->getPost());
             if ($this->checkError($this->displayError) == false){
-                $user = $this->getManager(User::class)->fetch(['login_name' => $userConnect->getLoginName()]);
-                if ($user!==false){
-                    if (password_verify($userConnect->getPassword(), $user->getPassword()) == true){
-                        $_SESSION['Auth'] = ['login' => $user->getLoginName(), 'password' => $user->getPassword()];
-                        return $this->redirect('administrationPage', 302);
-                    }
-                    else{
-                        return $this->render('login.twig', ['displayError' => ['loginName'=> 'Identifiants incorrect']]);
-                    }
-                }
-                else{
-                    return $this->render('login.twig', ['displayError' => ['loginName'=> 'Identifiants incorrect']]);
-                }
+                $this->response = $this->existingUser($userConnect);
+            }
+            else{
+                $this->response = $this->render('login.twig', ['displayError' => $this->displayError]);
             }
         }
-        return $this->render('login.twig', ['displayError' => $this->displayError]);
+        return $this->response;
+    }
+
+    private function existingUser($userConnect)
+    {
+        $user = $this->getManager(User::class)->fetch(['login_name' => $userConnect->getLoginName()]);
+        if ($user !== false){
+            return $this->passwordVerify($userConnect, $user);
+        }
+        else{
+            $this->displayError['loginName']= 'Identifiant incorrect';
+            return $this->render('login.twig', ['displayError' => $this->displayError]);
+        }
+    }
+
+    private function passwordVerify($userConnect, $user)
+    {
+        if (password_verify($userConnect->getPassword(), $user->getPassword()) == true){
+            $_SESSION['Auth'] = ['login' => $user->getLoginName(), 'password' => $user->getPassword()];
+            return $this->redirect('administrationPage', 302);
+        }
+        else{
+            $this->displayError['loginName']= 'Identifiant incorrect';
+            return $this->render('login.twig', ['displayError' => $this->displayError]);
+        }
+    }
+
+    private function disconnect($disconnect)
+    {
+        if ($disconnect == 'disconnect'){
+            $_SESSION['Auth']['login'] = null;
+        }
     }
 }
