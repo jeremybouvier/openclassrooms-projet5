@@ -27,7 +27,6 @@
                 <div class="row">
                     <div class="col-lg-9 posts-list">
                         <div class="single-post row">
-
                             <div class="col-lg-4  col-md-4">
                                 <div class="blog_info text-right">
                                     <div class="post_tag">
@@ -46,6 +45,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-8 col-md-8 blog_details">
+                                <img src="../Templates/theme_bootstrap/img/blog/main-blog/m-blog-1.jpg" alt="" style="width: 100%;">
                                 <h2>{{Post.title}}</h2>
                                 <p class="excert">
                                     {{Post.content}}
@@ -63,7 +63,7 @@
                                             <img src="../Templates/theme_bootstrap/img/blog/logo.jpg" alt="">
                                         </div>
                                         <div class="desc">
-                                            <h5>{{ comments.author }}</h5>
+                                            <h5 style="color: #766dff">{{ comments.author }}</h5>
                                             <p class="date">Le : {{ comments.updatedate }}</p>
                                             <p class="comment">
                                                 {{ comments.commenttext }}

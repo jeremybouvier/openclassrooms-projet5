@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jeremy
- * Date: 24/04/19
- * Time: 21:39
- */
 
 namespace Application\Controller;
 
@@ -23,6 +17,8 @@ class ContactController extends Controller
      */
     private $displayError;
 
+    private $message;
+
     /**Gestion de la page contact et de l'envoi de l'email
      * @return string
      * @throws \Twig\Error\LoaderError
@@ -31,7 +27,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $message ='';
+        $this->message = '';
         if ($this->request->getRequest()->getMethod() == "POST") {
             $mail = new Mail();
             $this->displayError = $mail->hydrate($_POST);
@@ -48,14 +44,14 @@ class ContactController extends Controller
                     $mail->getSubject(),
                     $mail->getMessage()
                 )){
-                    $message = ['text' => 'Votre message a bien été envoyé'];
+                    $this->message = ['text' => 'Votre message a bien été envoyé'];
                 }
                 else{
-                    $message = ['text' => "Une erreur s'est produite merci de recommencer"];
+                    $this->message = ['text' => "Une erreur s'est produite merci de recommencer"];
                 }
-                return $this->redirect('contactPage', 302);
+                return $this->render('contact.twig', ['message' => $this->message, 'displayError' => $this->displayError]);
             }
         }
-        return $this->render('contact.twig', ['message' => $message, 'displayError' => $this->displayError]);
+        return $this->render('contact.twig', ['message' => $this->message, 'displayError' => $this->displayError]);
     }
 }

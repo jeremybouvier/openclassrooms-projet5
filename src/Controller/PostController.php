@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jeremy
- * Date: 26/02/19
- * Time: 23:03
- */
 
 namespace Application\Controller;
 
@@ -70,18 +64,14 @@ class PostController extends Controller
                 }
             }
             $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
-            $comment = $this->getManager( Comment::class)
-                ->fetchAll(['post_id'=>$id, 'validation'=> 1], ['update_date']);
-            $category = $this->getManager(Category::class)->fetch(['id' => $post->getCategoryId()]);
-            $user = $this->getManager(User::class)->fetch(['id' => $post->getUserId()]);
-            $categoryList = $this->getManager(Category::class)->getAll();
-            $data =  [  'Post'=>$post,
-                        'Comment'=> $comment,
-                        'User' => $user,
-                        'Category' => $category,
-                        'CategoryList' => $categoryList,
-                        'displayError' => $this->displayError];
-            return $this->render('post.twig', $data);
+            return $this->render('post.twig',
+                ['Post'=>$post,
+                 'Comment'=> $this->getManager( Comment::class)->fetchAll(['post_id'=>$id, 'validation'=> 1], ['update_date']),
+                 'User' => $this->getManager(User::class)->fetch(['id' => $post->getUserId()]),
+                 'Category' => $this->getManager(Category::class)->fetch(['id' => $post->getCategoryId()]),
+                 'CategoryList' => $this->getManager(Category::class)->getAll(),
+                  'displayError' => $this->displayError
+                ]);
     }
 
     /**Permet d'editer un nouveau post
@@ -113,18 +103,16 @@ class PostController extends Controller
             $category = $this->getManager( Category::class)->fetch(['id'=>$post->getCategoryId()]);
             $user = $this->getManager( User::class)->fetch(['id'=>$post->getUserId()]);
         }
-        $categoryList = $this->getManager(Category::class)->getAll();
-        $userList = $this->getManager(User::class)->getAll();
-
-        $data =  [  'Post'=> $post,
-            'Category' => $category,
-            'CategoryList' => $categoryList,
-            'User' => $user,
-            'UserList' => $userList,
-            'displayError' => $this->displayError,
-            'session' => $_SESSION];
-        $response = $this->render('editPost.twig', $data);
-        return $response;
+        return $this->render('editPost.twig',
+            [
+                'Post'=> $post,
+                'Category' => $category,
+                'CategoryList' => $this->getManager(Category::class)->getAll(),
+                'User' => $user,
+                'UserList' => $this->getManager(User::class)->getAll(),
+                'displayError' => $this->displayError,
+                'session' => $_SESSION
+            ]);
     }
 
     /**Permet de supprimer un post

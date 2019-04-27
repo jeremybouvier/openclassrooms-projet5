@@ -1,10 +1,4 @@
 <?php
-/**
-
- * User: jeremy
- * Date: 15/02/19
- * Time: 21:15
- */
 
 namespace Application\Model;
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jeremy
- * Date: 31/03/19
- * Time: 21:27
- */
 
 namespace Framework;
 
@@ -105,7 +99,6 @@ abstract class Model
                 if ($columnData == 0 or $columnData == 1){
                     return $columnData;
                 }
-
                 return  $columnData = 0;
                 break;
         }

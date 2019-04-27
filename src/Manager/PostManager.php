@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jeremy
- * Date: 01/04/19
- * Time: 21:29
- */
 
 namespace Application\Manager;
 
@@ -27,8 +21,7 @@ class PostManager extends Manager
         $statement =  'SELECT * FROM ' . $this->table . ' ORDER BY update_date DESC';
         $req = $this->database->getPDO()->prepare($statement);
         $req->execute();
-        $data = $req->fetchAll(\PDO::FETCH_CLASS, get_class($this->model));
-        return $data;
+        return $req->fetchAll(\PDO::FETCH_CLASS, get_class($this->model));
     }
 
 }
