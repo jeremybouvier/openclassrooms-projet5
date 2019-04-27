@@ -39,7 +39,7 @@ class Controller
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function render($page, $data)
+    public function render($page, $data): HtmlResponse
     {
         $htmlContent = $this->twig->render($page, $data);
         return new HtmlResponse($htmlContent);

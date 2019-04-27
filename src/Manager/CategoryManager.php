@@ -24,8 +24,8 @@ class CategoryManager extends Manager
         return $req->fetch();
     }
 
-    /**Permet de récupérer tous les posts present dans la base de donnée
-     * @return Post
+    /**Permet de récupérer tous les categories present dans la base de donnée
+     * @return mixed
      */
     public function getAll()
     {

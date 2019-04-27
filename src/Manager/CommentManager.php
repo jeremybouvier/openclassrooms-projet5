@@ -11,7 +11,7 @@ use Framework\Manager;
 class CommentManager extends Manager
 {
     /**Permet de récupérer tous les posts present dans la base de donnée
-     * @return Post
+     * @return mixed
      */
     public function getAll()
     {

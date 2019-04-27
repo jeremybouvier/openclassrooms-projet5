@@ -12,7 +12,7 @@ use Framework\Manager;
 class UserManager extends Manager
 {
     /**Permet de récupérer tous les utilisateur present dans la base de donnée
-     * @return Post
+     * @return mixed
      */
     public function getAll()
     {

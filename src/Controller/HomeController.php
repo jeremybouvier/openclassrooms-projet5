@@ -20,6 +20,6 @@ class HomeController extends Controller
      */
     public  function index()
     {
-        return $this->render('home.twig',[]);
+        return $this->render('home.twig', []);
     }
 }
