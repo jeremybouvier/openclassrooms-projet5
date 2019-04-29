@@ -45,7 +45,6 @@ class LoginController extends Controller
     private function userAlwaysConnected()
     {
         return $this->authCheck(
-            $this->displayError,
             $this->render('login.twig',['displayError' => $this->displayError]),
             $this->redirect('administrationPage', 301));
     }
