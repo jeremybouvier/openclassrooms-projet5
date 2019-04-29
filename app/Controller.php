@@ -78,14 +78,11 @@ class Controller
     }
 
     /**Verifie si un utilisateur est déjà identifié
-     * @param $displayError
+     * @param $redirect
      * @param $response
-     * @return string|HtmlResponse
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @return mixed
      */
-    protected function authCheck($displayError, $redirect, $response)
+    protected function authCheck($redirect, $response)
     {
         if (isset($_SESSION['Auth']['login']) && isset($_SESSION['Auth']['password'])){
             return $response;
