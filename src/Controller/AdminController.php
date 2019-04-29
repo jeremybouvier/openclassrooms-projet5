@@ -67,8 +67,7 @@ class AdminController extends Controller
                 $this->response = $this->redirect('editUserPage', 302, ['id' => 0]);
                 break;
             case 'deleteUser':
-               $this->deleteUser($id);
-                break;
+               $this->deleteUser($id);break;
         }
     }
 
