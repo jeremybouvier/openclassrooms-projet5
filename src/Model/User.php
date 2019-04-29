@@ -19,35 +19,15 @@ class User extends Model
 
     public static function getColumn()
     {
-        return ['table' => 'user', 'manager'=>UserManager::class,
-            'primaryKey'=> [
-                'index' => 'id',
-                'type'     => 'integer'],
+        return ['table' => 'user', 'manager' => UserManager::class,
+            'primaryKey' => ['index' => 'id', 'type' => 'integer'],
             'column'=> [
-                'role_id'=>[
-                    'index' => 'roleId',
-                    'type'     => 'integer',
-                    'condition' => ['not null']],
-                'surname'=>[
-                    'index' => 'surname',
-                    'type'     => 'string',
-                    'condition' => ['not null', 'max char 30']],
-                'first_name'=>[
-                    'index' => 'firstname',
-                    'type'     => 'string',
-                    'condition' => ['not null', 'max char 30']],
-                'email'=>[
-                    'index' => 'email',
-                    'type'     => 'string',
-                    'condition' => ['not null']],
-                'login_name'=>[
-                    'index' => 'loginName',
-                    'type'     => 'string',
-                    'condition' => ['not null', 'max char 30']],
-                'password'=>[
-                    'index' => 'password',
-                    'type'     => 'string',
-                    'condition' => ['not null', 'max char 10']]]];
+                'role_id' => ['index' => 'roleId', 'type' => 'integer', 'condition' => ['not null']],
+                'surname' => ['index' => 'surname', 'type' => 'string', 'condition' => ['not null', 'max char 30']],
+                'first_name' => ['index' => 'firstname', 'type' => 'string', 'condition' => ['not null', 'max char 30']],
+                'email' => ['index' => 'email', 'type' => 'string', 'condition' => ['not null']],
+                'login_name' => ['index' => 'loginName', 'type' => 'string', 'condition' => ['not null', 'max char 30']],
+                'password' => ['index' => 'password', 'type' => 'string', 'condition' => ['not null', 'max char 10']]]];
     }
 
     /** Hydratation de la class par la méthode magique SET

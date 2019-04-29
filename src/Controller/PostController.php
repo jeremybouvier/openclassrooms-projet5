@@ -88,6 +88,7 @@ class PostController extends Controller
         $user = null;
         if ($this->request->getRequest()->getMethod() == "POST"){
             $post = new Post();
+
             $this->displayError = $post->hydrate($this->request->getPost());
             $post->setPrimaryKey($id);
             $post->setUpdateDate(date("Y-m-d H:i:s"));

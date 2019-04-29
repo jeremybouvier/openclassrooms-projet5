@@ -23,22 +23,10 @@ class Category extends Model
      */
     public static function getColumn()
     {
-        return [
-            'table' => 'category',
-
-            'manager'=>CategoryManager::class,
-
-            'primaryKey'=> [
-                'index' => 'id',
-                'type'     => 'integer'],
-
+        return ['table' => 'category', 'manager' => CategoryManager::class,
+            'primaryKey'=> ['index' => 'id', 'type' => 'integer'],
             'column'=> [
-
-                'name'=>[
-                    'index' => 'name',
-                    'type'     => 'string',
-                    'condition' => ['not null', 'max char 30']]
-            ]];
+                'name' => ['index' => 'name', 'type' => 'string', 'condition' => ['not null', 'max char 30']]]];
     }
 
     /** Hydratation de la class par la méthode magique SET

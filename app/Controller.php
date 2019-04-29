@@ -85,11 +85,11 @@ class Controller
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    protected function authCheck($displayError, $response)
+    protected function authCheck($displayError, $redirect, $response)
     {
         if (isset($_SESSION['Auth']['login']) && isset($_SESSION['Auth']['password'])){
             return $response;
         }
-        return $this->render('login.twig', ['displayError' => $displayError]);
+        return $redirect;
     }
 }

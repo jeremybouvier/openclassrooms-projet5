@@ -37,34 +37,13 @@ class Mail extends Model
      */
     public static function getColumn()
     {
-        return [
-            'table' => null,
-
-            'manager'=>null,
-
-            'primaryKey'=> [
-                'index' => 'id',
-                'type'     => 'integer'],
-
+        return ['table' => null, 'manager'=>null,
+            'primaryKey'=> ['index' => 'id', 'type' => 'integer'],
             'column'=> [
-
-                'name'=>[
-                    'index' => 'name',
-                    'type'     => 'string',
-                    'condition' => ['not null', 'max char 30']],
-                'email'=>[
-                    'index' => 'email',
-                    'type'     => 'string',
-                    'condition' => ['not null', 'max char 30']],
-                'subject'=>[
-                    'index' => 'subject',
-                    'type'     => 'string',
-                    'condition' => ['not null', 'max char 30']],
-                'message'=>[
-                    'index' => 'message',
-                    'type'     => 'string',
-                    'condition' => ['not null']]
-            ]];
+                'name'=> ['index' => 'name', 'type' => 'string', 'condition' => ['not null', 'max char 30']],
+                'email'=> ['index' => 'email', 'type' => 'string', 'condition' => ['not null', 'max char 30']],
+                'subject'=> ['index' => 'subject', 'type' => 'string', 'condition' => ['not null', 'max char 30']],
+                'message'=> ['index' => 'message', 'type' => 'string', 'condition' => ['not null']]]];
     }
 
     /** Hydratation de la class par la méthode magique SET
