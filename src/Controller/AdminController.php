@@ -45,29 +45,14 @@ class AdminController extends Controller
     private function userActionSelected($key, $id)
     {
         switch ($key){
-            case 'validComment':
-               $this->validComment($id);
-                break;
-            case 'deleteComment':
-                $this->deleteComment($id);
-                break;
-            case 'updatePost':
-                $this->response = $this->redirect('editPostPage', 302, ['id' => $id]);
-                break;
-            case 'createPost':
-                $this->response = $this->redirect('editPostPage', 302, ['id' => 0]);
-                break;
-            case 'deletePost':
-                $this->deletePost($id);
-                break;
-            case 'updateUser':
-                $this->response = $this->redirect('editUserPage', 302, ['id' => $id]);
-                break;
-            case 'createUser':
-                $this->response = $this->redirect('editUserPage', 302, ['id' => 0]);
-                break;
-            case 'deleteUser':
-               $this->deleteUser($id);break;
+            case 'validComment': $this->validComment($id); break;
+            case 'deleteComment': $this->deleteComment($id); break;
+            case 'updatePost': $this->response = $this->redirect('editPostPage', 302, ['id' => $id]); break;
+            case 'createPost': $this->response = $this->redirect('editPostPage', 302, ['id' => 0]); break;
+            case 'deletePost': $this->deletePost($id); break;
+            case 'updateUser': $this->response = $this->redirect('editUserPage', 302, ['id' => $id]); break;
+            case 'createUser': $this->response = $this->redirect('editUserPage', 302, ['id' => 0]); break;
+            case 'deleteUser': $this->deleteUser($id); break;
         }
     }
 
