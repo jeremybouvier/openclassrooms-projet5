@@ -62,47 +62,35 @@ class Post extends Model
      */
     public static function getColumn()
     {
-        return [
-            'table' => 'post',
-
-            'manager'=>PostManager::class,
-
+        return ['table' => 'post', 'manager'=>PostManager::class,
             'primaryKey'=> [
                 'index' => 'id',
                 'type'     => 'integer'],
-
             'column'=> [
-
                 'category_id'=>[
                     'index' => 'categoryId',
                     'type'     => 'integer',
                     'condition' => ['not null']],
-
                 'title' =>[
                     'index' =>'title',
                     'type'     => 'string',
                     'condition' => ['not null', 'max char 30']],
-
                 'content' =>[
                     'index' =>'content',
                     'type'     => 'string',
                     'condition' => ['not null']],
-
                 'user_id' =>[
                     'index' =>'userId',
                     'type'     => 'integer',
                     'condition' => ['not null']],
-
                 'update_date' =>[
                     'index' =>'updateDate',
                     'type'     => 'datetime',
                     'condition' => []],
-
                 'preview_text' =>[
                     'index' =>'previewText',
                     'type'     => 'string',
-                    'condition' => ['not null']]
-            ]];
+                    'condition' => ['not null']]]];
     }
 
     /**

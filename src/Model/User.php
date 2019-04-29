@@ -19,17 +19,11 @@ class User extends Model
 
     public static function getColumn()
     {
-        return [
-            'table' => 'user',
-
-            'manager'=>UserManager::class,
-
+        return ['table' => 'user', 'manager'=>UserManager::class,
             'primaryKey'=> [
                 'index' => 'id',
                 'type'     => 'integer'],
-
             'column'=> [
-
                 'role_id'=>[
                     'index' => 'roleId',
                     'type'     => 'integer',
@@ -53,8 +47,7 @@ class User extends Model
                 'password'=>[
                     'index' => 'password',
                     'type'     => 'string',
-                    'condition' => ['not null', 'max char 10']]
-            ]];
+                    'condition' => ['not null', 'max char 10']]]];
     }
 
     /** Hydratation de la class par la méthode magique SET
