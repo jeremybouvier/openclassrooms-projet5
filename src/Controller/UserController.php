@@ -18,7 +18,10 @@ class UserController extends Controller
 
     /**Permet d'editer un nouveau post
      * @param $id
-     * @return void|\Zend\Diactoros\Response\RedirectResponse
+     * @return string|\Zend\Diactoros\Response\HtmlResponse|\Zend\Diactoros\Response\RedirectResponse
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     public function editUser($id)
     {
@@ -33,12 +36,16 @@ class UserController extends Controller
         }
         else{
             if ($id != 0){
-                if ($user == null){
-                    $user = $this->getManager( User::class)->fetch(['id'=>$id]);
-                }
+                $user = $this->prefillForm($user);
                 $role = $this->getManager( Role::class)->fetch(['id'=>$user->getRoleId()]);
             }
-            $this->response = $this->displayPage($user,$role);
+            $this->response = $this->render('editUser.twig',
+                [
+                    'User'=> $user,
+                    'Role' => $role,
+                    'roleList' => $this->getManager(Role::class)->getAll(),
+                    'displayError' => $this->displayError
+                ]);
         }
         return $this->response;
     }
@@ -51,15 +58,11 @@ class UserController extends Controller
         }
     }
 
-    private function displayPage($user, $role)
+    private function prefillForm($user)
     {
-        return $this->render('editUser.twig',
-            [
-                'User'=> $user,
-                'Role' => $role,
-                'roleList' => $this->getManager(Role::class)->getAll(),
-                'displayError' => $this->displayError
-            ]);
+        if ($user == null){
+            $user = $this->getManager( User::class)->fetch(['id'=>$id]);
+        }
+        return $user;
     }
-
 }
