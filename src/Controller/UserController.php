@@ -50,6 +50,12 @@ class UserController extends Controller
         return $this->response;
     }
 
+    /**Controle le remplissage du formulaire d'édition d'un utilisateur
+     * @param $displayError
+     * @param $user
+     * @param $id
+     * @return \Zend\Diactoros\Response\RedirectResponse
+     */
     private function formControl($displayError, $user, $id)
     {
         if ($this->checkError($displayError) == false){
@@ -58,6 +64,11 @@ class UserController extends Controller
         }
     }
 
+    /**Pré-rempli le formulaire de modification d'un utilisateur
+     * @param $user
+     * @param $id
+     * @return mixed
+     */
     private function pre_filledForm($user, $id)
     {
         if ($user == null){
