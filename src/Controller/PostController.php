@@ -101,22 +101,16 @@ class PostController extends Controller
             $post->setUpdateDate(date("Y-m-d H:i:s"));
             $this->response = $this->formControl($this->displayError, $post, $id);
         }
-
         else {
             if ($id != 0){
                 $post = $this->pre_filledForm($post, $id);
                 $category = $this->getManager( Category::class)->fetch(['id'=>$post->getCategoryId()]);
                 $user = $this->getManager( User::class)->fetch(['id'=>$post->getUserId()]);
             }
-            $this->response = $this->render('editPost.twig',
-                [
-                    'Post'=> $post,
-                    'Category' => $category,
-                    'CategoryList' => $this->getManager(Category::class)->getAll(),
-                    'User' => $user,
-                    'UserList' => $this->getManager(User::class)->getAll(),
-                    'displayError' => $this->displayError,
-                    'session' => $_SESSION
+            $this->response = $this->render('editPost.twig', ['Post'=> $post, 'Category' => $category,
+                'CategoryList' => $this->getManager(Category::class)->getAll(), 'User' => $user,
+                'UserList' => $this->getManager(User::class)->getAll(), 'displayError' => $this->displayError,
+                'session' => $_SESSION
                 ]);
         }
         return $this->response;
