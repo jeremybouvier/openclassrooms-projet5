@@ -50,40 +50,15 @@ class Comment extends Model
      */
     public static function getColumn()
     {
-        return [
-            'table' => 'comment',
-
-            'manager'=>CommentManager::class,
-
-            'primaryKey'=> [
-                'index' => 'id',
-                'type'     => 'integer'],
-
+        return ['table' => 'comment', 'manager'=>CommentManager::class,
+            'primaryKey'=> ['index' => 'id', 'type' => 'integer'],
             'column'=> [
-
-                'post_id'=>[
-                    'index' => 'postId',
-                    'type'     => 'integer',
-                    'condition' => ['not null']],
-
-                'comment_text' =>[
-                    'index' =>'commentText',
-                    'type'     => 'string',
+                'post_id' => ['index' => 'postId', 'type' => 'integer', 'condition' => ['not null']],
+                'comment_text' => ['index' =>'commentText', 'type' => 'string',
                     'condition' => ['not null', 'max char 250']],
-
-                'update_date' =>[
-                    'index' =>'updateDate',
-                    'type'     => 'datetime',
-                    'condition' => ['']],
-                'author' =>[
-                    'index' =>'author',
-                    'type'     => 'string',
-                    'condition' => ['not null', 'max char 30']],
-                'validation' =>[
-                    'index' =>'validation',
-                    'type'     => 'boolean',
-                    'condition' => ['not null']]
-            ]];
+                'update_date' => ['index' =>'updateDate', 'type' => 'datetime', 'condition' => ['']],
+                'author' => ['index' =>'author', 'type'  => 'string', 'condition' => ['not null', 'max char 30']],
+                'validation' => ['index' => 'validation', 'type' => 'boolean', 'condition' => ['not null']]]];
     }
 
     /**

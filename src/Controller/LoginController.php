@@ -27,9 +27,7 @@ class LoginController extends Controller
      */
     public function checkPassword($disconnect)
     {
-
         $this->disconnect($disconnect);
-        $this->response = $this->authCheck($this->displayError, $this->redirect('administrationPage', 301));
         if ($this->request->getRequest()->getMethod() == "POST"){
             $userConnect = new User();
             $this->displayError = $userConnect->hydrate($this->request->getPost());
@@ -40,7 +38,16 @@ class LoginController extends Controller
                 $this->response = $this->render('login.twig', ['displayError' => $this->displayError]);
             }
         }
+        $this->response = $this->userAlwaysConnected();
         return $this->response;
+    }
+
+    private function userAlwaysConnected()
+    {
+        return $this->authCheck(
+            $this->displayError,
+            $this->render('login.twig',['displayError' => $this->displayError]),
+            $this->redirect('administrationPage', 301));
     }
 
     private function existingUser($userConnect)

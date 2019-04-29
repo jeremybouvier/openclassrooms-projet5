@@ -29,12 +29,10 @@ abstract class Model
             if ($this->getColumnIndex($key) == 'id'){
                 $this->setPrimaryKey($value);
             }
-            else{
                 $error[$key] = $this->validation($value, $key);
                 $method = 'set' . ucfirst($this::getColumn()['column'][$this->getColumnIndex($key)]['index']);
                 if (method_exists($this, $method)) {
                     $this->$method($this->formatData($value, $this::getColumn()['column'][$this->getColumnIndex($key)]['type']));
-                }
             }
         }
         return $error;
