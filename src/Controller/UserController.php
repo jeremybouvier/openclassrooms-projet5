@@ -36,7 +36,7 @@ class UserController extends Controller
         }
         else{
             if ($id != 0){
-                $user = $this->prefillForm($user, $id);
+                $user = $this->pre_filledForm($user, $id);
                 $role = $this->getManager( Role::class)->fetch(['id'=>$user->getRoleId()]);
             }
             $this->response = $this->render('editUser.twig',
@@ -58,7 +58,7 @@ class UserController extends Controller
         }
     }
 
-    private function prefillForm($user, $id)
+    private function pre_filledForm($user, $id)
     {
         if ($user == null){
             $user = $this->getManager( User::class)->fetch(['id'=>$id]);

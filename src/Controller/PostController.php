@@ -88,19 +88,13 @@ class PostController extends Controller
         $user = null;
         if ($this->request->getRequest()->getMethod() == "POST"){
             $post = new Post();
-
             $this->displayError = $post->hydrate($this->request->getPost());
             $post->setPrimaryKey($id);
             $post->setUpdateDate(date("Y-m-d H:i:s"));
-            if ($this->checkError($this->displayError) == false){
-                $this->getManager(Post::class)->edit($post, ['id' => $id]);
-                return $this->redirect('administrationPage', 302);
-            }
+            $this->formControl($this->displayError, $post, $id);
         }
         if ($id != 0){
-            if ($post == null){
-                $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
-            }
+            $post = $this->pre_filledForm($post, $id);
             $category = $this->getManager( Category::class)->fetch(['id'=>$post->getCategoryId()]);
             $user = $this->getManager( User::class)->fetch(['id'=>$post->getUserId()]);
         }
@@ -124,6 +118,22 @@ class PostController extends Controller
     {
         $this->database->getManager(Post::class)->delete(['id'=>$id]);
         return $this->route->redirect('postsPage',302);
+    }
+
+    private function formControl($displayError, $post, $id)
+    {
+        if ($this->checkError($displayError) == false){
+            $this->getManager(Post::class)->edit($post, ['id' => $id]);
+            return $this->redirect('administrationPage', 302);
+        }
+    }
+
+    private function pre_filledForm($post, $id)
+    {
+        if ($post == null){
+            $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
+        }
+        return $post;
     }
 
 }
