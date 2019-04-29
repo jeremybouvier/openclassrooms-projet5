@@ -26,49 +26,13 @@ class AdminController extends Controller
     {
         if ($this->request->getRequest()->getMethod() == "POST"){
             foreach ( $this->request->getPost() as $key =>$id){
-                $this->userActionSelected($key, $id);
+                $this->$key($id);
             }
         }
         else{
             $this->pageDisplay();
         }
         return $this->response;
-    }
-
-    /**Action à effectuer d'aprés le choix de l'utilisateur
-     * @param $key
-     * @param $id
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
-    private function userActionSelected($key, $id)
-    {
-        switch ($key){
-            case 'validComment':
-                $this->validComment($id);
-                break;
-            case 'deleteComment':
-                $this->delete($id);
-                break;
-            case 'updatePost':
-                $this->response = $this->redirect('editPostPage', 302, ['id' => $id]);
-                break;
-            case 'createPost':
-                $this->response = $this->redirect('editPostPage', 302, ['id' => 0]);
-            break;
-            case 'deletePost':
-                $this->deletePost($id);
-            break;
-            case 'updateUser':
-                $this->response = $this->redirect('editUserPage', 302, ['id' => $id]);
-            break;
-            case 'createUser':
-                $this->response = $this->redirect('editUserPage', 302, ['id' => 0]);
-            break;
-            case 'deleteUser':
-                $this->deleteUser($id); break;
-        }
     }
 
     /**Affichage de la page
@@ -89,7 +53,7 @@ class AdminController extends Controller
             ]);
     }
 
-    /**Validation d'un commentaire
+    /**Permet de valider d'un commentaire
      * @param $id
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
@@ -103,7 +67,7 @@ class AdminController extends Controller
         $this->pageDisplay();
     }
 
-    /**supression d'un commentaire non validé
+    /**Permet de suprimer un commentaire non validé
      * @param $id
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
@@ -113,6 +77,22 @@ class AdminController extends Controller
     {
         $this->getManager(Comment::class)->delete(['id'=>$id]);
         $this->pageDisplay();
+    }
+
+    /**Permet de modifier un post
+     * @param $id
+     */
+    private function updatePost($id)
+    {
+        $this->response = $this->redirect('editPostPage', 302, ['id' => $id]);
+    }
+
+    /**Permet de créer un post
+     * @param $id
+     */
+    private function createPost($id)
+    {
+        $this->response = $this->redirect('editPostPage', 302, ['id' => 0]);
     }
 
     /**Suppression d'un post
@@ -126,6 +106,22 @@ class AdminController extends Controller
         $this->getManager(Post::class)->delete(['id' => $id]);
         $this->getManager(Comment::class)->delete(['post_id' => $id]);
         $this->pageDisplay();
+    }
+
+    /**Premet de modifier un utilisateur
+     * @param $id
+     */
+    private function updateUser($id)
+    {
+        $this->response = $this->redirect('editUserPage', 302, ['id' => $id]);
+    }
+
+    /**Permet de créer un utilisateur
+     * @param $id
+     */
+    private function createUser($id)
+    {
+        $this->response = $this->redirect('editUserPage', 302, ['id' => 0]);
     }
 
     /**Suppression d'un utlisateur

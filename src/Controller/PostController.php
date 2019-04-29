@@ -20,6 +20,11 @@ class PostController extends Controller
      */
     private $displayError ;
 
+    /**
+     * @var
+     */
+    private $response;
+
     /**Permet de récupérer les Posts et les affiches
      * @param $categoryId
      * @return string
@@ -60,18 +65,21 @@ class PostController extends Controller
 
                 if ($this->checkError($this->displayError) == false){
                     $this->getManager(Comment::class)->insert($comment);
-                    return $this->redirect('onePostPage', 302, ['id' => $id]);
+                    $this->response = $this->redirect('onePostPage', 302, ['id' => $id]);
                 }
             }
-            $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
-            return $this->render('post.twig',
-                ['Post'=>$post,
-                 'Comment'=> $this->getManager( Comment::class)->fetchAll(['post_id'=>$id, 'validation'=> 1], ['update_date']),
-                 'User' => $this->getManager(User::class)->fetch(['id' => $post->getUserId()]),
-                 'Category' => $this->getManager(Category::class)->fetch(['id' => $post->getCategoryId()]),
-                 'CategoryList' => $this->getManager(Category::class)->getAll(),
-                  'displayError' => $this->displayError
-                ]);
+            else {
+                $post = $this->getManager(Post::class)->fetch(['id' => $id]);
+                $this->response = $this->render('post.twig',
+                    ['Post' => $post,
+                        'Comment' => $this->getManager(Comment::class)->fetchAll(['post_id' => $id, 'validation' => 1], ['update_date']),
+                        'User' => $this->getManager(User::class)->fetch(['id' => $post->getUserId()]),
+                        'Category' => $this->getManager(Category::class)->fetch(['id' => $post->getCategoryId()]),
+                        'CategoryList' => $this->getManager(Category::class)->getAll(),
+                        'displayError' => $this->displayError
+                    ]);
+            }
+            return $this->response;
     }
 
     /**Permet d'editer un nouveau post
@@ -91,23 +99,27 @@ class PostController extends Controller
             $this->displayError = $post->hydrate($this->request->getPost());
             $post->setPrimaryKey($id);
             $post->setUpdateDate(date("Y-m-d H:i:s"));
-            $this->formControl($this->displayError, $post, $id);
+            $this->response = $this->formControl($this->displayError, $post, $id);
         }
-        if ($id != 0){
-            $post = $this->pre_filledForm($post, $id);
-            $category = $this->getManager( Category::class)->fetch(['id'=>$post->getCategoryId()]);
-            $user = $this->getManager( User::class)->fetch(['id'=>$post->getUserId()]);
+
+        else {
+            if ($id != 0){
+                $post = $this->pre_filledForm($post, $id);
+                $category = $this->getManager( Category::class)->fetch(['id'=>$post->getCategoryId()]);
+                $user = $this->getManager( User::class)->fetch(['id'=>$post->getUserId()]);
+            }
+            $this->response = $this->render('editPost.twig',
+                [
+                    'Post'=> $post,
+                    'Category' => $category,
+                    'CategoryList' => $this->getManager(Category::class)->getAll(),
+                    'User' => $user,
+                    'UserList' => $this->getManager(User::class)->getAll(),
+                    'displayError' => $this->displayError,
+                    'session' => $_SESSION
+                ]);
         }
-        return $this->render('editPost.twig',
-            [
-                'Post'=> $post,
-                'Category' => $category,
-                'CategoryList' => $this->getManager(Category::class)->getAll(),
-                'User' => $user,
-                'UserList' => $this->getManager(User::class)->getAll(),
-                'displayError' => $this->displayError,
-                'session' => $_SESSION
-            ]);
+        return $this->response;
     }
 
     /**Permet de supprimer un post
@@ -120,6 +132,12 @@ class PostController extends Controller
         return $this->route->redirect('postsPage',302);
     }
 
+    /**Controle le remplissage du formulaire d'édition d'un post
+     * @param $displayError
+     * @param $post
+     * @param $id
+     * @return \Zend\Diactoros\Response\RedirectResponse
+     */
     private function formControl($displayError, $post, $id)
     {
         if ($this->checkError($displayError) == false){
@@ -128,6 +146,11 @@ class PostController extends Controller
         }
     }
 
+    /**Pré-rempli le formulaire de modification d'un post
+     * @param $post
+     * @param $id
+     * @return mixed
+     */
     private function pre_filledForm($post, $id)
     {
         if ($post == null){
