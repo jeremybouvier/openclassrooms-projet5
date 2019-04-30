@@ -20,7 +20,15 @@ class ContactController extends Controller
     /**
      * @var
      */
-     private $message;
+    private $response;
+
+    /**
+     * @var
+     */
+     private $message =[
+         ['text' => ''] ,
+         ['text' => 'Votre message a bien été envoyé'],
+         ['text' => "Une erreur s'est produite merci de recommencer"]];
 
     /**Gestion de la page contact et de l'envoi de l'email
      * @return string
@@ -28,24 +36,31 @@ class ContactController extends Controller
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function index()
+    public function index($idMessage)
     {
-        $this->message = '';
         if ($this->request->getRequest()->getMethod() == "POST") {
             $mail = new Mail();
             $this->displayError = $mail->hydrate($_POST);
-            $this->formControl($this->displayError, $mail);
+            $this->formControl($mail, $idMessage);
         }
-        return $this->render('contact.twig', ['message' => $this->message, 'displayError' => $this->displayError]);
+        else{
+            $this->response = $this->render('contact.twig', ['message' => $this->message[$idMessage],
+                'displayError' => $this->displayError]);
+        }
+
+        return $this->response;
     }
 
     /**Permet l'envoi de l'email s'il n'y a pas d'erreur sur le formulaire
-     * @param $displayError
      * @param $mail
+     * @param $idMessage
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
-    private function formControl($displayError, $mail)
+    private function formControl($mail, $idMessage)
     {
-        if ($this->checkError($displayError) == false){
+        if ($this->checkError($this->displayError) == false){
             $mail->setMessage(wordwrap(
                 'Vous avez recu un message de : ' . "\r\n" .
                 $mail->getName() . "\r\n" .
@@ -53,21 +68,27 @@ class ContactController extends Controller
                 $mail->getEmail() . "\r\n" .
                 'voici son message : ' . "\r\n" .
                 $mail->getMessage(), 70, "\r\n"));
-            $this->message = $this->sendMail($mail);
+            $idMessage = $this->sendMail($mail);
+            $this->response = $this->redirect('contactPage', 301,['message' => $idMessage]);
+        }
+        else{
+            $this->response = $this->render('contact.twig',
+                ['email' => $mail, 'message' => $this->message[$idMessage], 'displayError' => $this->displayError]);
         }
     }
 
     /**Permet d'envoyer un email
      * @param $mail
-     * @return array
+     * @return string
      */
     public function sendMail($mail)
     {
         if (mail('jeremybouvier2b@gmail.com', $mail->getSubject(), $mail->getMessage())){
-            return ['text' => 'Votre message a bien été envoyé'];
+            return '1';
         }
         else{
-            return ['text' => "Une erreur s'est produite merci de recommencer"];
+            return '2';
         }
+
     }
 }

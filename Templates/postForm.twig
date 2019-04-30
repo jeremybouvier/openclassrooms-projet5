@@ -38,6 +38,11 @@
         </div>
 
         <div class="form-group">
+            <label for="previewText">Chapô du post : <span class="text-danger">{{ displayError.previewText }}</span></label>
+            <textarea class="form-control" id="previewText" name="previewText" rows="3">{{Post.previewText}}</textarea>
+        </div>
+
+        <div class="form-group">
             <label for="content">Contenu du post : <span class="text-danger">{{ displayError.content }}</span></label>
             <textarea class="form-control" id="content" name="content" rows="20">{{Post.content}}</textarea>
         </div>

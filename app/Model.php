@@ -54,6 +54,9 @@ abstract class Model
         return $this->message;
     }
 
+    /**Permet d'enregistrer le message d'erreur pour notNull
+     * @param $value
+     */
     private  function notNull($value)
     {
         if ($value == null){
@@ -61,6 +64,9 @@ abstract class Model
         }
     }
 
+    /**Permet d'enregistrer le message d'erreur pour maxChar10
+     * @param $value
+     */
     private  function maxChar10($value)
     {
         if (strlen($value) > 10){
@@ -68,6 +74,9 @@ abstract class Model
         }
     }
 
+    /**Permet d'enregistrer le message d'erreur pour maxChar30
+     * @param $value
+     */
     private  function maxChar30($value)
     {
         if (strlen($value) > 30){
@@ -75,10 +84,13 @@ abstract class Model
         }
     }
 
-    private  function maxChar250($value)
+    /**Permet d'enregistrer le message d'erreur pour maxChar300
+     * @param $value
+     */
+    private  function maxChar300($value)
     {
-        if (strlen($value) > 250){
-            $this->message = $this->message . ' Maximum 250 charactères ';
+        if (strlen($value) > 300){
+            $this->message = $this->message . ' Maximum 300 charactères ';
         }
     }
 

@@ -48,21 +48,21 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name" style="color:red;">{{ displayError.name }}</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Entrez votre nom">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Entrez votre nom" value="{{ email.name }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="email" style="color:red;">{{ displayError.email }}</label>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Entrez votre email ">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Entrez votre email " value="{{ email.email }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="subject" style="color:red;">{{ displayError.subject }}</label>
-                                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Inscrivez le Sujet du message">
+                                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Inscrivez le Sujet du message" value="{{ email.subject }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="message" style="color:red;">{{ displayError.message }}</label>
-                                    <textarea class="form-control" name="message" id="message" rows="1" placeholder="Entrez votre Message"></textarea>
+                                    <textarea class="form-control" name="message" id="message" rows="1" placeholder="Entrez votre Message" >{{ email.message }}</textarea>
                                 </div>
                             </div>
                             <div class="col-md-12 text-right">

@@ -17,7 +17,7 @@ $router->setRoute('editUserPage', 'editUser/:id', "User#editUser");
 $router->setRoute('loginPage','login/:disconnect', "Login#checkPassword");
 $router->setRoute('administrationPage','admin', "Admin#dashboard");
 $router->setRoute('deleteComment','deleteComment/:id/:idComment', "Comment#deleteComment");
-$router->setRoute('contactPage','contact', "Contact#index");
+$router->setRoute('contactPage','contact/:idMessage', "Contact#index");
 $response = $router->run($router);
 $emitter = new SapiEmitter();
 $emitter->emit($response);

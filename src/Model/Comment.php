@@ -54,7 +54,7 @@ class Comment extends Model
             'primaryKey'=> ['index' => 'id', 'type' => 'integer'],
             'column'=> [
                 'post_id' => ['index' => 'postId', 'type' => 'integer', 'condition' => ['notNull']],
-                'comment_text' => ['index' =>'commentText', 'type' => 'string', 'condition' => ['notNull', 'maxChar250']],
+                'comment_text' => ['index' =>'commentText', 'type' => 'string', 'condition' => ['notNull', 'maxChar300']],
                 'update_date' => ['index' =>'updateDate', 'type' => 'datetime', 'condition' => ['notNull']],
                 'author' => ['index' =>'author', 'type'  => 'string', 'condition' => ['notNull', 'maxChar30']],
                 'validation' => ['index' => 'validation', 'type' => 'boolean', 'condition' => ['notNull']]]];

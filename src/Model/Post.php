@@ -70,7 +70,7 @@ class Post extends Model
                 'content' => ['index' =>'content', 'type' => 'string', 'condition' => ['notNull']],
                 'user_id' => ['index' =>'userId', 'type' => 'integer', 'condition' => ['notNull']],
                 'update_date' => ['index' =>'updateDate', 'type' => 'datetime', 'condition' => ['notNull']],
-                'preview_text' => ['index' =>'previewText', 'type' => 'string', 'condition' => ['notNull']]]];
+                'preview_text' => ['index' =>'previewText', 'type' => 'string', 'condition' => ['notNull', 'maxChar300']]]];
     }
 
     /**
@@ -167,8 +167,6 @@ class Post extends Model
     public function setContent($content)
     {
         $this->content = $content;
-        $this->setPreviewText();
-
     }
 
     /**
@@ -188,11 +186,11 @@ class Post extends Model
     }
 
     /**
-     *
+     * @param $previewText
      */
-    public function setPreviewText()
+    public function setPreviewText($previewText)
     {
-        $this->previewText = substr($this->content, 0, 300 - strlen($this->content));
+        $this->previewText = $previewText;
     }
 }
 

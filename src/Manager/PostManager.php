@@ -12,7 +12,6 @@ use Framework\Manager;
  */
 class PostManager extends Manager
 {
-
     /**Permet de récupérer tous les posts present dans la base de donnée
      * @return Post
      */
