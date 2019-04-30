@@ -14,9 +14,6 @@ use Framework\Controller;
  */
 class AdminController extends Controller
 {
-    /**
-     * @var
-     */
     private $response;
 
     /**Gestion de la partie administration
