@@ -9,7 +9,6 @@ namespace Framework;
  */
 abstract class Model
 {
-    private $message;
     /**
      * @return array
      */
@@ -47,39 +46,32 @@ abstract class Model
     public function validation($value, $key)
     {
         $indexTable = $this->getColumnIndex($key);
-        $this->message = '';
+        $message = '';
         foreach ( $this::getColumn()['column'][$indexTable]['condition'] as $condition) {
-            $this->$condition($value);
+            switch ($condition){
+                case 'not null':
+                    if ($value == null){
+                        $message =  'Merci de remplir ce champ' . $message;
+                    }
+                    break;
+                case 'max char 10':
+                    if (strlen($value) > 10){
+                        $message = $message . ' Maximum 10 charactères ';
+                    }
+                    break;
+                case 'max char 30':
+                    if (strlen($value) > 30){
+                        $message = $message . ' Maximum 30 charactères ';
+                    }
+                    break;
+                case 'max char 250':
+                    if (strlen($value) > 250){
+                        $message = $message . ' Maximum 250 charactères ';
+                    }
+                    break;
+            }
         }
-        return $this->message;
-    }
-
-    private  function notNull($value)
-    {
-        if ($value == null){
-            $this->message =  'Merci de remplir ce champ' . $this->message;
-        }
-    }
-
-    private  function maxChar10($value)
-    {
-        if (strlen($value) > 10){
-            $this->message = $this->message . ' Maximum 10 charactères ';
-        }
-    }
-
-    private  function maxChar30($value)
-    {
-        if (strlen($value) > 30){
-            $this->message = $this->message . ' Maximum 30 charactères ';
-        }
-    }
-
-    private  function maxChar250($value)
-    {
-        if (strlen($value) > 250){
-            $this->message = $this->message . ' Maximum 250 charactères ';
-        }
+        return $message;
     }
 
     /**Formate les données dans le type correspondant à la colonne
