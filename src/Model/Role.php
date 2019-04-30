@@ -26,7 +26,7 @@ class Role extends Model
         return ['table' => 'role', 'manager' => RoleManager::class,
             'primaryKey' => ['index' => 'id', 'type' => 'integer'],
             'column' => [
-                'name' => ['index' => 'name', 'type' => 'string', 'condition' => ['notNull', 'maxChar30']]]];
+                'name' => ['index' => 'name', 'type' => 'string', 'condition' => ['not null', 'max char 30']]]];
     }
 
     /** Hydratation de la class par la méthode magique SET

@@ -40,10 +40,10 @@ class Mail extends Model
         return ['table' => null, 'manager'=>null,
             'primaryKey'=> ['index' => 'id', 'type' => 'integer'],
             'column'=> [
-                'name'=> ['index' => 'name', 'type' => 'string', 'condition' => ['notNull', 'maxChar30']],
-                'email'=> ['index' => 'email', 'type' => 'string', 'condition' => ['notNull', 'maxChar30']],
-                'subject'=> ['index' => 'subject', 'type' => 'string', 'condition' => ['notNull', 'maxChar30']],
-                'message'=> ['index' => 'message', 'type' => 'string', 'condition' => ['notNull']]]];
+                'name'=> ['index' => 'name', 'type' => 'string', 'condition' => ['not null', 'max char 30']],
+                'email'=> ['index' => 'email', 'type' => 'string', 'condition' => ['not null', 'max char 30']],
+                'subject'=> ['index' => 'subject', 'type' => 'string', 'condition' => ['not null', 'max char 30']],
+                'message'=> ['index' => 'message', 'type' => 'string', 'condition' => ['not null']]]];
     }
 
     /** Hydratation de la class par la méthode magique SET
