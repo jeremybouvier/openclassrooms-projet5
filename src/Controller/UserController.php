@@ -14,6 +14,9 @@ class UserController extends Controller
      */
     private $displayError;
 
+    /**
+     * @var
+     */
     private $response;
 
     /**Permet d'editer un nouveau post
@@ -32,36 +35,34 @@ class UserController extends Controller
             $this->displayError = $user->hydrate($this->request->getPost());
             $user->setPassword(password_hash($user->getPassword(), PASSWORD_DEFAULT));
             $user->setPrimaryKey($id);
-            $this->response = $this->formControl($this->displayError, $user, $id);
+            $this->response = $this->formControl($user, $id);
         }
         else{
             if ($id != 0){
                 $user = $this->pre_filledForm($user, $id);
                 $role = $this->getManager( Role::class)->fetch(['id'=>$user->getRoleId()]);
             }
-            $this->response = $this->render('editUser.twig',
-                [
-                    'User'=> $user,
-                    'Role' => $role,
-                    'roleList' => $this->getManager(Role::class)->getAll(),
-                    'displayError' => $this->displayError
-                ]);
+            $this->response = $this->displayPage($user, $role);
         }
         return $this->response;
     }
 
     /**Controle le remplissage du formulaire d'édition d'un utilisateur
-     * @param $displayError
      * @param $user
      * @param $id
-     * @return \Zend\Diactoros\Response\RedirectResponse
+     * @return string|\Zend\Diactoros\Response\HtmlResponse|\Zend\Diactoros\Response\RedirectResponse
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
-    private function formControl($displayError, $user, $id)
+    private function formControl($user, $id)
     {
-        if ($this->checkError($displayError) == false){
+        if ($this->checkError($this->displayError) == false){
             $this->getManager(User::class)->edit($user, ['id' => $id]);
             return $this->redirect('administrationPage', 302);
         }
+        $role = $this->getManager( Role::class)->fetch(['id'=>$user->getRoleId()]);
+        return $this->displayPage($user, $role);
     }
 
     /**Pré-rempli le formulaire de modification d'un utilisateur
@@ -75,5 +76,24 @@ class UserController extends Controller
             $user = $this->getManager( User::class)->fetch(['id'=>$id]);
         }
         return $user;
+    }
+
+    /**creer l'affichage de la page
+     * @param $user
+     * @param null $role
+     * @return string|\Zend\Diactoros\Response\HtmlResponse
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    private function displayPage($user, $role)
+    {
+        return $this->render('editUser.twig',
+            [
+                'User'=> $user,
+                'Role' => $role,
+                'roleList' => $this->getManager(Role::class)->getAll(),
+                'displayError' => $this->displayError
+            ]);
     }
 }
