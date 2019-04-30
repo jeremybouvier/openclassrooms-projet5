@@ -78,7 +78,7 @@ class UserController extends Controller
         return $user;
     }
 
-    /**creer l'affichage de la page
+    /**créer l'affichage de la page
      * @param $user
      * @param null $role
      * @return string|\Zend\Diactoros\Response\HtmlResponse
