@@ -16,6 +16,10 @@ use Framework\Controller;
 class UserController extends Controller
 {
     /**
+     *
+     */
+    private $test;
+    /**
      * @var
      */
     private $displayError;
