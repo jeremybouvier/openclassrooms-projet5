@@ -28,14 +28,15 @@ class LoginController extends Controller
     public function checkPassword($disconnect)
     {
         $this->disconnect($disconnect);
-        if ($this->request->getRequest()->getMethod() == "POST"){
+        if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()){
             $userConnect = new User();
             $this->displayError = $userConnect->hydrate($this->request->getPost());
             if ($this->checkError($this->displayError) == false){
                 $this->response = $this->existingUser($userConnect);
             }
             else{
-                $this->response = $this->render('login.twig', ['displayError' => $this->displayError]);
+                $this->response = $this->render('login.twig', ['displayError' => $this->displayError,
+                    'session' => $_SESSION]);
             }
         }
         $this->response = $this->userAlwaysConnected();
@@ -51,7 +52,7 @@ class LoginController extends Controller
     private function userAlwaysConnected()
     {
         return $this->authCheck(
-            $this->render('login.twig',['displayError' => $this->displayError]),
+            $this->render('login.twig',['displayError' => $this->displayError, 'session' => $_SESSION]),
             $this->redirect('administrationPage', 301));
     }
 
@@ -70,7 +71,7 @@ class LoginController extends Controller
         }
         else{
             $this->displayError['loginName']= 'Identifiant incorrect';
-            return $this->render('login.twig', ['displayError' => $this->displayError]);
+            return $this->render('login.twig', ['displayError' => $this->displayError, 'session' => $_SESSION]);
         }
     }
 
@@ -90,7 +91,7 @@ class LoginController extends Controller
         }
         else{
             $this->displayError['loginName']= 'Identifiant incorrect';
-            return $this->render('login.twig', ['displayError' => $this->displayError]);
+            return $this->render('login.twig', ['displayError' => $this->displayError, 'session' => $_SESSION]);
         }
     }
 

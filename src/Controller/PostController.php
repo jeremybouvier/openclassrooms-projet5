@@ -57,7 +57,7 @@ class PostController extends Controller
      */
     public function getSinglePost($id)
     {
-            if ($this->request->getRequest()->getMethod() == "POST") {
+            if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()) {
                 $comment = new Comment();
                 $this->displayError = $comment->hydrate($this->request->getPost());
                 $comment->setPostId($id);
@@ -91,7 +91,7 @@ class PostController extends Controller
         $post = null;
         $category = null;
         $user = null;
-        if ($this->request->getRequest()->getMethod() == "POST"){
+        if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()){
             $post = new Post();
             $this->displayError = $post->hydrate($this->request->getPost());
             $post->setPrimaryKey($id);
@@ -186,7 +186,8 @@ class PostController extends Controller
                 'User' => $this->getManager(User::class)->fetch(['id' => $post->getUserId()]),
                 'Category' => $this->getManager(Category::class)->fetch(['id' => $post->getCategoryId()]),
                 'CategoryList' => $this->getManager(Category::class)->getAll(),
-                'displayError' => $this->displayError
+                'displayError' => $this->displayError,
+                'session' => $_SESSION
             ]);
     }
 

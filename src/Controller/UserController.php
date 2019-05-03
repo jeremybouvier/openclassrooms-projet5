@@ -30,7 +30,7 @@ class UserController extends Controller
     {
         $user = null;
         $role = null;
-        if ($this->request->getRequest()->getMethod() == "POST"){
+        if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()){
             $user = new User();
             $this->displayError = $user->hydrate($this->request->getPost());
             $user->setPassword(password_hash($user->getPassword(), PASSWORD_DEFAULT));
@@ -93,7 +93,8 @@ class UserController extends Controller
                 'User'=> $user,
                 'Role' => $role,
                 'roleList' => $this->getManager(Role::class)->getAll(),
-                'displayError' => $this->displayError
+                'displayError' => $this->displayError,
+                'session' => $_SESSION
             ]);
     }
 }

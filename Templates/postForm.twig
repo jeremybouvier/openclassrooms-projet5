@@ -1,7 +1,7 @@
 {% block postForm %}
 
     <form method="post" >
-
+        <input type="hidden" name="token" value="{{ session.token }}">
         <div class="form-group">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">

@@ -26,6 +26,8 @@ abstract class Model
      */
     public function hydrate(array $data)
     {
+
+
         foreach ($data as $key => $value) {
             if ($this->getColumnIndex($key) == 'id'){
                 $this->setPrimaryKey($value);

@@ -38,16 +38,15 @@ class ContactController extends Controller
      */
     public function index($idMessage)
     {
-        if ($this->request->getRequest()->getMethod() == "POST") {
+        if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()) {
             $mail = new Mail();
-            $this->displayError = $mail->hydrate($_POST);
+            $this->displayError = $mail->hydrate($this->request->getPost());
             $this->formControl($mail, $idMessage);
         }
         else{
             $this->response = $this->render('contact.twig', ['message' => $this->message[$idMessage],
-                'displayError' => $this->displayError]);
+                'displayError' => $this->displayError, 'session' => $_SESSION]);
         }
-
         return $this->response;
     }
 
@@ -72,8 +71,11 @@ class ContactController extends Controller
             $this->response = $this->redirect('contactPage', 301,['message' => $idMessage]);
         }
         else{
-            $this->response = $this->render('contact.twig',
-                ['email' => $mail, 'message' => $this->message[$idMessage], 'displayError' => $this->displayError]);
+            $this->response = $this->render('contact.twig', [
+                'email' => $mail,
+                'message' => $this->message[$idMessage],
+                'displayError' => $this->displayError,
+                'session' => $_SESSION]);
         }
     }
 

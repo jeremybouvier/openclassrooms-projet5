@@ -27,7 +27,7 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
-        if ($this->request->getRequest()->getMethod() == "POST"){
+        if ($this->request->getRequest()->getMethod() == "POST" ){
             foreach ( $this->request->getPost() as $key =>$id){
                 $this->$key($id);
             }
@@ -45,6 +45,7 @@ class AdminController extends Controller
      */
     private function pageDisplay()
     {
+
         $this->response =  $this->render('admin.twig',
             [
                 'Post' => $this->getManager( Post::class)->getAll(),
