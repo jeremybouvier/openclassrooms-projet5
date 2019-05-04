@@ -24,7 +24,7 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
-        if ($this->request->getRequest()->getMethod() == "POST"){
+        if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()){
             foreach ( $this->request->getPost() as $key =>$id){
                 $this->$key($id);
             }
@@ -42,6 +42,7 @@ class AdminController extends Controller
      */
     private function pageDisplay()
     {
+
         $this->response =  $this->render('admin.twig',
             [
                 'Post' => $this->getManager( Post::class)->getAll(),
@@ -49,7 +50,8 @@ class AdminController extends Controller
                     ->fetchAll(['validation' => 0], ['update_date'], 100, 0),
                 'User' => $this->getManager( User::class)->getAll(),
                 'ConnectedUser' => $this->getManager(User::class)
-                    ->fetch(['login_name' => $_SESSION['Auth']['login']])
+                    ->fetch(['login_name' => $_SESSION['Auth']['login']]),
+                'session' => ['token' => $_SESSION['token']]
             ]);
     }
 

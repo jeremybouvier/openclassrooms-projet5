@@ -57,7 +57,7 @@ class PostController extends Controller
      */
     public function getSinglePost($id)
     {
-            if ($this->request->getRequest()->getMethod() == "POST") {
+            if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()) {
                 $comment = new Comment();
                 $this->displayError = $comment->hydrate($this->request->getPost());
                 $comment->setPostId($id);
@@ -94,7 +94,7 @@ class PostController extends Controller
         $post = null;
         $category = null;
         $user = null;
-        if ($this->request->getRequest()->getMethod() == "POST"){
+        if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()){
             $post = new Post();
             $this->displayError = $post->hydrate($this->request->getPost());
             $post->setPrimaryKey($id);
@@ -151,6 +151,45 @@ class PostController extends Controller
             $post = $this->getManager( Post::class)->fetch(['id'=>$id]);
         }
         return $post;
+    }
+
+    /**Créer l'affichage de la page d'edition du post
+     * @param $post
+     * @param $category
+     * @param $user
+     * @return string|\Zend\Diactoros\Response\HtmlResponse
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    private function displayEditPage($post, $category, $user)
+    {
+        return $this->render('editPost.twig', ['Post'=> $post, 'Category' => $category,
+            'CategoryList' => $this->getManager(Category::class)->getAll(), 'User' => $user,
+            'UserList' => $this->getManager(User::class)->getAll(), 'displayError' => $this->displayError,
+            'session' => $_SESSION
+        ]);
+    }
+
+    /**Créer l'affichage de la page du post
+     * @param $post
+     * @param $id
+     * @return string|\Zend\Diactoros\Response\HtmlResponse
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    private function displayPostPage($post, $id)
+    {
+        return $this->render('post.twig',
+            ['Post' => $post,
+                'Comment' => $this->getManager(Comment::class)->fetchAll(['post_id' => $id, 'validation' => 1], ['update_date']),
+                'User' => $this->getManager(User::class)->fetch(['id' => $post->getUserId()]),
+                'Category' => $this->getManager(Category::class)->fetch(['id' => $post->getCategoryId()]),
+                'CategoryList' => $this->getManager(Category::class)->getAll(),
+                'displayError' => $this->displayError,
+                'session' => $_SESSION
+            ]);
     }
 
 }

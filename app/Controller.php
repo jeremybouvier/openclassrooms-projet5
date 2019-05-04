@@ -10,9 +10,21 @@ use Zend\Diactoros\Response\RedirectResponse;
 
 class Controller
 {
+    /**
+     * @var
+     */
     protected $request;
+    /**
+     * @var Database
+     */
     protected $database;
+    /**
+     * @var Environment
+     */
     protected $twig;
+    /**
+     * @var
+     */
     protected $router;
 
     /**stockage de la requete de la connection a la base de donnée et de la route dans le controller
@@ -22,6 +34,7 @@ class Controller
      */
     public function __construct($request, $router)
     {
+        $this->setToken();
         $this->request = $request;
         $this->router = $router;
         if (!isset($this->database)){
@@ -88,5 +101,20 @@ class Controller
             return $response;
         }
         return $redirect;
+    }
+
+    private function setToken()
+    {
+        if (!isset($_SESSION['token']) OR empty($_SESSION['token'])){
+            $_SESSION['token'] = md5(bin2hex(openssl_random_pseudo_bytes(6)));
+        }
+    }
+
+    protected function tokenVerify()
+    {
+        if ($this->request->getToken() == $_SESSION['token']){
+            return true;
+        }
+        return false;
     }
 }

@@ -1,7 +1,7 @@
 {% block postForm %}
 
     <form method="post" >
-
+        <input type="hidden" name="token" value="{{ session.token }}">
         <div class="form-group">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -42,8 +42,6 @@
             <label for="password">Mot de passe : <span class="text-danger">{{ displayError.password }}</span></label>
             <input type="password" class="form-control" id="password" name="password" value="">
         </div>
-
-
         <div class="d-flex justify-content-end">
             <input type="submit" class="primary-btn submit_btn" value="Enregistrer" >
         </div>

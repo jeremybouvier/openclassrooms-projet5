@@ -45,6 +45,7 @@
                     </div>
                     <div class="col-lg-9">
                         <form class="row contact_form" method="post" id="contactForm" novalidate="novalidate">
+                            <input type="hidden" name="token" value="{{ session.token }}">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name" style="color:red;">{{ displayError.name }}</label>

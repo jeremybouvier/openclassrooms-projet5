@@ -3,10 +3,7 @@
         <!--================Home Banner Area =================-->
         <section class="banner_area">
             <div class="box_1620">
-                <div class="banner_inner d-flex align-items-center" style="
-                background-image:url('/Templates/img/blog/baniere/baniere.jpg');
-                background-position : center; background-size: 100%; border-radius: 15px;">
-                    <div class="container">
+                <div class="banner_inner d-flex align-items-center justify-content-center">
                         <div class="banner_content text-center" >
                             <h2>Administration</h2>
                             <div class="page_link">
@@ -14,7 +11,6 @@
                                 (<a href="/login/disconnect">Déconnection</a>)
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -43,6 +39,7 @@
                                         <div class="country">{{ users.loginName }}</div>
                                         <div class="serial mr-3" >
                                             <form method="post" >
+                                                <input type="hidden" name="token" value="{{ session.token }}">
                                                 <input type="hidden" name="updateUser" value="{{ users.id }}">
                                                 <button type="submit" class="admin_btn p-0 bg-white text-primary" >
                                                     <span class="lnr lnr-pencil"></span>
@@ -51,6 +48,7 @@
                                         </div>
                                         <div class="serial">
                                             <form method="post" >
+                                                <input type="hidden" name="token" value="{{ session.token }}">
                                                 <input type="hidden" name="deleteUser" value="{{ users.id }}">
                                                 <button type="submit" class="admin_btn p-0 bg-white text-primary">
                                                     <span class="lnr lnr-trash"></span>
@@ -61,6 +59,7 @@
                                 {% endfor %}
                                 <div class="table-row d-flex justify-content-end">
                                     <form method="post">
+                                        <input type="hidden" name="token" value="{{ session.token }}">
                                         <input type="hidden" name="createUser">
                                         <button type="submit" class="btn-primary submit_btn">
                                             Ajouter un utilistaeur
@@ -91,6 +90,7 @@
                                     <div class="country">{{ posts.updateDate }}</div>
                                     <div class="serial mr-3" >
                                         <form method="post" >
+                                            <input type="hidden" name="token" value="{{ session.token }}">
                                             <input type="hidden" name="updatePost" value="{{ posts.id }}">
                                             <button type="submit" class="admin_btn p-0 bg-white text-primary" >
                                                 <span class="lnr lnr-pencil"></span>
@@ -99,6 +99,7 @@
                                     </div>
                                     <div class="serial" >
                                         <form method="post" >
+                                            <input type="hidden" name="token" value="{{ session.token }}">
                                             <input type="hidden" name="deletePost" value="{{ posts.id }}">
                                             <button type="submit" class="admin_btn p-0 bg-white text-primary">
                                                 <span class="lnr lnr-trash"></span>
@@ -109,6 +110,7 @@
                                 {% endfor %}
                                 <div class="table-row d-flex justify-content-end">
                                     <form method="post">
+                                        <input type="hidden" name="token" value="{{ session.token }}">
                                         <input type="hidden" name="createPost">
                                         <button type="submit" class="btn-primary submit_btn">
                                             Ajouter un article
@@ -139,6 +141,7 @@
                                         <div class="country">{{ comments.updateDate }}</div>
                                         <div class="serial mr-3" >
                                             <form method="post" >
+                                                <input type="hidden" name="token" value="{{ session.token }}">
                                                 <input type="hidden" name="validComment" value="{{ comments.id }}">
                                                 <button type="submit" class="admin_btn p-0 bg-white text-primary" >
                                                     <span class="lnr lnr-checkmark-circle"></span>
@@ -147,6 +150,7 @@
                                         </div>
                                         <div class="serial">
                                             <form method="post" >
+                                                <input type="hidden" name="token" value="{{ session.token }}">
                                                 <input type="hidden" name="deleteComment" value="{{ comments.id }}">
                                                 <button type="submit" class="admin_btn p-0 bg-white text-primary">
                                                     <span class="lnr lnr-trash"></span>
@@ -161,15 +165,7 @@
                 </section>
             </div>
         </section>
-            </div>
-        </section>
-
         <!--================Blog Area =================-->
-
-
-
-
-
     {% endblock content %}
 
 

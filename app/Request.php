@@ -32,6 +32,11 @@ class Request
     private $cookie;
 
     /**
+     * @var
+     */
+    private $token;
+
+    /**
      * @var \Zend\Diactoros\ServerRequest
      */
     private $request;
@@ -44,8 +49,11 @@ class Request
         $this->request = ServerRequestFactory::fromGlobals();
         $this->server = $_SERVER;
         $this->get = $_GET;
-        $this->post = $_POST;
+        $this->post = array_splice($_POST,1);
         $this->cookie = $_COOKIE;
+        if (isset($_POST['token'])){
+            $this->token = $_POST['token'];
+        }
     }
 
     /**
@@ -86,5 +94,13 @@ class Request
     public function getCookie()
     {
         return $this->cookie;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return $this->token;
     }
 }

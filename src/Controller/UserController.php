@@ -16,10 +16,6 @@ use Framework\Controller;
 class UserController extends Controller
 {
     /**
-     *
-     */
-    private $test;
-    /**
      * @var
      */
     private $displayError;
@@ -35,7 +31,7 @@ class UserController extends Controller
     {
         $user = null;
         $role = null;
-        if ($this->request->getRequest()->getMethod() == "POST"){
+        if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()){
             $user = new User();
             $this->displayError = $user->hydrate($this->request->getPost());
             $user->setPassword(password_hash($user->getPassword(), PASSWORD_DEFAULT));
@@ -62,4 +58,23 @@ class UserController extends Controller
         return $response;
     }
 
+    /**créer l'affichage de la page
+     * @param $user
+     * @param null $role
+     * @return string|\Zend\Diactoros\Response\HtmlResponse
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    private function displayPage($user, $role)
+    {
+        return $this->render('editUser.twig',
+            [
+                'User'=> $user,
+                'Role' => $role,
+                'roleList' => $this->getManager(Role::class)->getAll(),
+                'displayError' => $this->displayError,
+                'session' => $_SESSION
+            ]);
+    }
 }
