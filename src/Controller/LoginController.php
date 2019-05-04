@@ -43,6 +43,12 @@ class LoginController extends Controller
         return $this->response;
     }
 
+    /**Détermine si un utilisateur est toujours connecté
+     * @return mixed
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     private function userAlwaysConnected()
     {
         return $this->authCheck(
@@ -50,6 +56,13 @@ class LoginController extends Controller
             $this->redirect('administrationPage', 301));
     }
 
+    /**Permet de vérifier si l'utilisateur existe
+     * @param $userConnect
+     * @return string|\Zend\Diactoros\Response\HtmlResponse|\Zend\Diactoros\Response\RedirectResponse
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     private function existingUser($userConnect)
     {
         $user = $this->getManager(User::class)->fetch(['login_name' => $userConnect->getLoginName()]);
@@ -62,6 +75,14 @@ class LoginController extends Controller
         }
     }
 
+    /**Permet de verifier le mot de passe de l'utilisateur et doone accès à l'administration
+     * @param $userConnect
+     * @param $user
+     * @return string|\Zend\Diactoros\Response\HtmlResponse|\Zend\Diactoros\Response\RedirectResponse
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     private function passwordVerify($userConnect, $user)
     {
         if (password_verify($userConnect->getPassword(), $user->getPassword()) == true){
@@ -74,6 +95,9 @@ class LoginController extends Controller
         }
     }
 
+    /**Permet la déconnection d'un utilisateur
+     * @param $disconnect
+     */
     private function disconnect($disconnect)
     {
         if ($disconnect == 'disconnect'){
