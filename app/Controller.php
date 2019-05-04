@@ -112,7 +112,6 @@ class Controller
 
     protected function tokenVerify()
     {
-
         if ($this->request->getToken() == $_SESSION['token']){
             return true;
         }
