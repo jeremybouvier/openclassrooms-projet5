@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: jeremy
+ * Date: 16/04/19
+ * Time: 21:43
+ */
 
 namespace Application\Controller;
 
@@ -14,14 +20,9 @@ class UserController extends Controller
      */
     private $displayError;
 
-    /**
-     * @var
-     */
-    private $response;
-
     /**Permet d'editer un nouveau post
      * @param $id
-     * @return string|\Zend\Diactoros\Response\HtmlResponse|\Zend\Diactoros\Response\RedirectResponse
+     * @return string|\Zend\Diactoros\Response\RedirectResponse
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
@@ -35,47 +36,26 @@ class UserController extends Controller
             $this->displayError = $user->hydrate($this->request->getPost());
             $user->setPassword(password_hash($user->getPassword(), PASSWORD_DEFAULT));
             $user->setPrimaryKey($id);
-            $this->response = $this->formControl($user, $id);
-        }
-        else{
-            if ($id != 0){
-                $user = $this->pre_filledForm($user, $id);
-                $role = $this->getManager( Role::class)->fetch(['id'=>$user->getRoleId()]);
+            if ($this->checkError($this->displayError) == false){
+                $this->getManager(User::class)->edit($user, ['id' => $id]);
+                return $this->redirect('administrationPage', 302);
             }
-            $this->response = $this->displayPage($user, $role);
         }
-        return $this->response;
-    }
-
-    /**Controle le remplissage du formulaire d'édition d'un utilisateur
-     * @param $user
-     * @param $id
-     * @return string|\Zend\Diactoros\Response\HtmlResponse|\Zend\Diactoros\Response\RedirectResponse
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
-    private function formControl($user, $id)
-    {
-        if ($this->checkError($this->displayError) == false){
-            $this->getManager(User::class)->edit($user, ['id' => $id]);
-            return $this->redirect('administrationPage', 302);
+        if ($id != 0){
+            if ($user == null){
+                $user = $this->getManager( User::class)->fetch(['id'=>$id]);
+            }
+            $role = $this->getManager( Role::class)->fetch(['id'=>$user->getRoleId()]);
         }
-        $role = $this->getManager( Role::class)->fetch(['id'=>$user->getRoleId()]);
-        return $this->displayPage($user, $role);
-    }
-
-    /**Pré-rempli le formulaire de modification d'un utilisateur
-     * @param $user
-     * @param $id
-     * @return mixed
-     */
-    private function pre_filledForm($user, $id)
-    {
-        if ($user == null){
-            $user = $this->getManager( User::class)->fetch(['id'=>$id]);
-        }
-        return $user;
+        $roleList = $this->getManager(Role::class)->getAll();
+        $data =  [
+            'User'=> $user,
+            'Role' => $role,
+            'roleList' => $roleList,
+            'displayError' => $this->displayError
+        ];
+        $response = $this->render('editUser.twig', $data);
+        return $response;
     }
 
     /**créer l'affichage de la page
