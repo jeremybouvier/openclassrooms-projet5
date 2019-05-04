@@ -67,14 +67,17 @@ class PostController extends Controller
                     $this->getManager(Comment::class)->insert($comment);
                     $this->response = $this->redirect('onePostPage', 302, ['id' => $id]);
                 }
-                else{
-                    $post = $this->getManager(Post::class)->fetch(['id' => $id]);
-                    $this->response = $this->displayPostPage($post, $id);
-                }
             }
             else {
                 $post = $this->getManager(Post::class)->fetch(['id' => $id]);
-                $this->response = $this->displayPostPage($post, $id);
+                $this->response = $this->render('post.twig',
+                    ['Post' => $post,
+                        'Comment' => $this->getManager(Comment::class)->fetchAll(['post_id' => $id, 'validation' => 1], ['update_date']),
+                        'User' => $this->getManager(User::class)->fetch(['id' => $post->getUserId()]),
+                        'Category' => $this->getManager(Category::class)->fetch(['id' => $post->getCategoryId()]),
+                        'CategoryList' => $this->getManager(Category::class)->getAll(),
+                        'displayError' => $this->displayError
+                    ]);
             }
             return $this->response;
     }
@@ -96,7 +99,7 @@ class PostController extends Controller
             $this->displayError = $post->hydrate($this->request->getPost());
             $post->setPrimaryKey($id);
             $post->setUpdateDate(date("Y-m-d H:i:s"));
-            $this->response = $this->formControl($post, $id);
+            $this->response = $this->formControl($this->displayError, $post, $id);
         }
         else {
             if ($id != 0){
@@ -104,7 +107,11 @@ class PostController extends Controller
                 $category = $this->getManager( Category::class)->fetch(['id'=>$post->getCategoryId()]);
                 $user = $this->getManager( User::class)->fetch(['id'=>$post->getUserId()]);
             }
-            $this->response = $this->displayEditPage($post, $category, $user);
+            $this->response = $this->render('editPost.twig', ['Post'=> $post, 'Category' => $category,
+                'CategoryList' => $this->getManager(Category::class)->getAll(), 'User' => $user,
+                'UserList' => $this->getManager(User::class)->getAll(), 'displayError' => $this->displayError,
+                'session' => $_SESSION
+                ]);
         }
         return $this->response;
     }
@@ -119,24 +126,18 @@ class PostController extends Controller
         return $this->route->redirect('postsPage',302);
     }
 
-    /**Permet l'edition d'un post s'il n'y a pas d'erreur sur le formulaire
+    /**Controle le remplissage du formulaire d'édition d'un post
+     * @param $displayError
      * @param $post
      * @param $id
-     * @return string|\Zend\Diactoros\Response\HtmlResponse|\Zend\Diactoros\Response\RedirectResponse
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @return \Zend\Diactoros\Response\RedirectResponse
      */
-    private function formControl($post, $id)
+    private function formControl($displayError, $post, $id)
     {
-        if ($this->checkError($this->displayError) == false){
+        if ($this->checkError($displayError) == false){
             $this->getManager(Post::class)->edit($post, ['id' => $id]);
-
             return $this->redirect('administrationPage', 302);
         }
-        $category = $this->getManager( Category::class)->fetch(['id'=>$post->getCategoryId()]);
-        $user = $this->getManager( User::class)->fetch(['id'=>$post->getUserId()]);
-        return $this->displayEditPage($post, $category, $user);
     }
 
     /**Pré-rempli le formulaire de modification d'un post
@@ -190,6 +191,5 @@ class PostController extends Controller
                 'session' => $_SESSION
             ]);
     }
-
 
 }
