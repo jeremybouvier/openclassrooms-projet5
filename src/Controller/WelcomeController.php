@@ -3,6 +3,7 @@
 namespace Application\Controller;
 
 
+use Framework\Controller;
 use Zend\Diactoros\Response\RedirectResponse;
 
 /**
@@ -10,13 +11,13 @@ use Zend\Diactoros\Response\RedirectResponse;
  * @package Application\Controller
  */
 
-class WelcomeController
+class WelcomeController extends Controller
 {
     /**
      * @return RedirectResponse
      */
     public function index()
     {
-        return $this->route->redirect('/home',301);
+        return $this->redirect('homePage',301);
     }
 }

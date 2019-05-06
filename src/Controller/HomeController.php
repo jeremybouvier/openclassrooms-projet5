@@ -20,6 +20,9 @@ class HomeController extends Controller
      */
     public  function index()
     {
+        if (!isset($_SESSION['ticket'])){
+        $this->setTicket();
+        }
         return $this->render('home.twig', []);
     }
 }

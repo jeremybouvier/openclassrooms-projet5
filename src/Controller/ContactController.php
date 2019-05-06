@@ -47,7 +47,7 @@ class ContactController extends Controller
             $this->response = $this->render('contact.twig', ['message' => $this->message[$idMessage],
                 'displayError' => $this->displayError, 'session' => $_SESSION]);
         }
-        return $this->response;
+        return $this->ticketVerify($this->response);
     }
 
     /**Permet l'envoi de l'email s'il n'y a pas d'erreur sur le formulaire

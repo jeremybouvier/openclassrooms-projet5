@@ -40,12 +40,12 @@ class PostController extends Controller
         else{
             $post = $this->getManager( Post::class)->getAll();
         }
-        return $this->render('listPost.twig', [
+        return $this->ticketVerify($this->render('listPost.twig', [
             'Post' => $post,
             'CategoryList' => $this->getManager( Category::class)->getAll(),
             'userList' => $this->getManager( User::class)->getAll(),
             'commentList' => $this->getManager( Comment::class)->getAll()
-        ]);
+        ]));
     }
 
     /**Permet de récupérer un post et les commentaires associés
@@ -57,26 +57,27 @@ class PostController extends Controller
      */
     public function getSinglePost($id)
     {
-            if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()) {
-                $comment = new Comment();
-                $this->displayError = $comment->hydrate($this->request->getPost());
-                $comment->setPostId($id);
-                $comment->setUpdateDate(date("Y-m-d H:i:s"));
 
-                if ($this->checkError($this->displayError) == false){
-                    $this->getManager(Comment::class)->insert($comment);
-                    $this->response = $this->redirect('onePostPage', 302, ['id' => $id]);
-                }
-                else{
-                    $post = $this->getManager(Post::class)->fetch(['id' => $id]);
-                    $this->response = $this->displayPostPage($post, $id);
-                }
+        if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()) {
+            $comment = new Comment();
+            $this->displayError = $comment->hydrate($this->request->getPost());
+            $comment->setPostId($id);
+            $comment->setUpdateDate(date("Y-m-d H:i:s"));
+
+            if ($this->checkError($this->displayError) == false){
+                $this->getManager(Comment::class)->insert($comment);
+                $this->response = $this->redirect('onePostPage', 302, ['id' => $id]);
             }
-            else {
+            else{
                 $post = $this->getManager(Post::class)->fetch(['id' => $id]);
                 $this->response = $this->displayPostPage($post, $id);
             }
-            return $this->response;
+        }
+        else {
+            $post = $this->getManager(Post::class)->fetch(['id' => $id]);
+            $this->response = $this->displayPostPage($post, $id);
+        }
+        return $this->ticketVerify($this->response);
     }
 
     /**Permet d'editer un nouveau post
@@ -106,7 +107,7 @@ class PostController extends Controller
             }
             $this->response = $this->displayEditPage($post, $category, $user);
         }
-        return $this->response;
+        return $this->ticketVerify($this->response);
     }
 
     /**Permet de supprimer un post

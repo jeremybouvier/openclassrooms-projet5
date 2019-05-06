@@ -27,6 +27,7 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
+
         if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()){
             foreach ( $this->request->getPost() as $key =>$id){
                 $this->$key($id);
@@ -35,7 +36,7 @@ class AdminController extends Controller
         else{
             $this->pageDisplay();
         }
-        return $this->response;
+        return $this->ticketVerify($this->response);
     }
 
     /**Affichage de la page
