@@ -27,6 +27,7 @@ class LoginController extends Controller
      */
     public function checkPassword($disconnect)
     {
+
         $this->disconnect($disconnect);
         if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()){
             $userConnect = new User();

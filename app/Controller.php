@@ -27,8 +27,6 @@ class Controller
      */
     protected $router;
 
-    private $sessionStart =0;
-
     /**stockage de la requete de la connection a la base de donnée et de la route dans le controller
      * Controller constructor.
      * @param $request
@@ -36,6 +34,8 @@ class Controller
      */
     public function __construct($request, $router)
     {
+        ini_set('session.use_only_cookie', true);
+        session_start(['cookie_lifetime' => (60*20)]);
         $this->router = $router;
         $this->request = $request;
         $loader = new FilesystemLoader('Templates');
@@ -43,7 +43,6 @@ class Controller
         if (!isset($this->database)){
             $this->database = Database::getInstance();
         }
-        $this->setToken();
     }
 
     /**Initialisation de l'environement de Twig
@@ -85,7 +84,7 @@ class Controller
     protected function checkError($displayError)
     {
         foreach ($displayError as $key => $value) {
-            if ($value !== '' ){
+            if ($value !== '' ) {
                 return true;
             }
         }
@@ -99,7 +98,7 @@ class Controller
      */
     protected function authCheck($redirect, $response)
     {
-        if (isset($_SESSION['Auth']['login']) && isset($_SESSION['Auth']['password'])){
+        if (isset($_SESSION['Auth']['login']) && isset($_SESSION['Auth']['password'])) {
             return $response;
         }
         return $redirect;
@@ -110,7 +109,8 @@ class Controller
      */
     private function setToken()
     {
-        if (!isset($_SESSION['token']) OR empty($_SESSION['token'])){
+
+        if (!isset($_SESSION['token']) OR empty($_SESSION['token'])) {
             $_SESSION['token'] = md5(bin2hex(openssl_random_pseudo_bytes(6)));
         }
     }
@@ -120,53 +120,54 @@ class Controller
      */
     protected function tokenVerify()
     {
-        if ($this->request->getToken() == $_SESSION['token']){
-            return true;
+        if (isset($_SESSION['token'])) {
+            if ($this->request->getToken() == $_SESSION['token']){
+                return true;
+            }
         }
         return false;
     }
 
-    /**Permet de créer et d'enregistrer un nouveau ticket de securité
-     *
-     */
-    protected  function setTicket()
+    private function sessionStart()
     {
-        $ticket = password_hash(openssl_random_pseudo_bytes(6), PASSWORD_DEFAULT);
-        setcookie("ticket", $ticket, time() + (60 * 60));
-        $_SESSION['ticket'] = $ticket;
+        if (!isset ($_SESSION['sessionId'])) {
+            ini_set('session.use_only_cookie', true);
+            if (session_status() !== PHP_SESSION_ACTIVE ) {
+                session_start(['cookie_lifetime' => (60*20)]);
+            }
+            $_SESSION['sessionId'] = session_id();
+            $_SESSION['lifeTime'] = time() + (60*15);
+            $this->setToken();
+        }
     }
 
-    private function updateTicket()
+    private function regenerateIdSession()
     {
-        $ticket = password_hash(openssl_random_pseudo_bytes(6), PASSWORD_DEFAULT);
-        setcookie("ticket", $ticket);
-        $_SESSION['ticket'] = $ticket;
+        $sessionData = $_SESSION;
+        $new_session_id = session_create_id();
+        session_commit();
+        session_id($new_session_id);
+        ini_set('session.use_only_cookie', true);
+        ini_set('session.use_strict_mode', 0);
+        session_start(['cookie_lifetime' => (60*20)]);
+        $_SESSION = $sessionData;
+        $_SESSION['sessionId'] = $new_session_id;
+        $_SESSION['lifeTime'] = time() + (60*15);
     }
 
-    private function deleteTicket()
-    {
-        $_SESSION = array();
-        session_destroy();
-    }
 
     /**Permet de tester la validité du ticket et de le modifier
      * @param $response
      * @return RedirectResponse
      */
     protected function ticketVerify($response)
-    {   
-        if (isset($_COOKIE['ticket']) AND isset($_SESSION['ticket'])){
-            if ($_COOKIE['ticket'] == $_SESSION['ticket']){
-                $this->updateTicket();
-                return $response;
-            }
-            $this->deleteTicket();
-            return $this->redirect('homePage', 302);
-        }
-        else
-        {
-            $this->setTicket();
+    {
+        $this->sessionStart();
+        if ($_SESSION['sessionId'] == $_COOKIE['PHPSESSID'] AND $_SESSION['lifeTime'] > time()){
+            $this->regenerateIdSession();
             return $response;
         }
+        session_destroy();
+        return $this->redirect('homePage', 301);
     }
 }

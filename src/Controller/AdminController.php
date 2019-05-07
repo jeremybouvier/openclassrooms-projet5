@@ -27,7 +27,6 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
-
         if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()){
             foreach ( $this->request->getPost() as $key =>$id){
                 $this->$key($id);
