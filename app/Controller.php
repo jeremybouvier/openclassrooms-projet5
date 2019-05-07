@@ -109,7 +109,6 @@ class Controller
      */
     private function setToken()
     {
-
         if (!isset($_SESSION['token']) OR empty($_SESSION['token'])) {
             $_SESSION['token'] = md5(bin2hex(openssl_random_pseudo_bytes(6)));
         }
@@ -128,6 +127,9 @@ class Controller
         return false;
     }
 
+    /**Permet de demarrer un nouvelle session
+     *
+     */
     private function sessionStart()
     {
         if (!isset ($_SESSION['sessionId'])) {
@@ -141,6 +143,9 @@ class Controller
         }
     }
 
+    /**Permet de changer ID session
+     *
+     */
     private function regenerateIdSession()
     {
         $sessionData = $_SESSION;
@@ -154,7 +159,6 @@ class Controller
         $_SESSION['sessionId'] = $new_session_id;
         $_SESSION['lifeTime'] = time() + (60*15);
     }
-
 
     /**Permet de tester la validité du ticket et de le modifier
      * @param $response
