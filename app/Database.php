@@ -27,8 +27,8 @@ class Database
         if (self::$databaseInstance == null){
             self::$databaseInstance = new Database(
                 'blog',
-                'admin',
-                'admin',
+                'root',
+                'root',
                 '127.0.0.1'
             );
         }
