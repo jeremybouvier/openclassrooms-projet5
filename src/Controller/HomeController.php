@@ -13,13 +13,12 @@ use Zend\Diactoros\Response\HtmlResponse;
 class HomeController extends Controller
 {
     /**Renvoie sur la home page
-     * @return HtmlResponse
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
     public  function index()
     {
-        return $this->render('home.twig', []);
+        return $this->ticketVerify($this->render('home.twig', []));
     }
 }

@@ -35,7 +35,7 @@ class AdminController extends Controller
         else{
             $this->pageDisplay();
         }
-        return $this->response;
+        return $this->ticketVerify($this->response);
     }
 
     /**Affichage de la page
