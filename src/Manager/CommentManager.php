@@ -20,4 +20,5 @@ class CommentManager extends Manager
         $req->execute();
         return $req->fetchall(\PDO::FETCH_CLASS, get_class($this->model));
     }
+
 }
