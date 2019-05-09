@@ -21,4 +21,5 @@ class CategoryManager extends Manager
         $req->execute();
         return $req->fetchAll(\PDO::FETCH_CLASS, get_class($this->model));
     }
+
 }

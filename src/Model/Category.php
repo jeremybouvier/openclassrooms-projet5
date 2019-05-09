@@ -47,7 +47,6 @@ class Category extends Model
         return self::getColumn()['manager'];
     }
 
-
     /**
      * @return mixed
      */
