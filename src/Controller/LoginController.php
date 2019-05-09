@@ -105,4 +105,5 @@ class LoginController extends Controller
             $_SESSION['Auth']['login'] = null;
         }
     }
+
 }
