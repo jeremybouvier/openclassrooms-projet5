@@ -192,6 +192,7 @@ class Post extends Model
     {
         $this->previewText = $previewText;
     }
+
 }
 
 

@@ -182,4 +182,5 @@ abstract class Manager
         }
         return '';
     }
+
 }

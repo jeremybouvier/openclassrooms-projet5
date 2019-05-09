@@ -174,4 +174,5 @@ class Controller
         session_destroy();
         return $this->redirect('homePage', 301);
     }
+
 }

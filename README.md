@@ -86,7 +86,7 @@ Le versioning du projet a été effectuer avec git version 2.7.4 , pour chaque �
 **Bouvier Jérémy** - Étudiant à Openclassrooms 
  Parcours suivi *Développeur d'application PHP/Symfony*
 
-## License
+## Licence
 
 Pas de licence enregistrer.
 
