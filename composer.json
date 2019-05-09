@@ -14,16 +14,11 @@
         "twig/twig": "^2.7"
 
 
-
-
     },
     "autoload": {
         "psr-4" : {
-
             "Application\\" : "src/",
             "Framework\\" : "app/"
-
-
         }
     }
 }
