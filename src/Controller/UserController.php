@@ -97,4 +97,5 @@ class UserController extends Controller
                 'session' => $_SESSION
             ]);
     }
+
 }
