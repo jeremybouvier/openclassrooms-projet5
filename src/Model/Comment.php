@@ -177,6 +177,4 @@ class Comment extends Model
         $this->validation = $validation;
     }
 
-
-
 }

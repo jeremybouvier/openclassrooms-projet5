@@ -27,7 +27,6 @@ abstract class Model
     public function hydrate(array $data)
     {
 
-
         foreach ($data as $key => $value) {
             if ($this->getColumnIndex($key) == 'id'){
                 $this->setPrimaryKey($value);
@@ -163,4 +162,5 @@ abstract class Model
         $method = 'set' . ucfirst($primaryKey);
         $this->$method($this->formatData($value, $this::getColumn()['primaryKey']['type']));
     }
+
 }

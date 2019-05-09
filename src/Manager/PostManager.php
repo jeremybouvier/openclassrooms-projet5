@@ -23,4 +23,5 @@ class PostManager extends Manager
         return $req->fetchAll(\PDO::FETCH_CLASS, get_class($this->model));
     }
 
+
 }
