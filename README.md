@@ -1,4 +1,3 @@
-
 # Blog Professionnel
 
 Réalisation d'un blog Professionnel dans le cadre d'un projet de formation de développeur d’application PHP/Symphony. 
@@ -18,31 +17,15 @@ Pour pouvoir utiliser le projet vous aurez besoin de :
 
 Pour commencer placez vous dans le répertoire des sites de votre serveur web.
 
-Ensuite faites un :
-```
-git init
-```
 
 Télécharger le dossier du projet en faisant un :
 ```
 git clone https://github.com/jeremybouvier/openclassrooms-projet5
 ```
 
-
 Placez-vous dans le répertoire /Templates du projet :
 ```
 cd openclassrooms-projet5/Templates/
-```
-
-Faites de nouveau un : 
-```
-git init
-```
-
-Télécharger le dossier du thème visuel en faisant un :
-
-```
-git clone https://github.com/jeremybouvier/theme_bootstrap
 ```
 
 Lancer votre serveur Mysql et créer le schéma de la base de donnée en utilisant le fichier databaseConstruct.sql :
@@ -65,7 +48,7 @@ localhost:8070/home
 ```
 
 Vous aurez alors accès au blog. 
-Pour vous connectez a la partie administration utiliser le compte administrateur déjà définit dans le projet. 
+Pour vous connectez à la partie administration utiliser le compte administrateur déjà définit dans le projet. 
 
 *Compte administrateur :*
 
@@ -84,10 +67,15 @@ Pour vous connectez a la partie administration utiliser le compte administrateur
 Le versioning du projet a été effectuer avec git version 2.7.4 , pour chaque étape du développement une branche a 
 été créé et finalisé par un Pullrequest.
 
+
 ## Auteur
 
-**Bouvier Jérémy** - *Etudiant à Openclassrooms* - Parcours suivi *Développeur d'application PHP/Symfony*
+**Bouvier Jérémy** - Étudiant à Openclassrooms 
+ Parcours suivi *Développeur d'application PHP/Symfony*
 
 ## Licence
 
 Pas de licence enregistrer.
+
+
+
