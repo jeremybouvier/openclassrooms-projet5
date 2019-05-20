@@ -118,7 +118,7 @@ class AdminController extends Controller
      */
     private function updateUser($id)
     {
-        $this->response = $this->redirect('editUserPage', 302, ['id' => $id]);
+        $this->response = $this->redirect('editUserPage', 302, ['adminRight' => 'true', 'id' => $id]);
     }
 
     /**Permet de créer un utilisateur
@@ -126,7 +126,7 @@ class AdminController extends Controller
      */
     private function createUser($id)
     {
-        $this->response = $this->redirect('editUserPage', 302, ['id' => 0]);
+        $this->response = $this->redirect('editUserPage', 302, ['adminRight' => 'true','id' => 0]);
     }
 
     /**Suppression d'un utlisateur

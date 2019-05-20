@@ -85,6 +85,16 @@ abstract class Model
         }
     }
 
+    /**Permet d'enregistrer le message d'erreur pour maxChar30
+     * @param $value
+     */
+    private  function maxChar50($value)
+    {
+        if (strlen($value) > 50){
+            $this->message = $this->message . ' Maximum 50 charactères ';
+        }
+    }
+
     /**Permet d'enregistrer le message d'erreur pour maxChar300
      * @param $value
      */

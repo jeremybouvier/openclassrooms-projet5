@@ -44,6 +44,11 @@ class LoginController extends Controller
         return $this->response;
     }
 
+    public function createUser()
+    {
+
+    }
+
     /**Détermine si un utilisateur est toujours connecté
      * @return mixed
      * @throws \Twig\Error\LoaderError
@@ -87,8 +92,15 @@ class LoginController extends Controller
     private function passwordVerify($userConnect, $user)
     {
         if (password_verify($userConnect->getPassword(), $user->getPassword()) == true){
-            $_SESSION['Auth'] = ['login' => $user->getLoginName(), 'password' => $user->getPassword()];
-            return $this->redirect('administrationPage', 302);
+            $_SESSION['Auth'] = ['login' => $user->getLoginName(), 'password' => $user->getPassword(),
+                'role' => $user->getRoleId()];
+            if ($user->getRoleId() == 1){
+                return $this->redirect('administrationPage', 302);
+            }
+            else{
+                return $this->redirect('homePage', 302);
+            }
+
         }
         else{
             $this->displayError['loginName']= 'Identifiant incorrect';

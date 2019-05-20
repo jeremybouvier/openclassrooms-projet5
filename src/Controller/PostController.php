@@ -58,9 +58,12 @@ class PostController extends Controller
     public function getSinglePost($id)
     {
 
-        if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()) {
+        if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify() AND isset($_SESSION['Auth']['login'])) {
             $comment = new Comment();
             $this->displayError = $comment->hydrate($this->request->getPost());
+            $user = $this->getManager(User::class)->fetch(['login_name' => $comment->getAuthor()]);
+            $author = $user->getFirstname() . ' ' . $user->getSurname();
+            $comment->setAuthor($author);
             $comment->setPostId($id);
             $comment->setUpdateDate(date("Y-m-d H:i:s"));
 
@@ -75,6 +78,9 @@ class PostController extends Controller
         }
         else {
             $post = $this->getManager(Post::class)->fetch(['id' => $id]);
+            if (!isset($_SESSION['Auth']['login'])){
+                $this->displayError['notconnect'] = "Merci de vous identifier ici avant de laisser un commentaire";
+            }
             $this->response = $this->displayPostPage($post, $id);
         }
         return $this->ticketVerify($this->response);

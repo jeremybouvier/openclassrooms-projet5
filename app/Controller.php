@@ -98,7 +98,7 @@ class Controller
      */
     protected function authCheck($redirect, $response)
     {
-        if (isset($_SESSION['Auth']['login']) && isset($_SESSION['Auth']['password'])) {
+        if (isset($_SESSION['Auth']['login']) && isset($_SESSION['Auth']['password']) && $_SESSION['Auth']['role']==1) {
             return $response;
         }
         return $redirect;
@@ -135,7 +135,7 @@ class Controller
         if (!isset ($_SESSION['sessionId'])) {
             ini_set('session.use_only_cookie', true);
             if (session_status() !== PHP_SESSION_ACTIVE ) {
-                session_start(['cookie_lifetime' => (60*20)]);
+                session_start(['cookie_lifetime' => (60*60)]);
             }
             $_SESSION['sessionId'] = session_id();
             $_SESSION['lifeTime'] = time() + (60*15);
@@ -154,7 +154,7 @@ class Controller
         session_id($new_session_id);
         ini_set('session.use_only_cookie', true);
         ini_set('session.use_strict_mode', 0);
-        session_start(['cookie_lifetime' => (60*20)]);
+        session_start(['cookie_lifetime' => (60*60)]);
         $_SESSION = $sessionData;
         $_SESSION['sessionId'] = $new_session_id;
         $_SESSION['lifeTime'] = time() + (60*15);

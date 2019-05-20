@@ -66,7 +66,7 @@ class Post extends Model
             'primaryKey'=> ['index' => 'id', 'type'  => 'integer'],
             'column'=> [
                 'category_id' => ['index' => 'categoryId', 'type'  => 'integer', 'condition' => ['notNull']],
-                'title' => ['index' => 'title', 'type' => 'string', 'condition' => ['notNull', 'maxChar30']],
+                'title' => ['index' => 'title', 'type' => 'string', 'condition' => ['notNull', 'maxChar50']],
                 'content' => ['index' =>'content', 'type' => 'string', 'condition' => ['notNull']],
                 'user_id' => ['index' =>'userId', 'type' => 'integer', 'condition' => ['notNull']],
                 'update_date' => ['index' =>'updateDate', 'type' => 'datetime', 'condition' => ['notNull']],

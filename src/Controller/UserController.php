@@ -19,6 +19,8 @@ class UserController extends Controller
      */
     private $response;
 
+    private $adminRight;
+
     /**Permet d'editer un nouveau post
      * @param $id
      * @return string|\Zend\Diactoros\Response\HtmlResponse|\Zend\Diactoros\Response\RedirectResponse
@@ -26,10 +28,11 @@ class UserController extends Controller
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function editUser($id)
+    public function editUser($id, $adminRight)
     {
         $user = null;
         $role = null;
+        $this->adminRight = $adminRight;
         if ($this->request->getRequest()->getMethod() == "POST" AND $this->tokenVerify()){
             $user = new User();
             $this->displayError = $user->hydrate($this->request->getPost());
@@ -59,7 +62,14 @@ class UserController extends Controller
     {
         if ($this->checkError($this->displayError) == false){
             $this->getManager(User::class)->edit($user, ['id' => $id]);
-            return $this->redirect('administrationPage', 302);
+            if ($this->adminRight == 'true') {
+                return $this->redirect('administrationPage', 302);
+            }
+            else{
+                $_SESSION['Auth'] = ['login' => $user->getLoginName(), 'password' => $user->getPassword(),
+                    'role' => $user->getRoleId()];
+                return $this->redirect('homePage', 302);
+            }
         }
         $role = $this->getManager( Role::class)->fetch(['id'=>$user->getRoleId()]);
         return $this->displayPage($user, $role);
@@ -88,11 +98,19 @@ class UserController extends Controller
      */
     private function displayPage($user, $role)
     {
+        if ($this->adminRight == 'true'){
+            $roleList = $this->getManager(Role::class)->getAll();
+        }
+        else{
+            $roleList = ['id'=>'2' , 'name'=>'Visiteur' ];
+            $user =  ['roleId'=>'2'];
+            $role =$roleList;
+        }
         return $this->render('editUser.twig',
             [
                 'User'=> $user,
                 'Role' => $role,
-                'roleList' => $this->getManager(Role::class)->getAll(),
+                'roleList' => $roleList,
                 'displayError' => $this->displayError,
                 'session' => $_SESSION
             ]);

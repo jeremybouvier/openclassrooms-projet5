@@ -1,10 +1,7 @@
 {% block commentform %}
     <form method="post">
         <input type="hidden" name="token" value="{{ session.token }}">
-        <div class="form-group">
-            <label for="author">Nom ou pseudonyme : <span class="text-danger">{{ displayError.author }}</span> </label>
-            <input type="text" class="form-control mb-10" id="author" name="author">
-        </div>
+        <input type="hidden" class="form-control mb-10" id="author" name="author" value="{{ session.Auth.login }}">
         <div class="form-group">
             <label>Votre commentaire : <span class="text-danger">{{ displayError.commentText }}</span> </label>
             <textarea class="form-control mb-10" rows="5" name="commentText"></textarea>
