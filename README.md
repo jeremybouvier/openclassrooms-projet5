@@ -23,11 +23,6 @@ Télécharger le dossier du projet en faisant un :
 git clone https://github.com/jeremybouvier/openclassrooms-projet5
 ```
 
-Placez-vous dans le répertoire /Templates du projet :
-```
-cd openclassrooms-projet5/Templates/
-```
-
 Lancer votre serveur Mysql et créer le schéma de la base de donnée en utilisant le fichier databaseConstruct.sql :
 ```
 mysql> source ~/openclassrooms-projet5/databaseConstruct.sql
