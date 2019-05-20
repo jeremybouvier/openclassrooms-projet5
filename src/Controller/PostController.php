@@ -66,7 +66,7 @@ class PostController extends Controller
             $comment->setAuthor($author);
             $comment->setPostId($id);
             $comment->setUpdateDate(date("Y-m-d H:i:s"));
-
+            $this->formTest();
             if ($this->checkError($this->displayError) == false){
                 $this->getManager(Comment::class)->insert($comment);
                 $this->response = $this->redirect('onePostPage', 302, ['id' => $id]);
@@ -78,12 +78,20 @@ class PostController extends Controller
         }
         else {
             $post = $this->getManager(Post::class)->fetch(['id' => $id]);
-            if (!isset($_SESSION['Auth']['login'])){
-                $this->displayError['notconnect'] = "Merci de vous identifier ici avant de laisser un commentaire";
-            }
+            $this->connectMessage();
             $this->response = $this->displayPostPage($post, $id);
         }
         return $this->ticketVerify($this->response);
+    }
+
+    /**Permet l'affichage d'un message lorsque l'utilisateur n'est pas connecté
+     *
+     */
+    private function connectMessage()
+    {
+        if (!isset($_SESSION['Auth']['login'])){
+            $this->displayError['notconnect'] = "Merci de vous identifier ici avant de laisser un commentaire";
+        }
     }
 
     /**Permet d'editer un nouveau post
