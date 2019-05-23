@@ -44,10 +44,6 @@ class LoginController extends Controller
         return $this->response;
     }
 
-    public function createUser()
-    {
-
-    }
 
     /**Détermine si un utilisateur est toujours connecté
      * @return mixed

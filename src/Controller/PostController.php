@@ -66,7 +66,6 @@ class PostController extends Controller
             $comment->setAuthor($author);
             $comment->setPostId($id);
             $comment->setUpdateDate(date("Y-m-d H:i:s"));
-            $this->formTest();
             if ($this->checkError($this->displayError) == false){
                 $this->getManager(Comment::class)->insert($comment);
                 $this->response = $this->redirect('onePostPage', 302, ['id' => $id]);
