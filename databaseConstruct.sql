@@ -23,6 +23,9 @@ PARCOURS DE FORMATION DEVELOPPER D'APPLICATION PHP SYMFONY OPENCLASSROOMS ------
 --
 -- Table structure for table `category`
 --
+CREATE DATABASE IF NOT EXISTS blog CHARACTER SET `utf8`;
+
+USE blog;
 
 DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
